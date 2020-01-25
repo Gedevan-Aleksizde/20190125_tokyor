@@ -1,0 +1,3489 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass bxjsarticle
+\begin_preamble
+% LyX 2.3.3 で動作確認
+% ifplatform を使用するために, 形式 -> 「外部プログラムの実行を許可」にチェックを入れる
+% やりたくないなら ifplatform でフォント指定分岐しているところを書き換える
+\usepackage[AutoFallBack=true]{zxjatype}
+\usepackage{ifthen}
+\usepackage{ifplatform} % 環境依存で記述を条件分岐させるために必要
+\usepackage{graphicx}
+
+% document 環境内で \label 使わないと LyX が使用判定してくれず, エラーになるので以下で必ず読み込み
+\usepackage{listings}
+\usepackage{color}
+\usepackage{xcolor,soul,lipsum}
+\usepackage{prettyref} 
+
+% 以下4パッケージは表のデザイン用
+\usepackage{dcolumn}
+\usepackage{multicol}
+\usepackage{boites}
+\usepackage{booktabs}
+
+
+% --- color.sty で色登録 ----- %
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{myblue}{rgb}{0,0,0.6}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mygray2}{rgb}{0.2,0.2,0.2}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+% -----
+
+% ---- zxjatype.sty でフォント指定 ---- %
+% 欧文フォントはフォントタブで指定できるが, オプション指定ができないので欧文・和文まとめてここに書く
+% ifplatform でOSごとに違うフォントを指定しているため, -shell-escape をつけてコンパイルする必要あり
+\iflinux
+  \setmainfont[Ligatures=TeX]{Palatino Linotype}
+  \setsansfont[Ligatures=TeX]{Arial}
+  \setmonofont{Migu 1M}
+  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont{IPAゴシック} %和文サンセリフ指定
+  \setjamonofont{Migu 1M} %和文等幅フォント
+\fi
+% fail-safe として *NIX になったときも Linux と同じ設定になるように
+\ifthenelse{\equal{\platformname}{*NIX}}{
+  \setmainfont[Ligatures=TeX]{Palatino Linotype}
+  \setsansfont[Ligatures=TeX]{Arial}
+  \setmonofont{Migu 1M}
+  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamonofont{Migu 1M} %和文等幅フォント
+}{}
+\ifmacosx
+  \setmainfont[Ligatures=TeX]{Times} %欧文フォント族指定
+  \setsansfont[Ligatures=TeX]{Helvetica} %欧文サンセリフフォント指定
+  \setmonofont{Ricty Diminished} %欧文等幅フォント指定
+  \setjamainfont[BoldFont=Hiragino Mincho ProN W6]{Hiragino Mincho ProN W3} %和文フォント指定
+  \setjasansfont[BoldFont=Hiragino Kaku Gothic ProN W6]{Hiragino Maru Gothic ProN W4} %和文サンセリフ指定
+  \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
+\fi
+\ifwindows
+  \setmainfont[Ligatures=TeX]{Palatino Linotype}
+  \setsansfont[Ligatures=TeX]{Arial}
+  \setmonofont{Migu 1M}
+  \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamonofont[BoldFont=Migu 1M]{Migu 1M} %和文等幅フォント
+\fi
+% document 内では \textranwen{ dararara } で任意の文を欧文として処理できる
+% -----
+
+
+% --- 数式記号を新たに定義 ---- %
+% amsmath 等は LyX が読み込むべきか自動判断するので不要
+\newcommand{\argmax}{\mathop{\rm arg~max}\limits} %argumented maximize
+\newcommand{\argmin}{\mathop{\rm arg~min}\limits} %arg.minimize
+\newcommand{\indep}{\mathop{\perp\!\!\!\perp}}% independent
+\newcommand{\plim}{\mathop{\rm plim}} % plim
+\newcommand{\bi}{\boldsymbol}%bold italic
+% ------
+
+
+% amsthm.sty の各環境のラベル名を日本語に (現在は LyX が自動生成してくれるので不要)
+% ただし証明のフォーマットはハードコードされてるので以下のように強制上書き
+\ifdefined\proofname
+  \renewcommand{\proofname}{証明}
+\fi
+% 書き換える場合は以下のように
+%\providecommand{\definitionname}{定義}
+
+% ------
+
+% dcolumn.sty の表のアラインメント設定
+\@ifpackageloaded{dcolumns}{\newcolumntype{.}{D{.}{.}{-1}}}{}
+% 小数点を揃えるアラインメントを定義 \begin{tabular}{r....} のように使う.
+% ------
+
+% ---- prettyref 用の設定 ----
+% label を \label{<CATEGORY>:<Reference ID>} のように書くと,
+% 参照する際に <CATEGORY> に応じてフォーマットが変わる.
+% <CATEGORY> に対応するのは以下, eq, lem, thm, ... など
+% LyX では prettyref を使うと label 挿入場所の環境に応じて自動で補ってくれる
+\@ifpackageloaded{prettyref}{
+  \newrefformat{eq}{\textup{(\ref{#1})}}%
+  \newrefformat{lem}{補題 \ref{#1}}%
+  \newrefformat{thm}{定理 \ref{#1}}%
+  \newrefformat{prop}{命題 \ref{#1}}%
+  \newrefformat{cha}{\ref{#1} 章}%
+  \newrefformat{sec}{\ref{#1} 節}%
+  \newrefformat{tab}{表\ref{#1}}%
+  \newrefformat{fig}{図 \ref{#1}}%
+  \newrefformat{alg}{アルゴリズム \ref{#1}}%
+  \newrefformat{tabp}{\pageref{#1} ページの表\ref{#1}}%
+  \newrefformat{figb}{\pageref{#1} ページの図 \ref{#1}}%
+}{}
+% ------
+
+% lsting の設定
+% とりあえず R で
+\lstset{ %algorithm form
+language=R,%
+escapechar=ø,%
+numbers=left,%
+numberstyle=\scriptsize,%
+stepnumber=1,%
+columns=[l]{fullflexible},%
+basicstyle=\ttfamily,%
+numbers=left,%
+breaklines=true,%
+numberstyle=\scriptsize,%
+stepnumber=1,%
+columns=[l]{fullflexible},%
+basicstyle=\ttfamily,%
+identifierstyle={\small},%
+commentstyle={\small\itshape},%
+keywordstyle={\small\bfseries},%
+ndkeywordstyle={\small},%
+stringstyle={\small\ttfamily},%
+%% set left number frame
+frame=single,%
+backgroundcolor=\color[rgb]{0.9,0.9,0.9},%
+%fillcolor=\color{mygray},%
+rulecolor=\color{myblue},%
+framesep=2ex,%
+framexleftmargin=2.5mm,%
+%% set color style
+numberstyle=\tiny\color{mygray2},%
+commentstyle=\color{mygreen},%
+keywordstyle=\color{blue},%
+stringstyle=\color{mymauve},%
+rulecolor=\color{black},%
+showspaces=true,% 連続ブランクをそのまま表示する
+showstringspaces=true % ブランクの存在を記号で表す
+}
+% ----
+\end_preamble
+\use_default_options false
+\begin_modules
+theorems-bytype
+theorems-sec-bytype
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Format 66
+Style Enume_alph
+Category             List
+Margin                Static
+LatexType             Item_Environment
+LatexName             enumerate
+LatexParam      [(a)]
+NextNoIndent          1
+LeftMargin            MMN
+LabelSep              xx
+ItemSep               0.2
+TopSep                0.7
+BottomSep             0.7
+ParSep                0.3
+Align                 Block
+AlignPossible         Block, Left
+LabelType             enumerate
+LabelString           "aaaaaaaa"
+HTMLTag               ul
+HTMLItem              li
+HTMLLabel             NONE
+End
+\end_local_layout
+\language japanese
+\language_package none
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics none
+\default_output_format pdf4
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "citecolor=blue,allbordercolors=0 0 1,pdfborderstyle={/S/U/W 1}"
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+経済学と反事実分析
+\begin_inset space \space{}
+\end_inset
+
+接触篇
+\begin_inset Newline newline
+\end_inset
+
+Economics and Counterfactual Analysis: A Contact
+\end_layout
+
+\begin_layout Author
+ill-identified
+\end_layout
+
+\begin_layout Section
+概要
+\end_layout
+
+\begin_layout Standard
+第83回Tokyo.Rのエントリ.
+ 前回の戦後処理に時間を取られたので, 手抜き回.
+\end_layout
+
+\begin_layout Standard
+前回にも言及した
+\begin_inset CommandInset citation
+LatexCommand citet
+key "igami2018Artificial"
+literal "false"
+
+\end_inset
+
+の研究に関連して, 
+\series bold
+構造推定
+\series default
+についてもう少し詳しい話をしようと思っていたが, 残り時間の問題から
+\series bold
+動学構造推定
+\series default
+は難しいと判断した.
+ しかしアンケート至上主義なので経済学のネタは外せないから, 準備の簡単な
+\series bold
+静学構造推定
+\series default
+の話をとりあえずやることにした.
+ 静学構造推定は「動学」ではないので時間変化を考えないタイプの理論モデルを推定する一連のテクニックである.
+ 今回の話は比較的簡単かつ昔から知られている話だから大学の経済学部でも授業で取り上げられることもあろう.
+ 知ってる人も多いかもしれない.
+\end_layout
+
+\begin_layout Standard
+具体的には, 生産関数を構造推定するOP法
+\begin_inset CommandInset citation
+LatexCommand citep
+key "OlleyPakes1996"
+literal "false"
+
+\end_inset
+
+およびLP法
+\begin_inset CommandInset citation
+LatexCommand citep
+key "LevinsohnPetrin2003"
+literal "false"
+
+\end_inset
+
+をRでやる.
+ 実はこれらは既に計算プログラムが
+\family typewriter
+estprod
+\family default
+パッケージによって提供されているが, 使って終わりにするのではなく仕組みを解説しつつ使う.
+\end_layout
+
+\begin_layout Section
+イントロダクション
+\end_layout
+
+\begin_layout Subsection
+構造推定とは
+\end_layout
+
+\begin_layout Standard
+では構造推定とは何だろうか.
+ 構造推定で検索すると, 名前が似ているが違うものがいくつか出てくる.
+\end_layout
+
+\begin_layout Paragraph
+構造方程式モデリング
+\end_layout
+
+\begin_layout Standard
+例えば構造方程式モデル(SEM)というものがある.
+ これは変数間の関係構造を同時線形方程式で表したもので, 因果推論のフレームワークの原型ともいえるものだが, 
+\series bold
+構造推定とは違う
+\series default
+.
+\end_layout
+
+\begin_layout Paragraph
+構造時系列モデル
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+構造ベクトル自己回帰モデル
+\series default
+ (Structural VAR) とか, 
+\series bold
+ベイズ構造時系列モデル
+\series default
+ (BSTS) というものがある.
+\end_layout
+
+\begin_layout Standard
+通常のVARは複数の変数の時系列変化を扱うモデルで, それぞれの変数が過去の値にのみ依存して決まる回帰モデルなのに対して, 構造VARは現在の別の変数にも依存す
+る, 
+\series bold
+同時決定的
+\series default
+な時系列モデルである
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+簡単な定義と特徴は
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://qiita.com/saltcooky/items/2d0119ea4a10bab6cff2
+\end_layout
+
+\end_inset
+
+の最後のほうに書いてある.
+ より詳しい話を知りたければ, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "okimoto2010"
+literal "false"
+
+\end_inset
+
+が言及している.
+ インターネットの日本語圏で出回っている情報の多くはこのあたりからだと思うが, もっと多変量時系列モデルを知りたいなら
+\begin_inset CommandInset citation
+LatexCommand citet
+key "lutkepohl2007New"
+literal "false"
+
+\end_inset
+
+の教科書がある (この本は約700ページの間, タイトル通りマジで多変量時系列モデルのことしか書いてない).
+ 時系列モデルに関する本は
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kitagawa2005"
+literal "false"
+
+\end_inset
+
+の教科書を始め和書でも多く出ているが, 経済学や数理ファイナンスの観点から書いたもの以外では, 構造VARについて言及したものは私の知る範囲では見られない.
+ 構造VARという考え方自体がパラメータの識別を前提としているからだろう.
+ マクロ経済学における時系列モデルの利用を知りたいのなら, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "watabe2016"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "NakajimaWatabe2012"
+literal "false"
+
+\end_inset
+
+が参考になる.
+ 本格的な教科書は専門外なので知らない.
+\end_layout
+
+\end_inset
+
+.
+ ベイズ構造時系列モデルの「構造時系列」はHarveyのいう構造時系列モデルのことを指す
+\begin_inset CommandInset citation
+LatexCommand citep
+key "ScottVarian2014"
+literal "false"
+
+\end_inset
+
+.
+ これは89年とかなり古い教科書なので私も読んだことがないが, 
+\begin_inset CommandInset citation
+LatexCommand citet
+after "p. 618"
+key "lutkepohl2007New"
+literal "false"
+
+\end_inset
+
+によればローカルトレンドモデルを基本とした時系列モデルらしいので, 多変量時系列モデルというわけでもなく, 状態空間モデルに属する.
+ これらも
+\series bold
+構造推定とは関係ない
+\series default
+.
+\end_layout
+
+\begin_layout Paragraph
+構造型モデル
+\end_layout
+
+\begin_layout Standard
+いちおう過去のTokyo.Rの発表ネタとかぶらないか確認したところ, こんなものを見つけた.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset href
+LatexCommand href
+name "Rで学ぶ『構造型モデル de 倒産確率推定』 "
+target "https://www.slideshare.net/teramonagi/r-de"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+「構造型モデル」という名前も構造推定と似ている.
+ いちおう元になった
+\begin_inset CommandInset citation
+LatexCommand citet
+key "merton1974Pricing"
+literal "false"
+
+\end_inset
+
+の論文も確認した.
+ これも
+\series bold
+構造推定ではない
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+構造推定の定義について, 多くの人は
+\begin_inset CommandInset citation
+LatexCommand citet
+key "REISS20074277"
+literal "false"
+
+\end_inset
+
+の紹介を挙げるが, この本はとにかく分厚くて高いので私は持っていない.
+ 前回で触れたように, 観察されたデータにそのまま回帰式や他の関数を当てはめても因果関係を知ることはできない.
+ そこで, いくつかの要素が必要になる.
+ そこで構造推定は仮定によって構造を特定しようとした.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kitamura2016"
+literal "false"
+
+\end_inset
+
+は一般的な型はないとしつつ, その解説を要約すると3つの要件となる.
+\end_layout
+
+\begin_layout Enumerate
+経済理論モデルであること
+\end_layout
+
+\begin_layout Enumerate
+確率モデルであること
+\end_layout
+
+\begin_layout Enumerate
+データに基づいて推定されていること
+\end_layout
+
+\begin_layout Standard
+(1)はいわゆるルーカス批判
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Lucas1976"
+literal "false"
+
+\end_inset
+
+を受けて, 彼の批判を克服できるような経済理論に基づいたモデルづくりを意識するようになった.
+ (2)はちょっとわかりづらい.
+ 回帰分析だって正規分布を暗に仮定しているから確率モデルになる.
+ しかしここでは, 観察できないものと, できるものの不確実性を考慮しているという意味である.
+ 例えば測定誤差や, 分析者には観測できないが, 経済活動の当事者は知っている情報というものがある.
+ これらを無視した推定はしばしばバイアスを引き起こすが, 構造推定ではモデルにこのような仮定を取り込む.
+ (3) は, 完全な架空の話ではなく, なるべく現実と整合するために観測されたデータに基づいてパラメータを決定するということである.
+\end_layout
+
+\begin_layout Standard
+よって, 最初に挙げた「構造方程式モデリング」や「Mertonの構造型モデル」は経済理論に基づいた構造を表現していないため構造推定ではない.
+ ただし構造時系列モデルは, 実は80年代にマクロ経済モデルとして利用された歴史がある.
+ 経済理論に基づかないという批判は当時からあったものの, 単に予測するだけなら問題ないということで使われていた.
+ しかし, 「どうなるか」と「なぜそうなるのか」のどちらを求めているかと言えば前者であり, 原因を分析することはできない
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+そのため, VARでも因果関係を定義できるということでGranger因果性が注目を集めた.
+ つまり, 以前の投稿で問題にした, 予測か因果かという二択は, 経済学の発展のなかでもしばしば議論されてきた問題だということがわかる.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+一般に定まった方法はないが, かといって完全な無手勝流ではない.
+ 大学院のコアコースで教えるモデルはだいたい決まっており, 多くの研究も先行研究のフレームワークを応用していることが多い.
+\end_layout
+
+\begin_layout Subsection
+因果推論と何が違うのか
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset href
+LatexCommand href
+name "以前にも紹介した"
+target "http://ill-identified.hatenablog.com/entry/2020/01/20/000406"
+literal "false"
+
+\end_inset
+
+ようなRCT, 準実験(操作変数法, 傾向スコア法, DID, RDD) なども, 「反事実的な因果推論」と呼ばれる.
+ しかしこれらは経済学の理論仮説に基づく因果関係ではなく, ランダム化と比較によって「
+\series bold
+平均処置効果
+\series default
+」を求めるフレームワークである
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+正確には少し違うが, 重要なのはサンプルの平均的な差を見るという特徴が共通している
+\end_layout
+
+\end_inset
+
+.
+ 一方で構造推定は実際のデータと理論モデルを融合させた結果なので, 本来の意味で現実には起こり得なかったこと (反事実) を推論するフレームワークである.
+\end_layout
+
+\begin_layout Standard
+具体例を挙げよう.
+ 今回は経済学における
+\series bold
+生産関数
+\series default
+の推定の例を紹介する.
+ 原材料を投入し, 財を生産する, その変換ルールを関数に表したものを生産関数という.
+ 例えば, 
+\series bold
+資本
+\series default
+(
+\begin_inset Formula $K$
+\end_inset
+
+apital
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+ドイツ語でのスペル.
+ 
+\begin_inset Formula $C$
+\end_inset
+
+にしてしまうと消費, Comsumptionと重複するからだと思われる.
+ また, 正確には「資本ストック」であり, 設備投資や固定資産などから計算する
+\end_layout
+
+\end_inset
+
+)と
+\series bold
+労働力
+\series default
+(
+\begin_inset Formula $L$
+\end_inset
+
+abor force), 
+\begin_inset Formula $Y$
+\end_inset
+
+は出力, つまり生産量なので, 生産関数を以下のように表せる
+\begin_inset Formula 
+\begin{align*}
+Y= & F(K,L)
+\end{align*}
+
+\end_inset
+
+この生産関数の形状が分かれば,
+\end_layout
+
+\begin_layout Itemize
+実際のデータとの残差から, 数値に表れない生産性 (TFP) を計測する (残差分析)
+\end_layout
+
+\begin_layout Itemize
+もし設備投資を増やしたら (
+\begin_inset Formula $K$
+\end_inset
+
+を増加させたら) どれくらい生産量が増えるか 
+\end_layout
+
+\begin_layout Itemize
+もしパラメータが変化したら, 生産力はどう変化するか (
+\series bold
+比較静学分析
+\series default
+)
+\end_layout
+
+\begin_layout Standard
+と言ったことがわかる.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+TODO.
+ 図解
+\end_layout
+
+\end_inset
+
+経済学部出身者ならば, ミクロ経済学の授業で聞いた覚えがあるだろう.
+ しかし, データから推定した係数が「
+\series bold
+もし変わったら
+\series default
+」というのは, 本質的に
+\series bold
+現実に起こっていない事象
+\series default
+について話していることになる.
+ 同等のことを因果推論でやるとすれば, 両方のケースについて
+\series bold
+実際に観測したデータに基づいて差を比較
+\series default
+しなければならない.
+ つまり, 単にデータを近似しただけの関数では, これらのことを言う根拠として弱い.
+\end_layout
+
+\begin_layout Standard
+経済学ではRCTや準実験アプローチは
+\series bold
+誘導形
+\series default
+ (reduced form) 推定
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+構造推定に使うような, 経済現象の構造を表したモデルを, 平均の差の比較という因果推論のフレームワークで推定できるように単純な形に変形することからこう呼ばれる.
+ この式変形のため, 根本的な構造パラメータを特定しづらいという問題がある.
+\end_layout
+
+\end_inset
+
+とも呼ばれ, 
+\series bold
+構造推定派
+\series default
+と
+\series bold
+誘導形推定派
+\series default
+は数年前までお互い相手のアプローチの問題点を指摘し激しく論争していた.
+ その結果, 現在では現在はそれぞれのアプローチでできることの限界がはっきりしてきたため, 論争というほどのことはない
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+歴史的経緯は
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kitamura2016"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Nakajima2016"
+literal "false"
+
+\end_inset
+
+などが少しだけ解説している.
+ 計量経済学の観点では統計モデルとして 
+\begin_inset CommandInset citation
+LatexCommand citet
+after "Ch. 8"
+key "hayashi2000Econometrics"
+literal "false"
+
+\end_inset
+
+ が言及している.
+ また, 
+\begin_inset CommandInset citation
+LatexCommand citet
+after "Ch. 2"
+key "CameronTrivedi2005"
+literal "false"
+
+\end_inset
+
+は教科書の最序盤で構造モデルと誘導モデルの特徴付けを行うという独特の構成になっている.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+両者の使い分けとしては, 構造推定は経済理論モデルというある意味「架空のもの」に基づいて
+\series bold
+未来に起こりうることについての分析
+\series default
+もできるが, 因果推論は実態としては実験計画法と本質的に同じで統計学の理論に基づいて観察できたデータから
+\series bold
+事後評価
+\series default
+するアプローチである.
+ よってしばしば, 構造推定は
+\series bold
+反事実
+\series default
+(
+\series bold
+反実仮想
+\series default
+)
+\series bold
+シミュレーション
+\series default
+, 因果推論は
+\series bold
+プログラム
+\series default
+(
+\series bold
+政策
+\series default
+)
+\series bold
+評価
+\series default
+とか
+\series bold
+介入
+\series default
+(
+\emph on
+intervention
+\emph default
+)といって呼び分けられる
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+後者の因果推論フレームワークも, もともとは counterfactual causal modelと呼ばれていたが, (おそらくはこの性質の違いのため)少なく
+とも経済学の分野では最近はあまり強調されていない気がする.
+\end_layout
+
+\end_inset
+
+.
+ そして構造推定は理論仮説に強く依存したフレームワークであるので, 仮説が妥当なのかはよく注意が必要である.
+ ただし, かといって因果推論が仮定に依存しないというのも完全な誤りである.
+ 前回でも言及したが, 因果推論であっても必ず仮定が存在するので, それを無視して計算した平均値の差が因果効果を意味するとは限らない.
+\end_layout
+
+\begin_layout Section
+今回取り組む問題
+\end_layout
+
+\begin_layout Standard
+動学構造推定はテクニカルでなんかすごいことをやってるという印象を簡単に与えられる.
+ しかし, 今回は時間がないのでもう少し簡単にできるほうをやる.
+ 前回話題にしたのは「動学的」構造推定であり, 時間変化を取り入れたモデルを扱うジャンルである.
+ 一方で, 今回は考慮しない「静学的」構造推定の具体例を紹介する.
+ といっても昔からある研究なので, すでに日本語の講義スライドもネット上に転がっていたりするし, もしかしたら発表者の中にも授業でやったことがあると言う人がいる
+かもしれない.
+\end_layout
+
+\begin_layout Standard
+今回は特に, 生産関数の推定の問題を例にする.
+\end_layout
+
+\begin_layout Subsection
+生産関数
+\end_layout
+
+\begin_layout Standard
+生産関数をどういう形にするかはいろいろだが, よく使われるものの1つに コブ=ダグラス型生産関数がある
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+他にも色々あるが, 例えば物理学のように法則がかなり明確になっている分野を勉強した人間からはおかしなことのように聞こえるかもしれない.
+ しかし, 経済学ではむしろ, 変に特定化すれば特定化の誤りを免れない.
+ Cobb-Douglas型関数には計算上の利便性もあるが, ロバストな関数を用いるたほうがよいと考えられる.
+\end_layout
+
+\end_inset
+
+.
+ 特に, 一企業の
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+Y=f(K,L):= & \alpha K^{\beta_{K}}L^{\beta_{L}}
+\end{align*}
+
+\end_inset
+
+という指数関数で表す
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+生産関数のより詳しい数学的性質はミクロ経済学の教科書に書かれている.
+ 例えば, 特に有名なのは
+\begin_inset CommandInset citation
+LatexCommand citet
+key "nishimura1990"
+literal "false"
+
+\end_inset
+
+, 『ミクロ経済分析』
+\begin_inset CommandInset citation
+LatexCommand citep
+key "varian1992Microeconomic"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "MWG"
+literal "false"
+
+\end_inset
+
+などである.
+ それ以降にも評価の高いミクロ経済学の和書がいくつかでているが, 私はあまり読んでいないのでなんとも言えない.
+\end_layout
+
+\end_inset
+
+.
+ 
+\begin_inset Formula $\alpha,\beta_{K},\beta_{L}$
+\end_inset
+
+はパラメータである.
+ 
+\begin_inset Formula $\beta_{K}=\beta_{L}=0.5$
+\end_inset
+
+ の場合, 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:cobbdouglas"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+のような形状になる.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/cobbdouglas1.png
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+コブ=ダグラス型生産関数の例
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:cobbdouglas"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+なぜ生産関数を知りたいのか
+\end_layout
+
+\begin_layout Standard
+反事実分析 (比較静学)
+\end_layout
+
+\begin_layout Standard
+パラメータの増加に対してどう変わるか
+\end_layout
+
+\begin_layout Section
+どう推定するか
+\end_layout
+
+\begin_layout Standard
+経済学部の計量経済学の講義では, 
+\series bold
+回帰分析
+\series default
+で生産関数の推定をやるところも多いと思う.
+ 
+\begin_inset Formula $Y$
+\end_inset
+
+を
+\series bold
+被説明変数
+\series default
+, 
+\begin_inset Formula $K,L$
+\end_inset
+
+ を
+\series bold
+説明変数
+\series default
+としても, 線形式ではない.
+ しかし, 
+\begin_inset Formula $Y,K,L$
+\end_inset
+
+がいずれもゼロ以下になりえないことに着目すると, 対数を取って以下のようになる(いわゆる
+\series bold
+対数線形回帰モデル
+\series default
+).
+\begin_inset Formula 
+\begin{gather*}
+\ln Y=\ln\alpha+\beta_{K}\ln K+\beta_{L}\ln L
+\end{gather*}
+
+\end_inset
+
+となる.
+ つまり,
+\series bold
+ おなじみの最小二乗法
+\series default
+(OLS)
+\series bold
+で計算できる
+\series default
+.
+ 観測できなかった
+\begin_inset Formula $\alpha$
+\end_inset
+
+ も, 切片パラメータ として推定できることになる.
+ 以降はそれぞれの対数を
+\begin_inset Formula $y,\beta_{A},k,l$
+\end_inset
+
+に置き換えて, 
+\begin_inset Formula 
+\begin{align}
+y= & \beta_{A}+\beta_{K}k+\beta_{L}l+\varepsilon\label{eq:prod-log-linear}
+\end{align}
+
+\end_inset
+
+という線形回帰モデルを考える.
+ しかし以前書いたように, 経済学の文脈では非線形だろうが線形式だろうがデータに関数を当てはめただけでは用をなさない.
+ 経済理論に即して, 発生しうる問題を排除した方法で推定しなければならない.
+ つまり, 現在ではOLSでは生産関数のパラメータを
+\series bold
+推定するには不十分
+\series default
+と考えられている.
+\end_layout
+
+\begin_layout Standard
+発表時間の問題から, スライドでは大幅に省略しているが, ここでは冗長気味にパネルデータ分析の発展の経緯も合わせて説明していく
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+こういった初歩的な話は, 私なんかよりよほど深く理解した大学の先生がいくつも教科書を書いており, 正確さや詳しさでそちらのほうが遥かに良い.
+ 参考文献としては, 一般公開されている
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Okui2016"
+literal "false"
+
+\end_inset
+
+のスライド, 
+\begin_inset CommandInset citation
+LatexCommand citet
+after "Ch. 10-11"
+key "Wooldridge2010panel"
+literal "false"
+
+\end_inset
+
+の教科書などがある.
+ 私はほぼWooldridgeの教科書で勉強したため, 日本語の教科書に詳しくない……
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+現在の経済学の観点からすると, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:prod-log-linear"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+をそのままOLSで推定するのをためらう大きな理由は以下の3つである.
+\end_layout
+
+\begin_layout Enumerate
+企業特有の効果が存在する
+\end_layout
+
+\begin_layout Enumerate
+需要要因を考慮していない
+\end_layout
+
+\begin_layout Enumerate
+セレクションバイアス
+\end_layout
+
+\begin_layout Subsection
+パネルデータ分析と観測されない効果
+\end_layout
+
+\begin_layout Standard
+「企業特有の効果」とは, 特定の企業だけが「特殊な技術を持っている」「優秀な人材が集まっている」など, 単純な量だけでは捉えきれない情報を意味する.
+ つまり, 企業ごとに異なる
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+が生産量に影響していると考える.
+\begin_inset Formula 
+\begin{align*}
+y_{i}= & \beta_{A}+\beta_{K}k_{i}+\beta_{L}l_{i}+\omega_{i}+\varepsilon_{i}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+は観測できないので, このまま 
+\begin_inset Formula $(y_{i},k_{i},l_{i})$
+\end_inset
+
+のデータで回帰すると, 
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+は定数項
+\begin_inset Formula $\beta_{0}$
+\end_inset
+
+または誤差項
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+に吸収される.
+ 
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+が
+\begin_inset Formula $k_{i},l_{i}$
+\end_inset
+
+ と全く相関しない変数ならば, 
+\begin_inset Formula $\beta_{A}$
+\end_inset
+
+と
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+を識別できないものの, 少なくとも
+\begin_inset Formula $\beta_{K},\beta_{L},$
+\end_inset
+
+の推定はできる.
+ 
+\end_layout
+
+\begin_layout Standard
+このような問題をどう解決すれば良いだろうか? まずは問題1だけを考えよう.
+ 
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+は観測できないが, では推定できないだろうか? つまり, 同一の企業の情報を何度も観測しすれば, そこから推定できないか, というアイディアである.
+ これが
+\series bold
+パネルデータ
+\series default
+分析のスタート地点になる.
+ パネルデータとは, 同一個体を追跡して複数時点で観測したデータである(
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:panel"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+企業ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+時期
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+生産量
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+資本
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+労働力
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2019Q1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2019Q2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+110
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2019Q3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+90
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2019Q4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+120
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+002
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2019Q1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+80
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+002
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2019Q2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+90
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+パネルデータのイメージ
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:panel"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+よって, 企業
+\begin_inset Formula $i=1,\cdots,N$
+\end_inset
+
+ごとに, 
+\begin_inset Formula $t=1,\cdots,T$
+\end_inset
+
+の観測がある.
+ そこで以降は回帰モデルを以下のように書く.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+y_{i,t}= & \beta_{A}+\beta_{K}k_{i,t}+\beta_{L}l_{i,t}+\omega_{i}+\varepsilon_{i,t}\label{eq:panel-basic}
+\end{align}
+
+\end_inset
+
+ここではひとまず, 
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+が企業
+\begin_inset Formula $i$
+\end_inset
+
+ごとに異なるが, 時間
+\begin_inset Formula $t$
+\end_inset
+
+に対しては変化しないと考えておこう.
+ また, 問題1だけを考えるにあたって, 
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+は
+\begin_inset Formula $k_{i,t},l_{i,t}$
+\end_inset
+
+と
+\series bold
+相関しない
+\series default
+としておこう.
+ このような
+\begin_inset Formula $c_{i}$
+\end_inset
+
+を
+\series bold
+観測されない個別効果
+\series default
+(unobserved indivisual effect) という.
+ 
+\end_layout
+
+\begin_layout Standard
+さらに追加の仮定として, 
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+が定数である場合, 
+\series bold
+ダミー変数
+\series default
+を作成することでOLSであるかのように
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+を推定できる
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+ただし, 一致するのは期待値のみで, 標準誤差の計算方法は変わる.
+ 仮説検定・区間推定をするならば 
+\emph on
+clustering-robsut
+\emph default
+な標準誤差と呼ばれるものを使う.
+\end_layout
+
+\end_inset
+
+.
+ これを
+\series bold
+LSDV推定量
+\series default
+という.
+ また別の解き方としては, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:panel-basic"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+を企業ごとに平均を取った場合を考える.
+\begin_inset Formula 
+\begin{align}
+\bar{y}_{i}= & \beta_{A}+\beta_{K}\bar{k}_{i}+\beta_{L}\bar{l}_{i}+\bar{\omega}_{i}+\varepsilon_{i,t}\label{eq:panel-FE}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+このとき, 
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+は企業ごとに一定なので, 
+\begin_inset Formula $\bar{\omega}_{i}=\omega_{i}$
+\end_inset
+
+である.
+ よって, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:panel-basic"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+から
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:panel-FE"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+を引いてからOLSで計算することでも同じ推定結果が得られる.
+ こちらの方法は
+\series bold
+固定効果
+\series default
+(
+\emph on
+FE; fixed effect
+\emph default
+)推定量または
+\series bold
+グループ内
+\series default
+(
+\emph on
+within
+\emph default
+)推定量と呼ばれる
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+逆に観測されない効果が時間ごとに異なるが, 企業間では一定の場合も同じようにできるだろう.
+ その場合は
+\series bold
+グループ間
+\series default
+ (
+\emph on
+between
+\emph default
+) 推定量と呼ばれる.
+ 
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+一方で, 
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+を確率変数として扱うことも考えられる.
+ その場合は
+\series bold
+変量効果
+\series default
+(RE; random effect)推定量と呼ばれる.
+ この場合, 数式上は
+\series bold
+分散不均一
+\series default
+な回帰モデルと同一のため, 実質的に
+\series bold
+一般化最小二乗法
+\series default
+(
+\emph on
+GLS
+\emph default
+)と同じである.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kubo2012"
+literal "false"
+
+\end_inset
+
+は生物学の文脈で異質効果のある場合の解法として
+\series bold
+一般化線形混合モデル
+\series default
+(GLMM)を紹介している.
+ これは観測されない効果の問題とよく似ている.
+ 生物の実験データではおそらく変数との相関がないため, 定数項のバイアスと, 当てはまりの良さだけが問題となるのだろう.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+動学パネルデータ分析
+\end_layout
+
+\begin_layout Standard
+このように, 観察できない要因があってもパネルデータがあれば理論上は推定が可能になる.
+ しかし, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Mairesse1990"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+古い本なので大学図書館などでないと閲覧が難しそうだ.
+ 私も手元にないので学生の頃に書いたメモを元に書いている.
+ また, 川口先生の講義ノートではこのあたりの問題に関する参考文献として
+\begin_inset CommandInset citation
+LatexCommand citet
+key "griliches1999Production"
+literal "false"
+
+\end_inset
+
+の論文を挙げている.
+ タイトルからしてもこちらのほうがカバー範囲の広いサーベイのようなので, こちらを参照したほうがいいのかもしれない.
+\end_layout
+
+\end_inset
+
+はこれまで紹介した方法とほぼ同じやり方で企業の生産関数を推定したところ, 観測されない効果を識別しようと複雑に差分を取れば取るほど, 係数の推定値が小さくなるこ
+とを発見した.
+ 彼はこの原因の仮説をいくつか挙げている.
+\end_layout
+
+\begin_layout Enumerate
+内生性の問題.
+ 個別効果
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+は物理的なものではなく, 環境, 経営者の手腕といったものに由来するのなら, 他の説明変数
+\begin_inset Formula $k,l$
+\end_inset
+
+の決定に影響している.
+\end_layout
+
+\begin_layout Enumerate
+企業の意思決定のラグ.
+ 経営者が誤差項として現れる短期的な変化, つまり直前の
+\begin_inset Formula $\varepsilon_{i,t-1}$
+\end_inset
+
+に対応して
+\begin_inset Formula $k_{i,t},l_{i,t}$
+\end_inset
+
+を決定しているなら, 誤差項と説明変数が相関しており, 単純な差分では推定できない.
+\end_layout
+
+\begin_layout Enumerate
+同時決定の問題.
+\end_layout
+
+\begin_layout Enumerate
+測定誤差.
+ 各変数に測定誤差があれば, 差を取ることで打ち消される.
+\end_layout
+
+\begin_layout Standard
+これらの問題への対応として考えられるのが, 
+\series bold
+操作変数
+\series default
+である.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:panel-basic"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+に, 被説明変数
+\begin_inset Formula $y_{i,t}$
+\end_inset
+
+の自己回帰項を追加する.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+y_{i,t}= & \beta_{A}+\beta_{K}k_{i,t}+\beta_{L}l_{i,t}+\rho y_{i,t-1}+\varepsilon_{i,t}\label{eq:panel-dynamic}
+\end{align}
+
+\end_inset
+
+こういう自己回帰項を含むモデルを扱う分野はパネルデータ分析のなかでも特に
+\series bold
+動学パネルデータ分析
+\series default
+と呼ばれる.
+ このあたりの問題も
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Okui2016"
+literal "false"
+
+\end_inset
+
+や
+\begin_inset CommandInset citation
+LatexCommand citet
+after "Ch. 11"
+key "Wooldridge2010panel"
+literal "false"
+
+\end_inset
+
+で丁寧に説明されている
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+GMMも以前
+\begin_inset CommandInset href
+LatexCommand href
+name "ブログ"
+target "http://ill-identified.hatenablog.com/entry/2015/02/22/203650"
+literal "false"
+
+\end_inset
+
+に定義を書いたが, 詳しいことは
+\begin_inset CommandInset citation
+LatexCommand citet
+key "hayashi2000Econometrics"
+literal "false"
+
+\end_inset
+
+, また, 他の教科書として動学パネルデータを重点的に解説した
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ChigiraEtAl2011"
+literal "false"
+
+\end_inset
+
+などがある.
+ Baltagi の教科書も授業でおすすめされていた気がするが私は読んでいないのでどこまで書いてあるか知らない.
+ どうしても本を買いたくない/買えない人は奥井亮『
+\begin_inset CommandInset href
+LatexCommand href
+name "動学的パネルデータモデル"
+target "http://www.sigmath.es.osaka-u.ac.jp/~Estat/h28_datascience2/okui_handai28_v2.pdf"
+literal "false"
+
+\end_inset
+
+』の講義スライドを見ると良い.
+\end_layout
+
+\end_inset
+
+ので冗長だが, 一応簡単に述べておく.
+\end_layout
+
+\begin_layout Standard
+前節のアイディアを流用すれば, Within推定量の応用で時間平均を取ることが考えられる.
+ 
+\begin_inset Formula $\bar{y}_{i}=(T-1)^{-1}\sum_{t=2}^{T}y_{i,t}$
+\end_inset
+
+しかし, パネルデータでは
+\begin_inset Formula $N$
+\end_inset
+
+が大きいが
+\begin_inset Formula $T$
+\end_inset
+
+は小さいことが多いため, 一致推定量とみなせない.
+
+\series bold
+ 
+\series default
+一方で, 
+\series bold
+1階差分
+\series default
+(
+\emph on
+FD
+\emph default
+) 推定量というものがある.
+ これはある意味
+\series bold
+DID推定量
+\series default
+と同じである.
+ 差分演算子を 
+\begin_inset Formula $\Delta x_{t}:=x_{t}-x_{t-1}$
+\end_inset
+
+というふうに定義する.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:panel-dynamic"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+の両辺から 
+\begin_inset Formula $y_{i,t-1}$
+\end_inset
+
+を引く.
+\begin_inset Formula 
+\begin{align*}
+\Delta y_{i,t}= & \beta_{K}\Delta k_{i,t}+\beta_{L}\Delta l_{i,t}+\rho\Delta y_{i,t-1}+\Delta\varepsilon_{i,t}
+\end{align*}
+
+\end_inset
+
+しかし, 
+\begin_inset Formula $\Delta y_{i,t-1}=y_{i,t}-y_{i,t-1}$
+\end_inset
+
+から, 
+\begin_inset Formula $\Delta\varepsilon_{i,t}=\varepsilon_{i,t}-\varepsilon_{t-1}$
+\end_inset
+
+と相関が存在する.
+ そこで, 
+\begin_inset Formula $\varepsilon_{i,t-1}$
+\end_inset
+
+より過去の
+\begin_inset Formula $y_{i,t-2},\cdots$
+\end_inset
+
+を
+\series bold
+操作変数
+\series default
+として使う方法が提案されている.
+ それがAnderson-Hsiao 
+\begin_inset CommandInset citation
+LatexCommand citeyearpar
+key "AndersonHsiao1981,AndersonHsiao1982"
+literal "false"
+
+\end_inset
+
+モデルや, Arellano-Bond 
+\begin_inset CommandInset citation
+LatexCommand citeyearpar
+key "ArellanoBond1991"
+literal "false"
+
+\end_inset
+
+のシステムGMM推定法である
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+さらに非線形方程式に拡張した
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Blundell1998"
+literal "false"
+
+\end_inset
+
+の推定法もある.
+\end_layout
+
+\end_inset
+
+.
+ しかし, これらは実際に操作変数として意味のある変数なのかということを深く議論せずに
+\begin_inset Formula $\{y_{i,t-2},\cdots\}$
+\end_inset
+
+を操作変数に利用している.
+ その場合, 上記で挙げたような意思決定が存在するかどうかを検証できないし, 推定量じたいにも過剰識別や弱相関変数の問題が発生する.
+\end_layout
+
+\begin_layout Subsection
+企業内部の意思決定を考える
+\end_layout
+
+\begin_layout Standard
+しかし, 経済学の理論では, 観察される経済データは市場が需要と供給のバランスを取った結果である.
+ これが2つ目の「需要要因を考慮していない」という話になる.
+ 企業が需要を全く考えずに事業計画を立てるとは考えにくいため, この
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+が間接的に
+\begin_inset Formula $k_{i},l_{i}$
+\end_inset
+
+ に影響している可能性は十分ある.
+ また, 企業は新規立ち上げだったり倒産したりする.
+ 現実のパネルデータはしばしば欠落がある.
+ そのようなデータでそのまま推定しようとしたらどうだろうか.
+\end_layout
+
+\begin_layout Standard
+このようなパネルデータでの内生性に対処する推定方法に関する研究はいくつもあり, 特によく出てくるものとしてFEIVモデル, がある.
+\end_layout
+
+\begin_layout Standard
+さらに, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "OlleyPakes1996"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LevinsohnPetrin2003"
+literal "false"
+
+\end_inset
+
+はこれらの動学パネルデータ分析の方法から一歩進んで, 企業の意思決定の構造をモデル化した生産関数を考え, 操作変数を使わずに内生性の問題に対処した方法を提案して
+いる (一般にはOPの方法は
+\series bold
+コントロール関数
+\series default
+アプローチと呼ばれる)
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+日本語では, たとえば
+\begin_inset CommandInset citation
+LatexCommand citet
+key "KitamuraEtAl2009dp"
+literal "false"
+
+\end_inset
+
+が理論的根拠を詳しく解説している.
+ 彼らの解説で使われているのは本来のものに加えて原材料費や純資産を考慮したモデルだが, 本質的な部分は変わらない.
+ 統計モデルとしての説明なら彼らのものでも十分だが, 今回は経済モデルとの関係を強調したいため, あえてOlleyらの論文をなぞって冗長に書いておく.
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+そこで今回は
+\begin_inset CommandInset citation
+LatexCommand citet
+key "OlleyPakes1996"
+literal "false"
+
+\end_inset
+
+のフレームワークを詳しく説明する.
+ なお, 以降は
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:panel-basic"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+式をもとに説明するが, 各企業で同じことが言えるため
+\begin_inset Formula $i$
+\end_inset
+
+を省略して書く.
+ OPでは, 観察されない効果
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+は企業の経営者は知ることができるが, データとして現れないため分析者には観測できない, 企業固有の生産能力を表す成分である.
+ 
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+は他の変数の影響を受けない(外生的)が, 自身の過去の値からは影響を受けると仮定する.
+ つまり1次の
+\series bold
+マルコフ過程
+\series default
+であるとする.
+\begin_inset Formula 
+\begin{align*}
+\omega_{t}\sim & P(\omega\mid\omega_{t-1})
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $t$
+\end_inset
+
+期の始めに経営者は
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+を観測して, これをもとに今期の経営計画を決定, つまり, 純キャッシュフローの割引現在価値を最大化できるように 
+\begin_inset Formula $k_{t},l_{t}$
+\end_inset
+
+を決めていると仮定する.
+ 
+\end_layout
+
+\begin_layout Standard
+そこで, 動学的なモデルを想定する.
+ 企業の
+\begin_inset Formula $t$
+\end_inset
+
+時点現在での収益を
+\begin_inset Formula $\pi_{t}(\omega_{t},k_{t},l_{t})$
+\end_inset
+
+として, 投資
+\begin_inset Formula $\mathit{inv}_{t}$
+\end_inset
+
+に対する費用を 
+\begin_inset Formula $c(\mathit{inv}_{t})$
+\end_inset
+
+ とする.
+ 経営者が最適化する現在の
+\series bold
+価値関数
+\series default
+ (
+\emph on
+value function
+\emph default
+)を 
+\begin_inset Formula $V_{t}(\omega_{t},k_{t},l_{t})$
+\end_inset
+
+ とすると
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Olleyらの当初の仮定では, 企業年齢も生産性に影響があると考えていたが, 実際に推定してみるとほとんど影響がないことがわかった.
+ モデルの特徴を説明する上でも企業年齢はあまり関与しないため, ここでは省略している.
+\end_layout
+
+\end_inset
+
+, 動学モデルでは単に現在の価値関数を最大化することが最適化に繋がるとは限らない.
+ 経営者は, これらを把握した上で, 割引現在価値を最大化するように行動する.
+ つまり, 以下のような 
+\begin_inset Formula $V^{\ast}$
+\end_inset
+
+の達成を目指す.
+\begin_inset Formula 
+\begin{align*}
+V^{\ast}= & \max_{\{k_{t},l_{t}\}}\sum_{t=0}^{\infty}\delta V_{t}(\cdots)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+これは無限和なのでそのまま計算するのは難しいが, 一定の条件下では上記の最適化問題の解が以下のような
+\series bold
+ベルマン方程式
+\series default
+ (
+\emph on
+Bellman equation
+\emph default
+) の解と同じであることが分かっている
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+これを
+\series bold
+ベルマンの最適性原理
+\series default
+という.
+ しかしこれ以降の動学最適化問題の数理的に厳密な話をしていてはキリがないので, 適当な参考文献に投げることにする.
+ ただし私は動学最適化を純粋に数理的側面で説明した教科書を読んだことはなく, 経済学の文脈で主に勉強しているので, 挙げる参考文献も必然的にそういうものになる.
+ 日本語文献でかつ無料で一般公開されているものとしては, マクロ経済学での応用の観点で書かれた
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kudo2019"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Abe2017DP"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hasumi2019"
+literal "false"
+
+\end_inset
+
+の講義ノートがある.
+ 教科書ではA.C.
+ Chang の『動学的最適化の基礎』の邦訳は比較的簡単に解説しているが誤植が多いことで有名である.
+ 西村清彦の『経済学のための最適化理論入門 』という教科書もあるが, どこまでカバーしていたかの記憶が定かではない.
+ もっとも詳しいのはやはり
+\begin_inset CommandInset citation
+LatexCommand citet
+key "SLP"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ljungqvist2018Recursive"
+literal "false"
+
+\end_inset
+
+の教科書あたりか? 単に「ベルマン方程式」でググると強化学習に関連するものとして言及する記事がよく引っかかるが, これらはベルマン方程式というより分枝限定法の考
+え方の解説だったり, 内容がメモ程度の断片的だったりするので今回の話の補足説明には向かない.
+ 理論モデルでは連続時間を想定する場合もあり, ベルマン方程式の代わりに Hamilton-Jacobi-Bellman方程式を応用することもある.
+ こちらは物理学でもよく使われるようだ.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+V_{t}(\omega_{t},k_{t},l_{t})= & \max_{k_{t},l_{t}}\left\{ \Phi,\sup_{i_{t}\geq0}\pi_{t}(\omega_{t},k_{t},l_{t})-c(\mathit{inv}_{t})+\delta\mathrm{E}\left[V_{t+1}(\cdots)\right]\right\} \label{eq:bellman}
+\end{align}
+
+\end_inset
+
+ベルマン方程式が意味するところは, 
+\begin_inset Formula $t,t+1$
+\end_inset
+
+という
+\series bold
+2時点間の関係さえ分かれば上記の無限和の問題も解ける
+\series default
+ということである.
+\end_layout
+
+\begin_layout Standard
+ただし, このモデルでは2つの仮定を負いしていることに注意する.
+ 1つは, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:bellman"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+には, 
+\begin_inset Formula $\Phi$
+\end_inset
+
+という選択肢があることだ.
+ これは退出, つまり
+\series bold
+工場の閉鎖
+\series default
+や
+\series bold
+事業を売却
+\series default
+することで得られるキャッシュフローである.
+ よって, このモデルでは採算が合わないと判断した経営者が事業撤退を選択する可能性も考慮している.
+ また, 動学的な決定の必要があるのは
+\begin_inset Formula $k_{t}$
+\end_inset
+
+のみで, 
+\begin_inset Formula $l_{t}$
+\end_inset
+
+は毎期独立して決定されるように
+\series bold
+仮定している
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+では, 
+\begin_inset Formula $k_{t}$
+\end_inset
+
+の動学的な意思決定がどのようになされるかを考えていく.
+ 資本
+\begin_inset Formula $k_{t}$
+\end_inset
+
+は, 前期のストック
+\begin_inset Formula $k_{t-1}$
+\end_inset
+
+と, 減価償却率 
+\begin_inset Formula $\delta$
+\end_inset
+
+, そして新規の投資額 
+\begin_inset Formula $\mathit{inv}_{t-1}$
+\end_inset
+
+の和で表現できる.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+k_{t}= & \mathit{inv}_{t-1}+(1-\delta)k_{t-1}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+この企業の最適行動の解は
+\series bold
+マルコフ完全ナッシュ均衡解
+\series default
+ (
+\emph on
+Markov-perfect Nash equilibrium solution
+\emph default
+)でもある.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+企業の退出ルールと投資関数を以下のように定義できる.
+\begin_inset Formula 
+\begin{align*}
+x_{t}= & \begin{cases}
+1 & \text{if }\omega_{t}\geq\text{\underbar{\omega} }_{t}(k_{t})\\
+0 & \text{otherwise}
+\end{cases}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align}
+\mathit{inv}_{t}= & \mathit{inv}_{t}(\omega_{t},k_{t})\label{eq:investment}
+\end{align}
+
+\end_inset
+
+ここから, 企業が退出する確率は
+\begin_inset Formula 
+\begin{align}
+p_{t}:= & \mathrm{P}(x_{t}=1\mid\text{\underbar{\ensuremath{\omega}}}_{t}(k_{t}))\nonumber \\
+= & \mathrm{P}(x_{t}=1\mid k_{t},\omega_{t},\text{\underbar{\ensuremath{\omega}}}_{t})\label{eq:exit-prob}
+\end{align}
+
+\end_inset
+
+のように
+\begin_inset Formula $k_{t},\omega_{t},\text{\underbar{\ensuremath{\omega}}}_{t}$
+\end_inset
+
+条件に依存することを覚えておこう.
+\end_layout
+
+\begin_layout Standard
+利潤関数
+\begin_inset Formula $\pi_{t}$
+\end_inset
+
+が
+\begin_inset Formula $k_{t}$
+\end_inset
+
+に対して減少関数なら, 価値関数にとっては増加関数, そして
+\begin_inset Formula $\text{\underbar{\ensuremath{\omega}}}_{t}(\cdot)$
+\end_inset
+
+は減少関数になるはずだ.
+ 資本ストックの多い企業は現在の生産性とはあまり関係なく, 将来に比較的大きな収益が見込まれるから, このしきい値 
+\begin_inset Formula $\text{\underbar{\ensuremath{\omega}}}_{t}(\cdot)$
+\end_inset
+
+は比較的低くなるはずだ.
+ よって, この退出ルールから
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+に
+\begin_inset Formula $x_{t},k_{t},l_{t},\omega_{t-1}$
+\end_inset
+
+を条件付けた
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+の期待値
+\begin_inset Formula 
+\[
+\mathrm{E}\left[\omega_{t}\mid k_{t},\omega_{t-1},x_{t}=1\right]
+\]
+
+\end_inset
+
+は
+\begin_inset Formula $k_{t}$
+\end_inset
+
+に対して減少関数であるとわかる (
+\begin_inset Formula $l_{t}$
+\end_inset
+
+は独立しているので
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+に影響しない).
+ これが観測できない生産性 
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+と資本が相関している理由付けになる.
+\end_layout
+
+\begin_layout Standard
+ここまでで登場した変数間の関係をグラフィカルモデルで描くならば, 以下のようになる.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+グラフィカルモデルで相関を描画する
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+OPモデルの回帰モデルとしての意味
+\end_layout
+
+\begin_layout Standard
+経営者が (分析者には) 観察されない効果
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+を参照して
+\begin_inset Formula $k_{t},l_{t}$
+\end_inset
+
+を決めてしまうというのは, 計量経済学の文脈でいうならこれは欠落変数バイアスであり, この仮定が正しければここまでで紹介したパネルデータの方法で推定してもバイア
+スが発生してしまう.
+ さらに 
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+のマルコフ性を仮定しているため, もし
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+が過去の値と相関しているならば, やはり内生性によるバイアスが発生する.
+ また, OPモデルは経営者の撤退という選択肢も想定していることは, 
+\series bold
+サンプルセレクションバイアスを考慮している
+\series default
+とも言える.
+ 前節ではパネルデータには一切欠測がない(
+\series bold
+バランスドパネル
+\series default
+)ことを暗黙の前提としていたが, 実際のパネルデータではしばしば欠測が起こる.
+ もし欠測が企業の活動とは完全に無関係にランダムに発生している(MAR; missing at random)ならば推定に大きな影響はないが,
+ すでに解説したように
+\begin_inset Formula $k_{t}$
+\end_inset
+
+は
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+(の期待値)に相関し, 
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+の大きさ次第で企業経営者は撤退を決める.
+ つまりモデル内の変数に依存するメカニズムで発生している(MNAR; missing not —)ことになるので推定にバイアスを引き起こす
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+欠測が推定結果に及ぼす影響については, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Hoshino2009"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TakaiHoshinoNoma2016"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "TakahashiWatanabe2017"
+literal "false"
+
+\end_inset
+
+のいずれかが参考になるだろう.
+ ただしパネルデータでの問題については星野が少し触れている程度である.
+ 英語でもいいならば
+\begin_inset CommandInset citation
+LatexCommand citet
+after "Ch. 19"
+key "Wooldridge2010panel"
+literal "false"
+
+\end_inset
+
+が解説している.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+まず, 推定のために投資が常に正である, 
+\begin_inset Formula $\mathit{inv}_{t}>0$
+\end_inset
+
+と仮定すると, 投資関数 
+\begin_inset Formula $\mathit{inv}_{t}(\cdot)$
+\end_inset
+
+が必ず単調増加関数になるので,
+\end_layout
+
+\begin_layout Standard
+逆関数 
+\begin_inset Formula $\omega_{t}=h_{t}(k_{t},\mathit{inv}_{t})$
+\end_inset
+
+ が存在することになる.
+ これを
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:panel-basic"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+に代入すると, 
+\begin_inset Formula 
+\begin{align}
+y_{t}= & \beta_{L}l_{t}+\left[\beta_{A}+\beta_{K}k_{t}+h_{t}(k_{t},\mathit{inv}_{t})\right]+\varepsilon_{t}\label{eq:OPmodel}
+\end{align}
+
+\end_inset
+
+となり, 
+\series bold
+観察されない効果を他の説明変数で表現できる
+\series default
+ことがわかった.
+ 
+\begin_inset Formula $\left[\cdots\right]$
+\end_inset
+
+の部分は関数形が特定されていない, いわゆるノンパラメトリックモデルである.
+ しかし, 今知りたいのは
+\begin_inset Formula $\beta_{A},\beta_{K},\beta_{L}$
+\end_inset
+
+であって, 必ずしも投資関数を特定することは必須でない(このような推定方法を
+\series bold
+コントロール関数アプローチ
+\series default
+という).
+ そこで, OP法では以下のような
+\series bold
+2段階の推定法
+\series default
+で一致推定量を得る.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+第1段階
+\series default
+では
+\begin_inset Formula $k_{t}$
+\end_inset
+
+と
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+という動学的に決定される部分をノンパラメトリック回帰することで, 静学的に決まる
+\begin_inset Formula $\beta_{L}$
+\end_inset
+
+のみを識別する.
+\begin_inset Formula 
+\begin{align}
+\phi_{t}(k_{i,t},\mathit{inv}_{i,t}):= & \beta_{A}+\beta_{K}k_{i,t}+h_{t}(k_{i,t},\mathit{inv}_{i,t})\label{eq:OP-partial}
+\end{align}
+
+\end_inset
+
+と表せば, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:OPmodel"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+は
+\begin_inset Formula 
+\begin{align}
+y_{t}= & \beta_{L}l_{t}+\phi(k_{t},\mathit{inv}_{t})+\varepsilon_{t}\label{eq:OP-1st}
+\end{align}
+
+\end_inset
+
+と書き換えられる.
+ 
+\begin_inset Formula $\phi_{t}$
+\end_inset
+
+の部分をノンパラメトリック回帰で推定する
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Olleyらは4次多項式補間で計算しているが, 3次にしたりデータを結果に大きな変化がなかったとしている.
+ 一方で, 年代で分割して試すと変化が見られたとしている.
+ 多項式に特定する理由もないので, 他の方法も試すと良いだろう.
+\end_layout
+
+\end_inset
+
+.
+ これによって推定値
+\begin_inset Formula $\hat{\beta}_{L}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{\phi}_{t}$
+\end_inset
+
+ が識別された.
+ これはいわゆる
+\series bold
+部分線形モデル
+\series default
+である.
+\end_layout
+
+\begin_layout Standard
+すると今度は 
+\begin_inset Formula $\phi_{t}$
+\end_inset
+
+からどうやって
+\begin_inset Formula $\beta_{A},\beta_{K}$
+\end_inset
+
+を識別するかということを考えなければならない.
+\begin_inset Formula 
+\begin{align*}
+y_{t}-\hat{\beta}_{L}l_{t}= & \phi_{t}(k_{t},\mathit{inv}_{t})+\eta_{t}
+\end{align*}
+
+\end_inset
+
+ 
+\begin_inset Formula $\hat{\phi}_{t}$
+\end_inset
+
+には
+\begin_inset Formula $\beta_{A}+\beta_{K}k_{t}+\omega_{t}$
+\end_inset
+
+が含まれているが, 
+\begin_inset Formula $k_{t}$
+\end_inset
+
+は既に説明したように動学的に決定される.
+ ここで, 次の
+\begin_inset Formula $t+1$
+\end_inset
+
+時点の 
+\begin_inset Formula $y_{t+1}-\beta_{L}l_{t+1}$
+\end_inset
+
+の期待値を考えると, 以下のようになる (
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+のマルコフ性を思い出す).
+\begin_inset Formula 
+\begin{align*}
+\mathrm{E} & \left[y_{t+1}-\beta_{L}l_{t+1}\mid k_{t+1},x_{t+1}=1\right]\\
+ & =\beta_{A}+\beta_{K}k_{t+1}+g(\text{\underbar{\ensuremath{\omega}}}_{t+1},\omega_{t})
+\end{align*}
+
+\end_inset
+
+ここで, 
+\begin_inset Formula 
+\begin{align*}
+g(\text{\underbar{\ensuremath{\omega}}}_{t+1},\omega_{t})= & \beta_{A}+\mathrm{E}\left[\omega_{t+1}\mid k_{t+1},x_{t+1}=1\right]
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{align*}
+g(\text{\underbar{\ensuremath{\omega}}}_{t+1},\omega_{t})= & \beta_{A}+\int_{\text{\underbar{\ensuremath{\omega}}}_{t+1}}\omega_{t+1}\frac{F(d\omega_{t+1}\mid\omega_{t})}{\int_{\text{\underbar{\ensuremath{\omega}}}_{t}}F(d\omega_{t+1}\mid\omega_{t})}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+と置いている.
+ 
+\begin_inset Formula $g$
+\end_inset
+
+は観測できない
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+で構成されるが, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:exit-prob"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+から, 退出確率は 
+\begin_inset Formula $(\omega_{t},\omega_{t+1})$
+\end_inset
+
+の関数で書けることが分かっている.
+ よって, 
+\begin_inset Formula $g$
+\end_inset
+
+は
+\begin_inset Formula $p_{t}$
+\end_inset
+
+と
+\begin_inset Formula $\omega_{t}$
+\end_inset
+
+で表現できる.
+ 
+\begin_inset Formula $\phi_{t}=\beta_{K}k_{t}+\beta_{A}+\omega_{t}$
+\end_inset
+
+だから, 
+\begin_inset Formula 
+\begin{align*}
+g(\cdots)= & \beta_{A}+g(p_{t},\phi_{t}-\beta_{A}-\beta_{K}k_{t})
+\end{align*}
+
+\end_inset
+
+ と書ける.
+ 退出したかどうかは, パネルデータの欠測で知ることができるため, 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ に対してプロビット回帰をすることで退出確率の推定値
+\begin_inset Formula $\hat{p}_{t}$
+\end_inset
+
+を計算できる.
+ つまりこれは一種の
+\series bold
+傾向スコア
+\series default
+である.
+\end_layout
+
+\begin_layout Standard
+以上から, 
+\series bold
+第2段階
+\series default
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Olleyらの論文では退出確率
+\begin_inset Formula $p_{t}$
+\end_inset
+
+の推定を第2段階と呼んでいるので, これは本来は第3段階だった.
+ しかし後の解説では省略されることが多い.
+\end_layout
+
+\end_inset
+
+では, 
+\begin_inset Formula $\hat{\beta}_{L}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{\phi}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{p}_{t}$
+\end_inset
+
+を所与として, 以下のようなラグのある式を推定する.
+ 非線形部分
+\begin_inset Formula $g(\cdots)$
+\end_inset
+
+はやはりノンパラメトリック回帰となる.
+ これで
+\begin_inset Formula $\beta_{A},\beta_{K}$
+\end_inset
+
+も推定できる.
+\begin_inset Formula 
+\begin{align}
+(y_{t+1}-\hat{\beta}_{L}l_{t+1})= & \beta_{K}k_{t+1}+g(\hat{p}_{t},\hat{\phi}_{t}-\beta_{A}-\beta_{K}k_{t})+\xi_{t+1}+\eta_{t+1}\label{eq:OP-final}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+ここで, 
+\begin_inset Formula $\xi_{t+1}:=\omega_{t+1}-\mathrm{E}\left[\omega_{t+1}\mid\omega_{t},x_{t+1}=1\right]$
+\end_inset
+
+である.
+ つまり 
+\begin_inset Formula $\xi_{t+1}$
+\end_inset
+
+は平均ゼロで, かつ
+\begin_inset Formula $k_{t+1}$
+\end_inset
+
+とも独立である.
+ 一方で
+\begin_inset Formula $l_{t+1}$
+\end_inset
+
+とは独立していないが, 
+\begin_inset Formula $\beta_{L}$
+\end_inset
+
+は第1段階で推定した
+\begin_inset Formula $\hat{\beta}_{L}$
+\end_inset
+
+を代入できるので問題ない.
+\end_layout
+
+\begin_layout Standard
+なお, OP法では標準誤差を代数的に得られないため, ブートストラップシミュレーションで計算する必要がある.
+\end_layout
+
+\begin_layout Subsection
+OP法以降の研究
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LevinsohnPetrin2003"
+literal "false"
+
+\end_inset
+
+はOPの方法を改良したもの.
+ 多くの企業の会計情報を見ると, 実際には設備投資は必ずしも発生せず, ゼロが多い.
+ これは投資関数の単調性と矛盾するため, 中間投入財 (材料費) の情報を利用することを提案している.
+ 現在はさらに
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ackerberg2015Identification"
+literal "false"
+
+\end_inset
+
+が改良版を提案して, これがスタンダードになりつつあるらしいが今回は省略.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+TODO
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+データのとり方
+\end_layout
+
+\begin_layout Standard
+企業の生産関数推定で一番むずかしいのは実はここかもしれない.
+ というのも, 理論上の
+\begin_inset Formula $K$
+\end_inset
+
+や
+\begin_inset Formula $L$
+\end_inset
+
+はどこにも記載されていないからだ.
+ これはけっこう地道な計算が必要になる.
+ 例えば企業の決算報告書などから地道に計算する, あるいは日銀やDBJのような政策金融機関が整備しているデータベースをなんらかの手段で見せてもらう,
+ などである.
+ あるいは, 農業や工業など資源と生産物の関係が分かりやすい特定の産業だけでを分析の対象とすることもできる.
+ 例えば農業で, 
+\begin_inset Formula $K$
+\end_inset
+
+を乳牛の頭数, 原材料を飼料, 
+\begin_inset Formula $Y$
+\end_inset
+
+をミルクの生産量とした分析も可能だろう (昔見た気がするがすぐには見つけられなかった).
+\end_layout
+
+\begin_layout Standard
+今回はとてもそんなことをしている暇も金もコネもない
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+いくつかの教科書の著者は練習問題用にデータセットを公開している.
+ 例えば "
+\begin_inset CommandInset href
+LatexCommand href
+name "Wooldridge data sets"
+target "http://fmwww.bc.edu/ec-p/data/wooldridge/datasets.list.html"
+literal "false"
+
+\end_inset
+
+", "
+\begin_inset CommandInset href
+LatexCommand href
+name "Datasets for empirical exercises in Econometrics"
+target "http://fhayashi.fc2web.com/datasets.htm"
+literal "false"
+
+\end_inset
+
+" など.
+ しかし, 今回の問題に適した企業別パネルデータは見つけられなかった.
+\end_layout
+
+\end_inset
+
+ので, 後述する乱数データを使う.
+\end_layout
+
+\begin_layout Section
+R での実装
+\end_layout
+
+\begin_layout Standard
+実はOlley-PakesやLevinsohn-Petrinの方法はRの
+\family typewriter
+
+\begin_inset CommandInset href
+LatexCommand href
+name "estprod"
+target "https://cran.r-project.org/web/packages/estprod/index.html"
+literal "false"
+
+\end_inset
+
+
+\family default
+パッケージですでに実装されている.
+ さらに, このパッケージには練習用の乱数データセットも用意されている.
+ この乱数がどのような方法で生成されたかがわからないので, 実質的に動作確認にしかならないが, まずはこれを使ってみる
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+このパッケージはCRANに登録されているものの, 作者のプロフィールがよくわからない.
+ また, 
+\begin_inset CommandInset href
+LatexCommand href
+name "githubリポジトリ"
+target "https://github.com/cran/estprod"
+literal "false"
+
+\end_inset
+
+にもほとんど関心が集まっていないため, 動作がどの程度適切なのかあまり確認が進んでいなさそうだ.
+ 一応ソースコードを大まかに確認はしたが, その点は留意してほしい.
+ あと, 
+\family typewriter
+coefs()
+\family default
+, 
+\family typewriter
+predict()
+\family default
+, といった
+\family typewriter
+stats
+\family default
+の基本関数にも対応していない.
+ もちろん
+\family typewriter
+stargazer
+\family default
+に対応していないし, 
+\family typewriter
+estimatr
+\family default
+にも収録されていない.
+\end_layout
+
+\end_inset
+
+.
+ 時間があれば自分である程度実装したのだが, もう日付が変わっているので難しい.
+ OLSとLSDVとも比較した結果が
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:result"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+である.
+ LSDVが大きく異なる推定結果を出しているのがわかる.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+このように根本的に反復計算が多いため, for ループが遅いと評判のRでは大変そう...経済学以外の理工系の人たちも未だにFortranとかでシミュレーションしてるっ
+ぽいし……(Fortranが多いのはスーパーコンピュータとかに対応するためというのも)
+\end_layout
+
+\begin_layout Plain Layout
+川口先生 (香港科技大学) の講義ノート 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "kawaguchi2019ECON"
+literal "false"
+
+\end_inset
+
+はR+Rcppでやっている...
+ 随時更新してるので期間限定公開かもしれない
+\end_layout
+
+\begin_layout Plain Layout
+簡単にデータが手に入る, すぐに実装できる, シミュレーションまで持っていける, できれば日本語の解説資料もみつかる
+\end_layout
+
+\begin_layout Plain Layout
+その他参考:
+\end_layout
+
+\begin_layout Plain Layout
+明城先生の講義ノート
+\end_layout
+
+\begin_layout Plain Layout
+https://sites.google.com/site/myojosatoshi/lecture_note?authuser=0
+\end_layout
+
+\begin_layout Plain Layout
+『【実証産業組織論・ミクロ計量分析】』では主に「産業組織論」関係の研究について解説 (ただし構造推定の回は英語)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/result.pdf
+	width 70text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+推定結果
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:result"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+モデルの事後診断
+\end_layout
+
+\begin_layout Standard
+さて, 反事実分析でのモデルの評価は単に当てはまりが良いかだけでなく, 仮定と現実のデータが矛盾していないかの確認も同等かそれ以上に重要である.
+\end_layout
+
+\begin_layout Standard
+ここでもOlleyらの研究を例にする.
+ まず, 彼らの仮定が正しければ, 単なる最小二乗法や, IVなどの方法では結果にバイアスが発生するはずである.
+ よって, 提案する推定方法との比較が必要である.
+ あるいは, サンプルセレクションバイアスが実際に発生しているか確認するため, バランスドパネルでの結果と比較することも必要である.
+ さらに, 市場の構造は法規制の変化によって変わりうる.
+ 法改正のタイミングで年代ごとに区切って当てはまりを確認する必要がある.
+\end_layout
+
+\begin_layout Standard
+さらに, モデルのロバストネス分析として, モデルの仮定のうち特に重要な, 投資関数の式
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:investment"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+を検討している.
+ 投資が資本と観察できない生産性によって決まるという仮定が正しくない場合, 
+\begin_inset Formula $\beta_{L}$
+\end_inset
+
+の推定にバイアスが生じる.
+ これを検証するには最後の式
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:OP-final"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+の説明変数に, 現在の
+\begin_inset Formula $l_{t}$
+\end_inset
+
+を加えることでできる (このようなタイプの検証は
+\series bold
+特定化のテスト
+\series default
+と呼ばれる).
+\end_layout
+
+\begin_layout Section
+まとめ
+\end_layout
+
+\begin_layout Standard
+今回は取り掛かった段階で準備期間が1週間を切っていたため, かなり手を抜かざるを得なかった.
+ Olley-Pakes や Levinsohn-Petrinは10年以上前の話なので, すでに大学院, あるいは学部の授業でも取り上げられることすらある.
+\end_layout
+
+\begin_layout Standard
+ところで, 香港科技大の教員である
+\begin_inset CommandInset citation
+LatexCommand citet
+key "kawaguchi2019ECON"
+literal "false"
+
+\end_inset
+
+が大学院生向けの講義ノートを一般公開している (公開期間限定かもしれない).
+ 実はここでも, RでOP法を計算するプログラムを書けという課題が存在する.
+ 課題の数からして, これを受講する学生は毎週1回はこれくらいの課題をこなさなければならないようだ.
+ これは経済学大学院ではよくある話 (伝聞によれば北米はもっと厳しい).
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "ZZZ_tmp_Structural"
+options "jecon-custom"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
