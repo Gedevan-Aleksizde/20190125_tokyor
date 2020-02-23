@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 R での実装 | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact</title>
+  <meta name="description" content="Tokyo.Rの続き" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 R での実装 | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Tokyo.Rの続き" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 R での実装 | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact" />
+  
+  <meta name="twitter:description" content="Tokyo.Rの続き" />
+  
+
+<meta name="author" content="ill-identified" />
+
+
+<meta name="date" content="2020-02-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="どう推定するか.html"/>
+<link rel="next" href="結果.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Top</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 概要</a></li>
+<li class="chapter" data-level="2" data-path="イントロダクション.html"><a href="イントロダクション.html"><i class="fa fa-check"></i><b>2</b> イントロダクション</a><ul>
+<li class="chapter" data-level="2.1" data-path="イントロダクション.html"><a href="イントロダクション.html#構造推定とは"><i class="fa fa-check"></i><b>2.1</b> 構造推定とは</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="イントロダクション.html"><a href="イントロダクション.html#構造方程式モデリング"><i class="fa fa-check"></i><b>2.1.1</b> 構造方程式モデリング</a></li>
+<li class="chapter" data-level="2.1.2" data-path="イントロダクション.html"><a href="イントロダクション.html#構造時系列モデル"><i class="fa fa-check"></i><b>2.1.2</b> 構造時系列モデル</a></li>
+<li class="chapter" data-level="2.1.3" data-path="イントロダクション.html"><a href="イントロダクション.html#構造型モデル"><i class="fa fa-check"></i><b>2.1.3</b> 構造型モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="イントロダクション.html"><a href="イントロダクション.html#因果推論と何が違うのか"><i class="fa fa-check"></i><b>2.2</b> 因果推論と何が違うのか</a></li>
+<li class="chapter" data-level="2.3" data-path="イントロダクション.html"><a href="イントロダクション.html#今回取り組む問題"><i class="fa fa-check"></i><b>2.3</b> 今回取り組む問題</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="どう推定するか.html"><a href="どう推定するか.html"><i class="fa fa-check"></i><b>3</b> どう推定するか</a><ul>
+<li class="chapter" data-level="3.1" data-path="どう推定するか.html"><a href="どう推定するか.html#なぜ生産関数を知りたいのか"><i class="fa fa-check"></i><b>3.1</b> なぜ生産関数を知りたいのか</a></li>
+<li class="chapter" data-level="3.2" data-path="どう推定するか.html"><a href="どう推定するか.html#パネルデータ分析と観測されない効果"><i class="fa fa-check"></i><b>3.2</b> パネルデータ分析と観測されない効果</a></li>
+<li class="chapter" data-level="3.3" data-path="どう推定するか.html"><a href="どう推定するか.html#動学パネルデータ分析"><i class="fa fa-check"></i><b>3.3</b> 動学パネルデータ分析</a></li>
+<li class="chapter" data-level="3.4" data-path="どう推定するか.html"><a href="どう推定するか.html#企業内部の意思決定を考える"><i class="fa fa-check"></i><b>3.4</b> 企業内部の意思決定を考える</a></li>
+<li class="chapter" data-level="3.5" data-path="どう推定するか.html"><a href="どう推定するか.html#opモデルの回帰モデルとしての意味"><i class="fa fa-check"></i><b>3.5</b> OPモデルの回帰モデルとしての意味</a></li>
+<li class="chapter" data-level="3.6" data-path="どう推定するか.html"><a href="どう推定するか.html#モデルの事後診断"><i class="fa fa-check"></i><b>3.6</b> モデルの事後診断</a></li>
+<li class="chapter" data-level="3.7" data-path="どう推定するか.html"><a href="どう推定するか.html#op法以降の研究"><i class="fa fa-check"></i><b>3.7</b> OP法以降の研究</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="r-での実装.html"><a href="r-での実装.html"><i class="fa fa-check"></i><b>4</b> R での実装</a><ul>
+<li class="chapter" data-level="4.1" data-path="r-での実装.html"><a href="r-での実装.html#データのとり方"><i class="fa fa-check"></i><b>4.1</b> データのとり方</a></li>
+<li class="chapter" data-level="4.2" data-path="r-での実装.html"><a href="r-での実装.html#beta_lphiの識別"><i class="fa fa-check"></i><b>4.2</b> <span class="math inline">\(\beta_{L},\phi\)</span>の識別</a></li>
+<li class="chapter" data-level="4.3" data-path="r-での実装.html"><a href="r-での実装.html#存続確率の推定"><i class="fa fa-check"></i><b>4.3</b> 存続確率の推定</a></li>
+<li class="chapter" data-level="4.4" data-path="r-での実装.html"><a href="r-での実装.html#beta_abeta_kの推定"><i class="fa fa-check"></i><b>4.4</b> <span class="math inline">\(\beta_{A},\beta_{K}\)</span>の推定</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="結果.html"><a href="結果.html"><i class="fa fa-check"></i><b>5</b> 結果</a></li>
+<li class="chapter" data-level="6" data-path="まとめ.html"><a href="まとめ.html"><i class="fa fa-check"></i><b>6</b> まとめ</a></li>
+<li class="appendix"><span><b>補遺</b></span></li>
+<li class="chapter" data-level="A" data-path="init.html"><a href="init.html"><i class="fa fa-check"></i><b>A</b> 数値計算上に関係する実装上の注意</a></li>
+<li class="chapter" data-level="B" data-path="boot.html"><a href="boot.html"><i class="fa fa-check"></i><b>B</b> ブートストラップ標準誤差</a></li>
+<li class="chapter" data-level="C" data-path="kawaguchi-gmm.html"><a href="kawaguchi-gmm.html"><i class="fa fa-check"></i><b>C</b> kawaguchiの課題についての補足</a><ul>
+<li class="chapter" data-level="C.1" data-path="kawaguchi-gmm.html"><a href="kawaguchi-gmm.html#gmmパッケージの解説"><i class="fa fa-check"></i><b>C.1</b> <code>gmm</code>パッケージの解説</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="r-での実装" class="section level1">
+<h1><span class="header-section-number">4</span> R での実装</h1>
+<div id="データのとり方" class="section level2">
+<h2><span class="header-section-number">4.1</span> データのとり方</h2>
+<p>企業の生産関数推定で一番むずかしいのは実はここかもしれない. というのも, 理論上の<span class="math inline">\(K\)</span>や<span class="math inline">\(L\)</span>はどこにも記載されていないからだ.
+これはけっこう地道な計算が必要になる. 例えば企業の決算報告書などから地道に計算する, あるいは日銀やDBJのような政策金融機関が整備しているデータベースをなんらかの手段で見せてもらう,
+などである. あるいは, 農業や工業など資源と生産物の関係が分かりやすい特定の産業だけでを分析の対象とすることもできる. 例えば農業で,
+<span class="math inline">\(K\)</span>を乳牛の頭数, 原材料を飼料, <span class="math inline">\(Y\)</span>をミルクの生産量とした分析も可能だろう (昔見た気がするがすぐには見つけられなかった). 今回はとてもそんなことをしている暇も金もコネもない<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a>ので, 後述する乱数データを使う.</p>
+<p><code>estprod</code>パッケージが, Olley-PakesやLevinsohn-Petrinの方法を実装したという. さらに, このパッケージには練習用の乱数データセットも用意されている.
+この乱数がどのような方法で生成されたかがわからないので, 実質的に動作確認にしかならないが, まずはこれを使ってみた. しかし, 1段階目の推定を検証してみたところ, 残差プロットの形がかなり変になった. 残差プロットが必ず完璧な45度線を引かなけばならない, ということはないが, データの生成方法は分からないこともあって用例として不安である<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a>. よって, <span class="citation">Kawaguchi (<a href="#ref-kawaguchi2019ECON">2019</a>)</span> の課題2に沿って<strong>疑似データを生成してやり直す</strong>ことにした.</p>
+<p>しかし, 去年の講義内容とはいえ課題の答案を勝手に一般公開してしまうのも無配慮すぎる気がするため, <strong>乱数データを作成するプログラムは非公開</strong>として, 当初の課題から乱数シード値などを変更して作成したデータ<code>df_sample</code>, <code>df_ground_truth</code>のみ公開する. 前者は標本データで, 後者は<span class="math inline">\(\omega_{t},p_{t}\)</span>など本来は観測できない変数も見えるようにしたデータである(表<a href="r-での実装.html#tab:var-table">4.1</a>, 以下, 後者を「正解データ」と呼ぶ). 以降はこの<code>df_sample</code>を使ってパラメータを推定する. 推定したい3つのパラメータは元の課題どおり,
+<span class="math inline">\(\beta_{A}=1,\beta_{K}=0.7,\beta_{L}=0.2\)</span>としている.</p>
+<table style="width:100%;">
+<caption><span id="tab:var-table">表4.1: </span> 乱数データの変数対応表</caption>
+<colgroup>
+<col width="5%" />
+<col width="5%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="10%" />
+<col width="8%" />
+<col width="7%" />
+<col width="11%" />
+<col width="10%" />
+<col width="10%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"><code>i</code></th>
+<th align="center"><code>t</code></th>
+<th align="center"><code>k</code></th>
+<th align="center"><code>k_lag</code></th>
+<th align="center"><code>inv</code></th>
+<th align="center"><code>inv_lag</code></th>
+<th align="center"><code>x</code></th>
+<th align="center"><code>y</code></th>
+<th align="center"><code>y_true</code></th>
+<th align="center"><code>omega</code></th>
+<th align="center"><code>p_x</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">標本</td>
+<td align="center">企業ID</td>
+<td align="center"><span class="math inline">\(t\)</span></td>
+<td align="center"><span class="math inline">\(k_{t}\)</span></td>
+<td align="center"><span class="math inline">\(k_{t-1}\)</span></td>
+<td align="center"><span class="math inline">\(\mathit{inv}_{t}\)</span></td>
+<td align="center"><span class="math inline">\(\mathit{inv}_{t-1}\)</span></td>
+<td align="center"><span class="math inline">\(x_{t}\)</span></td>
+<td align="center"><span class="math inline">\(y_{t}\)</span></td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">正解データ</td>
+<td align="center">企業ID</td>
+<td align="center"><span class="math inline">\(t\)</span></td>
+<td align="center"><span class="math inline">\(k_{t}\)</span></td>
+<td align="center"><span class="math inline">\(k_{t-1}\)</span></td>
+<td align="center"><span class="math inline">\(\mathit{inv}_{t}\)</span></td>
+<td align="center"><span class="math inline">\(\mathit{inv}_{t-1}\)</span></td>
+<td align="center"><span class="math inline">\(x_{t}\)</span></td>
+<td align="center"><span class="math inline">\(y_{t}\)</span></td>
+<td align="center">退出しない場合の<span class="math inline">\(y_{t}\)</span></td>
+<td align="center"><span class="math inline">\(\omega_{t}\)</span></td>
+<td align="center"><span class="math inline">\(p_{t}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>なお, 乱数生成したため, 偶然にも一部の企業が全期間で退出している. データとして不自然だが計算には問題ないので修正せずそのままにしている.</p>
+</div>
+<div id="beta_lphiの識別" class="section level2">
+<h2><span class="header-section-number">4.2</span> <span class="math inline">\(\beta_{L},\phi\)</span>の識別</h2>
+<p>1段階目の推定は部分線形カーネル回帰で推定する. これは<code>np</code>パッケージで提供されている. 今回は<code>npplregbw()</code>でデータから最適バンド幅を決定し, 決定したバンド幅を<code>npplreg()</code>に与えて推定する<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a><a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a>. この推定結果を残差プロット等で確認したら, <span class="math inline">\(p_{t}\)</span>の推定を行う. 1段階目のモデル<a href="どう推定するか.html#eq:OP-1st">(3.10)</a>は, 誤差項と相関のある部分線形モデルであり, 単に多項式やスプライン近似を適用しただけでは正しく<span class="math inline">\(\phi\)</span>を推定できないため, <code>npplregbw(formula = y ~ l k + inv)</code>としても誤差項の相関のために<span class="math inline">\(\beta_{L}\)</span>は正しく推定されず, 全く異なる値になる. そこで部分線形モデルとコントロール関数アプローチの併用によって<span class="math inline">\(\beta_{L},\phi\)</span>を識別する. このためには, <code>formula = y ~ l + k | k + inv</code> と指定する. これで, <span class="math inline">\(\beta_{L},\phi\)</span>を識別できるが, もちろんこの時点では <span class="math inline">\(\beta_{K}\)</span>は正しく推定できていない.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"> <span class="co"># somehow `na.action` doesn&#39;t work so we need `drop_na()`</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">bw_1st &lt;-<span class="st"> </span><span class="kw">npplregbw</span>(<span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>l <span class="op">|</span><span class="st"> </span>k <span class="op">+</span><span class="st"> </span>inv, <span class="dt">data =</span> df_sample <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>(y, k, l, inv))</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">fit_1st_np &lt;-<span class="st"> </span><span class="kw">npplreg</span>(bw_1st)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">summary</span>(fit_1st_np)</a></code></pre></div>
+<p>なお, <code>np</code>パッケージのノンパラメトリック回帰は計算負荷がけっこうある. そこで, 面倒だったらOlleyらと同様に以下のような多項式近似でごまかしても良い.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>l <span class="op">+</span><span class="st"> </span><span class="kw">poly</span>(k, inv, <span class="dt">degree =</span> q), <span class="dt">data =</span> df_sample)</a></code></pre></div>
+<p><code>degree = q</code> は多項式の次数で, <code>formula</code>を評価する際には<span class="math inline">\(\sum_{r\leq q}k_{t}^{r}\mathit{inv}_{t}^{q-r}\)</span> と認識される. 何も考えずに <code>degree = 4</code> としてもそこそこそれらしい値を推定できるが<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a>, Olleyのやるように推定値とMSEが安定する次数を選ぶのがスマートだろう. しかし残念ながら <code>stats::step()</code> 関数には <code>poly()</code> の次数を調整する機能がないので, ループ処理か予め決めた次数までを並列処理して比較する必要がある. そこで, 以下のように10次までの多項式あてはめを一度に実行する処理を書いた<a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">42</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">df_fit_1st_poly &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">q=</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">model =</span> <span class="kw">map</span>(q, <span class="cf">function</span>(q){</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="cf">if</span>(q <span class="op">==</span><span class="st"> </span><span class="dv">1</span>){</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">      poly_term &lt;-<span class="st"> &quot;+ k&quot;</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">    } <span class="cf">else</span>{</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">      poly_term &lt;-<span class="st">  </span><span class="kw">paste</span>(<span class="st">&quot;+ poly(k, inv, degree =&quot;</span>, q, <span class="st">&quot;)&quot;</span>)</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">    }</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="kw">lm</span>(<span class="kw">as.formula</span>(<span class="kw">paste</span>(<span class="st">&quot;y ~ 1 + l + k&quot;</span>, poly_term )), <span class="dt">data =</span> df_sample)</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">  })) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">    <span class="dt">rmse =</span> <span class="kw">map_dbl</span>(model, <span class="cf">function</span>(x) <span class="kw">sqrt</span>(<span class="kw">mean</span>(x<span class="op">$</span>residuals<span class="op">^</span><span class="dv">2</span>))),</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">    <span class="dt">coef =</span> <span class="kw">map</span>(model, <span class="cf">function</span>(x) <span class="kw">enframe</span>(<span class="kw">coef</span>(x)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;k&quot;</span>, <span class="st">&quot;l&quot;</span>)))</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">  ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unnest</span>(coef) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> name, <span class="dt">values_from =</span> value)</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co"># we select 5th order, the estimate of beta_l = .161</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">fit_1st_poly &lt;-<span class="st"> </span>df_fit_1st_poly<span class="op">$</span>model[[<span class="dv">5</span>]]</a></code></pre></div>
+<p>ところで, 現在はノンパラメトリックな回帰モデルとして<strong>スプライン回帰</strong>の研究が進んでいる(基本的な事項は <span class="citation">Hastie, Tibshriani, and Friedman (<a href="#ref-HstieTibshrianiFriedman2009">2009</a>)</span>, Ch. 5), <span class="citation">坂本, 井筒, and 白旗 (<a href="#ref-SakamotoEtAl2009">2009</a>)</span> などを参照). スプライン回帰にもバリエーションがあるが, 典型的なものは区間ごとに異なる次数の多項式で表現するため,
+単純な多項式近似よりも表現の自由度の高い非線形近似の方法である. さらに<code>SemiPar::spm()</code>は部分線形モデルに対しても罰則付き最尤推定という方法で当てはめたスプライン回帰を計算することができる. 表現の自由度で言えばカーネル回帰のほうがさらに優れているが, 計算時間はこちらのほうが少ない. 多項式近似である程度うまくいくのだからスプライン回帰でもうまくいくと思ったのだが, なぜかうまく行かない. 原因を調べるのがめんどくさくなったので読者の課題とする.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">tmp &lt;-<span class="st"> </span><span class="kw">select</span>(df_sample, y, k, l, inv)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">f_spm &lt;-<span class="st"> </span><span class="kw">spm</span>(<span class="dt">form =</span> tmp<span class="op">$</span>y <span class="op">~</span><span class="st"> </span>tmp<span class="op">$</span>l <span class="op">+</span><span class="st"> </span><span class="kw">f</span>(tmp<span class="op">$</span>k, tmp<span class="op">$</span>inv), <span class="dt">omit.missing =</span> T)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">summary</span>(f_spm)</a></code></pre></div>
+</div>
+<div id="存続確率の推定" class="section level2">
+<h2><span class="header-section-number">4.3</span> 存続確率の推定</h2>
+<p>Olleyは, 理論モデルの仮定から<span class="math inline">\(p_{t+1}\)</span>を決定する関数は<span class="math inline">\(k_{t},\mathit{inv}_{t}\)</span>の2変数関数で表現できることから, この2変数を使ったプロビットモデル(ロジットリンク関数を標準正規分布に置き換えたもの)と多項式近似またはカーネル回帰を組み合わせて確率を推定している.</p>
+<p>今回は正解が分かっているため, <span class="math inline">\(p_{t+1}\)</span>と<span class="math inline">\(k_{t},\mathit{inv}_{t}\)</span>の関係を知ることができる. 2変数の散布図とカーネル回帰で近似曲線を当てはめたものが以下のようになる. プロビットモデルならば, <span class="math inline">\(p_{t+1}\)</span>を標準正規分布の逆分布関数 (分位点関数)で変換した値と説明変数が線形相関していれば, その説明変数を使うことで当てはまりの良いモデルができると予想できる. しかし, 図<a href="r-での実装.html#fig:prob-corr">4.1</a>からわかるように, 2つの説明変数との相関関係はいずれもあまり直線的でないことがわかる.</p>
+<div class="figure" style="text-align: center"><span id="fig:prob-corr"></span>
+<img src="20200120_econ_files/figure-html/prob-corr-1.png" alt="真の確率と説明変数の相関" width="75%" />
+<p class="caption">
+図4.1: 真の確率と説明変数の相関
+</p>
+</div>
+<p>よって, 単なる一般化線形回帰ではなく, より複雑な非線形近似方法を使う必要があるとわかる. Rでは多項式プロビット回帰は<code>glm()</code>と<code>poly()</code>の組み合わせで,
+例えば以下のようにして計算できる. ここでも次数をデータの当てはまりで決定するため<span class="math inline">\(\beta_L\)</span>の推定と同様に次数を変えて並列処理している.</p>
+<p>1段階目で使用した<code>np</code>パッケージは線形回帰のみ対応しているため, プロビットモデルの推定はできない. 他のRのパッケージでは,
+例えば各変数をスプライン補間などで非線形変換した<strong>一般化加法的モデル</strong> (GAM<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a>)を計算できる<code>mgcv</code>パッケージ, 一般化ガウシアンカーネル回帰のできる<code>bkmr</code>パッケージや, <strong>一般化部分線形モデル</strong>を計算できる<code>gplm</code>などがある. これらはいずれもノンパラメトリックあるいはセミパラメトリックなモデルと呼ばれるが, それぞれ表現方法が違うため, 当てはまりの良さも変わってくる<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a>. また, このパートではそもそも係数の推定が不要なので, 確率さえ推定できているならランダムフォレストのような自由度の高いモデルでも問題ないだろう<a href="#fn39" class="footnote-ref" id="fnref39"><sup>39</sup></a>. 今回は<code>mgcv</code>, <code>bkmr</code>, <code>gplm</code>, <code>ranger</code>などを使って推定してみた.</p>
+<p>なおKawaguchiの課題では退出行動を省略しているのでこのパートは存在しない.</p>
+</div>
+<div id="beta_abeta_kの推定" class="section level2">
+<h2><span class="header-section-number">4.4</span> <span class="math inline">\(\beta_{A},\beta_{K}\)</span>の推定</h2>
+<p>最後の推定は, <span class="math inline">\(\omega_{t}\)</span>を推定し, さらに企業の退出行動によるサンプルセレクションバイアスを補正するための計算である.</p>
+<p>まず, 計算の無駄をなくすためにの関数のように推定に必要なラグ項をデータフレーム側で作成しておく. <code>mutate()</code>関数内で<code>dplyr::lag()</code>を使えばそれぞれのラグ項を得られる<a href="#fn40" class="footnote-ref" id="fnref40"><sup>40</sup></a>. 元のパネルデータを<code>df_sample</code>, 1段階目の推定結果を<code>fit_1st</code>として, 2段階目の推定のためのデータセット<code>df_sample_2nd</code>を作成している.
+<code>y_bl</code>, <code>phi</code>, <code>p_x</code> はそれぞれ<span class="math inline">\(y_{t}-\hat{\beta}_{L}l_{t},\hat{\phi}_{t},p_{t}\)</span>に対応する.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">make_2nd_sample &lt;-<span class="st"> </span><span class="cf">function</span>(data, beta_l, phi, p_x){</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">      <span class="dt">bl =</span> l <span class="op">*</span><span class="st"> </span>beta_l <span class="op">*</span><span class="st"> </span>l,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">      <span class="dt">y_bl =</span> y <span class="op">-</span><span class="st"> </span>bl,</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">      <span class="dt">phi =</span> phi,</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">      <span class="dt">p_x =</span> p_x</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="st">    </span><span class="kw">arrange</span>(i, t) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(i) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">      <span class="dt">phi_lag =</span> <span class="kw">lag</span>(phi),</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">    ) <span class="op">%&gt;%</span><span class="st"> </span>ungroup</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">}</a></code></pre></div>
+<p>ここで一旦, 実際には観測できない <span class="math inline">\(\beta_{L},\omega_{t}\)</span>の情報を使って<span class="math inline">\(\beta_{K}\)</span>を正しく推定できることを確認してみる. 以下のように<span class="math inline">\(y_{t}-\beta_{L}l_{t}-\omega_{t}\)</span>に対して線形回帰をした結果, <span class="math inline">\(\beta_{A}=1.00,\beta_{K}=0.70\)</span>とほぼ正確な値が出ている.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">lm</span>(<span class="dt">formula =</span> y_bl <span class="op">-</span><span class="st"> </span>omega <span class="op">~</span><span class="st"> </span>k, <span class="dt">data =</span> df_ground_truth_2nd) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Estimate</th>
+<th align="right">Std. Error</th>
+<th align="right">t value</th>
+<th align="right">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Intercept)</td>
+<td align="right">0.851</td>
+<td align="right">0.008</td>
+<td align="right">112.044</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>k</td>
+<td align="right">0.700</td>
+<td align="right">0.008</td>
+<td align="right">88.000</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>しかし, 実際には<span class="math inline">\(\omega_{t}\)</span>は不明であり, 1段階目で推定した<span class="math inline">\(h_{t}\)</span>と確率<span class="math inline">\(p_{t}\)</span>から推定する<a href="#fn41" class="footnote-ref" id="fnref41"><sup>41</sup></a>. Olleyらの方法と同様に多項式近似による非線形最小二乗法で計算する.</p>
+<p>なお再び正解データを覗き見すると, <span class="math inline">\(\hat{\phi}_{t},\hat{p}_{t+1}\)</span>と<span class="math inline">\(\omega_{t+1}\)</span>の関係はそれぞれ図<a href="r-での実装.html#fig:omega-corr">4.2</a>のようになっている.</p>
+<div class="figure" style="text-align: center"><span id="fig:omega-corr"></span>
+<img src="20200120_econ_files/figure-html/omega-corr-1.png" alt="$\hat{\phi}_{t},\hat{p}_{t+1}$と$\omega_{t+1}$の正解データとの相関関係" width="75%" />
+<p class="caption">
+図4.2: <span class="math inline">\(\hat{\phi}_{t},\hat{p}_{t+1}\)</span>と<span class="math inline">\(\omega_{t+1}\)</span>の正解データとの相関関係
+</p>
+</div>
+<p>非線形最小二乗法の計算は<code>stats::nls()</code>関数が提供されており, この関数は<code>formula</code>で記述できたり, <code>lm()</code>のように標準誤差を計算してくれたりする. しかし今回は多項式部分を<code>formula</code>で記述するのがやや面倒なのと, <code>nls()</code>の計算する標準誤差が意味をなさないため, <code>optim()</code>関数で計算する. 目的関数は以下のように, 任意の次数の<a href="どう推定するか.html#eq:OP-final">(3.12)</a>のMSEを計算できるような関数を作った.</p>
+<p><span class="math inline">\(p_{t},h_{t}\)</span>の交差項を含む<span class="math inline">\(q\)</span>次多項式の第<span class="math inline">\(d\)</span>次項は<span class="math inline">\(d+1\)</span>個存在するため, 1次から<span class="math inline">\(d-1\)</span>次までの項の総数は<span class="math inline">\(\sum_{i=1}^{d}i\)</span>, 項の総数は<span class="math inline">\(\sum_{d=1}^{q}(d+1)\)</span>個であるから, 上記のように<code>purrr::map_dfc()</code>, <code>purrr::reduce()</code>を入れ子にして計算した<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a>. なお, 数値計算上の観点から初期値にも注意する必要がある. これは補遺<a href="init.html#init">A</a>で詳しく説明している. また, Olleyらはさらにここでもカーネル回帰も試しているが, パラメータが含まれる非線形式のカーネル回帰は自分で1から書かなければならず面倒になったので今回は省略する.</p>
+<p>そして標準誤差を代わりに (ノンパラメトリック) <strong>ブートストラップ法</strong>で計算する. ブートストラップ法による標準誤差の計算方法は補遺<a href="boot.html#boot">B</a>で補足説明している.</p>
+<p>以上で説明した内容は, Githubリポジトリの<code>all_public.R</code>にまとめてある.</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-HstieTibshrianiFriedman2009">
+<p>Hastie, Trevor, Robert Tibshriani, and Jerome Friedman. 2009. <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</em>. 2nd ed. Springer. <a href="https://web.stanford.edu/~hastie/ElemStatLearn/">https://web.stanford.edu/~hastie/ElemStatLearn/</a>.</p>
+</div>
+<div id="ref-kawaguchi2019ECON">
+<p>Kawaguchi, Kohei. 2019. “ECON 6120I Topics in Empirical Industrial Organization.” <a href="https://kohei-kawaguchi.github.io/EmpiricalIO/">https://kohei-kawaguchi.github.io/EmpiricalIO/</a>.</p>
+</div>
+<div id="ref-SakamotoEtAl2009">
+<p>坂本, 亘, 井筒理人, and 白旗慎吾. 2009. “罰則付きスプラインによる非線形回帰構造の推測.” <em>計算機統計学</em> 21 (1-2): 55–94. <a href="https://doi.org/10.20551/jscswabun.21.1-2_55">https://doi.org/10.20551/jscswabun.21.1-2_55</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="31">
+<li id="fn31"><p>いくつかの計量経済学の教科書の著者は練習問題用にデータセットを公開している. 例えば <a href="http://fmwww.bc.edu/ec-p/data/wooldridge/datasets.list.html">Wooldridge data sets</a>, <a href="http://fhayashi.fc2web.com/datasets.htm">Datasets for empirical exercises in Econometrics</a> など. しかし, 今回の問題に適した企業別パネルデータは見つけられなかった.<a href="r-での実装.html#fnref31" class="footnote-back">↩</a></p></li>
+<li id="fn32"><p>このパッケージはCRANに登録されているものの, 作者のプロフィールがよくわからない. また, <a href="https://github.com/cran/estprod">githubリポジトリ</a>にもほとんど関心が集まっていないため, 動作がどの程度適切なのかあまり確認が進んでいなさそうだ. あと, <code>coefs()</code>, <code>predict()</code>, といった<code>stats</code>の基本関数にも対応していない. もちろん<code>stargazer</code>に対応していないし, <code>estimatr</code>にも収録されていない. 他にも, 企業退出を考慮しているように見えて実は不均衡パネルデータを想定した実装になっていないなどの問題があった.<a href="r-での実装.html#fnref32" class="footnote-back">↩</a></p></li>
+<li id="fn33"><p>Olleyら本来のやり方を踏襲するなら, 時点ごとに分けて当てはめるのが正統だが, 今回はプール推定する.<a href="r-での実装.html#fnref33" class="footnote-back">↩</a></p></li>
+<li id="fn34"><p>なお, <code>np</code>パッケージに与えるデータを<code>tibble</code>で与えるとエラーが出る(しかも一見関係ないメッセージ)ので注意する. また, デフォルト設定である <code>na.action = stats::na.omit</code> で欠損値を含むレコードを除外して計算するはずだが, なぜか機能しない. そのため入力データから欠損値を除外する処理を自分で書かなければならない.<a href="r-での実装.html#fnref34" class="footnote-back">↩</a></p></li>
+<li id="fn35"><p>今回これでもうまくいくのは, データの生成過程が単純だからである. 実際のデータに応用するときは, データの特性, つまりどういう現象から取得したデータなのかをよく考えて方法を柔軟に変えねばならない.<a href="r-での実装.html#fnref35" class="footnote-back">↩</a></p></li>
+<li id="fn36"><p><code>estimatr</code>や<code>tidymodels</code>などならもっと簡単に書けないかとも考えたが, これらのパッケージは今回使う推定方法に意外と対応していない.<a href="r-での実装.html#fnref36" class="footnote-back">↩</a></p></li>
+<li id="fn37"><p>参考: <span class="citation">Hastie, Tibshriani, and Friedman (<a href="#ref-HstieTibshrianiFriedman2009">2009</a>)</span>, Ch. 9), <a href="http://ibis.t.u-tokyo.ac.jp/suzuki/lecture/2015/dataanalysis/L12.pdf">鈴木大慈の講義スライド</a>, あるいは言語研究者からの観点だが『<a href="http://www.akira-murakami.com/?p=320">GLMM/GA(M)Mの文献案内</a>』で挙げられているリストも興味深い. また, <a href="http://ill-identified.hatenablog.com/entry/2018/05/28/020224">以前紹介</a>したprophetのモデルも一般化加法的モデルの一種である.<a href="r-での実装.html#fnref37" class="footnote-back">↩</a></p></li>
+<li id="fn38"><p>この場でこういったノンパラメトリック回帰の方法まで細かく説明するのは面倒なのでしない. GAMやカーネル回帰はとりあえず <span class="citation">Hastie, Tibshriani, and Friedman (<a href="#ref-HstieTibshrianiFriedman2009">2009</a>)</span>, ch. 5 の教科書を読んで欲しい. または <span class="citation">Li and Racine (<a href="#ref-li2007Nonparametric">2007</a>)</span> の教科書か. それ以外の細かい話は各パッケージのマニュアルで参照されている論文を読んでほしい.<a href="r-での実装.html#fnref38" class="footnote-back">↩</a></p></li>
+<li id="fn40"><p><code>plm</code>と<code>stats</code>にも<code>lag()</code>関数があるが, こちらは<code>mutate()</code>内で使用しても評価されないし, エラーも発生しないため, 呼び出し順に注意. あるいは <code>conflicted</code>パッケージも併用すると良いだろう. このパッケージの解説は『<a href="https://uribo.hatenablog.com/entry/2018/09/29/103632">名前空間の衝突をconflictedパッケージで防ぐ</a>』でなされている.<a href="r-での実装.html#fnref40" class="footnote-back">↩</a></p></li>
+<li id="fn41"><p>欠測メカニズムが分かっている場合, セレクションバイアスを補正する<strong>Heckmanの選択モデル</strong> (Heckit, or Type-II Tobit)モデルが応用できる場合がある. しかし今回は欠測確率<span class="math inline">\(p_{t}\)</span>が<span class="math inline">\(k_{t}\)</span>に影響して決まるため, Heckitは意味をなさない.<a href="r-での実装.html#fnref41" class="footnote-back">↩</a></p></li>
+<li id="fn42"><p>実際にはこういう複雑な計算に出くわしたら何も考えずに<code>rcpp</code>に切り替えて<code>for</code>文で書いたほうが効率が良い気もする.<a href="r-での実装.html#fnref42" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="どう推定するか.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="結果.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["20200120_econ.pdf"],
+"toc": {
+"collapse": "subsection",
+"download": "pdf"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 結果 | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact</title>
+  <meta name="description" content="Tokyo.Rの続き" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 結果 | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Tokyo.Rの続き" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 結果 | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact" />
+  
+  <meta name="twitter:description" content="Tokyo.Rの続き" />
+  
+
+<meta name="author" content="ill-identified" />
+
+
+<meta name="date" content="2020-02-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="r-での実装.html"/>
+<link rel="next" href="まとめ.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Top</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 概要</a></li>
+<li class="chapter" data-level="2" data-path="イントロダクション.html"><a href="イントロダクション.html"><i class="fa fa-check"></i><b>2</b> イントロダクション</a><ul>
+<li class="chapter" data-level="2.1" data-path="イントロダクション.html"><a href="イントロダクション.html#構造推定とは"><i class="fa fa-check"></i><b>2.1</b> 構造推定とは</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="イントロダクション.html"><a href="イントロダクション.html#構造方程式モデリング"><i class="fa fa-check"></i><b>2.1.1</b> 構造方程式モデリング</a></li>
+<li class="chapter" data-level="2.1.2" data-path="イントロダクション.html"><a href="イントロダクション.html#構造時系列モデル"><i class="fa fa-check"></i><b>2.1.2</b> 構造時系列モデル</a></li>
+<li class="chapter" data-level="2.1.3" data-path="イントロダクション.html"><a href="イントロダクション.html#構造型モデル"><i class="fa fa-check"></i><b>2.1.3</b> 構造型モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="イントロダクション.html"><a href="イントロダクション.html#因果推論と何が違うのか"><i class="fa fa-check"></i><b>2.2</b> 因果推論と何が違うのか</a></li>
+<li class="chapter" data-level="2.3" data-path="イントロダクション.html"><a href="イントロダクション.html#今回取り組む問題"><i class="fa fa-check"></i><b>2.3</b> 今回取り組む問題</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="どう推定するか.html"><a href="どう推定するか.html"><i class="fa fa-check"></i><b>3</b> どう推定するか</a><ul>
+<li class="chapter" data-level="3.1" data-path="どう推定するか.html"><a href="どう推定するか.html#なぜ生産関数を知りたいのか"><i class="fa fa-check"></i><b>3.1</b> なぜ生産関数を知りたいのか</a></li>
+<li class="chapter" data-level="3.2" data-path="どう推定するか.html"><a href="どう推定するか.html#パネルデータ分析と観測されない効果"><i class="fa fa-check"></i><b>3.2</b> パネルデータ分析と観測されない効果</a></li>
+<li class="chapter" data-level="3.3" data-path="どう推定するか.html"><a href="どう推定するか.html#動学パネルデータ分析"><i class="fa fa-check"></i><b>3.3</b> 動学パネルデータ分析</a></li>
+<li class="chapter" data-level="3.4" data-path="どう推定するか.html"><a href="どう推定するか.html#企業内部の意思決定を考える"><i class="fa fa-check"></i><b>3.4</b> 企業内部の意思決定を考える</a></li>
+<li class="chapter" data-level="3.5" data-path="どう推定するか.html"><a href="どう推定するか.html#opモデルの回帰モデルとしての意味"><i class="fa fa-check"></i><b>3.5</b> OPモデルの回帰モデルとしての意味</a></li>
+<li class="chapter" data-level="3.6" data-path="どう推定するか.html"><a href="どう推定するか.html#モデルの事後診断"><i class="fa fa-check"></i><b>3.6</b> モデルの事後診断</a></li>
+<li class="chapter" data-level="3.7" data-path="どう推定するか.html"><a href="どう推定するか.html#op法以降の研究"><i class="fa fa-check"></i><b>3.7</b> OP法以降の研究</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="r-での実装.html"><a href="r-での実装.html"><i class="fa fa-check"></i><b>4</b> R での実装</a><ul>
+<li class="chapter" data-level="4.1" data-path="r-での実装.html"><a href="r-での実装.html#データのとり方"><i class="fa fa-check"></i><b>4.1</b> データのとり方</a></li>
+<li class="chapter" data-level="4.2" data-path="r-での実装.html"><a href="r-での実装.html#beta_lphiの識別"><i class="fa fa-check"></i><b>4.2</b> <span class="math inline">\(\beta_{L},\phi\)</span>の識別</a></li>
+<li class="chapter" data-level="4.3" data-path="r-での実装.html"><a href="r-での実装.html#存続確率の推定"><i class="fa fa-check"></i><b>4.3</b> 存続確率の推定</a></li>
+<li class="chapter" data-level="4.4" data-path="r-での実装.html"><a href="r-での実装.html#beta_abeta_kの推定"><i class="fa fa-check"></i><b>4.4</b> <span class="math inline">\(\beta_{A},\beta_{K}\)</span>の推定</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="結果.html"><a href="結果.html"><i class="fa fa-check"></i><b>5</b> 結果</a></li>
+<li class="chapter" data-level="6" data-path="まとめ.html"><a href="まとめ.html"><i class="fa fa-check"></i><b>6</b> まとめ</a></li>
+<li class="appendix"><span><b>補遺</b></span></li>
+<li class="chapter" data-level="A" data-path="init.html"><a href="init.html"><i class="fa fa-check"></i><b>A</b> 数値計算上に関係する実装上の注意</a></li>
+<li class="chapter" data-level="B" data-path="boot.html"><a href="boot.html"><i class="fa fa-check"></i><b>B</b> ブートストラップ標準誤差</a></li>
+<li class="chapter" data-level="C" data-path="kawaguchi-gmm.html"><a href="kawaguchi-gmm.html"><i class="fa fa-check"></i><b>C</b> kawaguchiの課題についての補足</a><ul>
+<li class="chapter" data-level="C.1" data-path="kawaguchi-gmm.html"><a href="kawaguchi-gmm.html#gmmパッケージの解説"><i class="fa fa-check"></i><b>C.1</b> <code>gmm</code>パッケージの解説</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="結果" class="section level1">
+<h1><span class="header-section-number">5</span> 結果</h1>
+<p>FE, RDなどの内生性を想定しないパネルデータの方法と, Arellano-Bondの階差GMMなどの動学パネルデータモデル, OPの方法, そして<a href="kawaguchi-gmm.html#kawaguchi-gmm">C</a>で詳しく紹介するKawaguchiの課題での方法のそれぞれの推定結果を図<a href="結果.html#fig:result">5.1</a>に示す<a href="#fn43" class="footnote-ref" id="fnref43"><sup>43</sup></a>. OPの方法は, 多項式回帰とカーネル回帰の両方を試したいところだが, カーネル回帰は既存のパッケージを使いまわせず実装にも時間がかかるので省略した.
+また, 確率推定をGAMやランダムフォレストに置き換えたケースについても, 結果にほとんど違いがなかったため省略した.
+Kawaguchiの課題では一般化モーメント法(GMM)で計算しており, その条件の特定は今回のデータとも合致しているが退出行動を省略しているためバイアスが発生することが予想できる(やる気があれば本来の課題との結果の違いを比較すると面白いだろう).</p>
+<div class="figure" style="text-align: center"><span id="fig:result"></span>
+<img src="20200120_econ_files/figure-html/result-1.png" alt="推定結果" width="75%" />
+<p class="caption">
+図5.1: 推定結果
+</p>
+</div>
+<p>それ以外の方法については, 推定された係数のバイアス(真値との差)のみ一覧表を掲載する<a href="結果.html#tab:result-table">5.1</a></p>
+<table>
+<caption><span id="tab:result-table">表5.1: </span>各推定のバイアス</caption>
+<thead>
+<tr class="header">
+<th align="left">Model</th>
+<th align="right">beta[A]</th>
+<th align="right">beta[K]</th>
+<th align="right">beta[L]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">OP_poly</td>
+<td align="right">-0.250</td>
+<td align="right">-0.046</td>
+<td align="right">0.206</td>
+</tr>
+<tr class="even">
+<td align="left">OP_GAM</td>
+<td align="right">-0.244</td>
+<td align="right">-0.047</td>
+<td align="right">0.200</td>
+</tr>
+<tr class="odd">
+<td align="left">OP_RF</td>
+<td align="right">-0.242</td>
+<td align="right">0.032</td>
+<td align="right">0.130</td>
+</tr>
+<tr class="even">
+<td align="left">OLS</td>
+<td align="right">-0.100</td>
+<td align="right">0.794</td>
+<td align="right">-0.696</td>
+</tr>
+<tr class="odd">
+<td align="left">Within</td>
+<td align="right">1.335</td>
+<td align="right">0.791</td>
+<td align="right">-0.746</td>
+</tr>
+<tr class="even">
+<td align="left">Between</td>
+<td align="right">-0.103</td>
+<td align="right">0.791</td>
+<td align="right">-0.690</td>
+</tr>
+<tr class="odd">
+<td align="left">Twoway</td>
+<td align="right">1.331</td>
+<td align="right">0.792</td>
+<td align="right">-0.741</td>
+</tr>
+<tr class="even">
+<td align="left">FD</td>
+<td align="right">-0.999</td>
+<td align="right">0.780</td>
+<td align="right">-0.804</td>
+</tr>
+<tr class="odd">
+<td align="left">RE</td>
+<td align="right">-0.100</td>
+<td align="right">0.794</td>
+<td align="right">-0.696</td>
+</tr>
+<tr class="even">
+<td align="left">AB_twoway</td>
+<td align="right">1.440</td>
+<td align="right">0.840</td>
+<td align="right">-0.833</td>
+</tr>
+<tr class="odd">
+<td align="left">AB_indivi</td>
+<td align="right">1.550</td>
+<td align="right">0.818</td>
+<td align="right">-0.987</td>
+</tr>
+<tr class="even">
+<td align="left">BB_twoway</td>
+<td align="right">1.508</td>
+<td align="right">0.823</td>
+<td align="right">-0.931</td>
+</tr>
+<tr class="odd">
+<td align="left">BB_indivi</td>
+<td align="right">6.133</td>
+<td align="right">1.119</td>
+<td align="right">-6.326</td>
+</tr>
+<tr class="even">
+<td align="left">GMM (Kawaguchi)</td>
+<td align="right">0.079</td>
+<td align="right">0.038</td>
+<td align="right">-0.311</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="43">
+<li id="fn43"><p>estprod`はOP法の実装といいつつ企業の途中退出を考慮していない上, 退出のないデータに当てはめても全く違う結果が帰ってきたので<strong>なかったことにした</strong>. また, 今回書いたOP法の各バリエーションは結果がほとんど変わらなかったため多項式の場合のみを代表して掲載し, AB/BB推定量はあまりにも誤差が大きいため掲載を省略した.<a href="結果.html#fnref43" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="r-での実装.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="まとめ.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["20200120_econ.pdf"],
+"toc": {
+"collapse": "subsection",
+"download": "pdf"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

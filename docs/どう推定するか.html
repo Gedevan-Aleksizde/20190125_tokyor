@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 どう推定するか | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact</title>
+  <meta name="description" content="Tokyo.Rの続き" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 どう推定するか | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Tokyo.Rの続き" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 どう推定するか | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact" />
+  
+  <meta name="twitter:description" content="Tokyo.Rの続き" />
+  
+
+<meta name="author" content="ill-identified" />
+
+
+<meta name="date" content="2020-02-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="イントロダクション.html"/>
+<link rel="next" href="r-での実装.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Top</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 概要</a></li>
+<li class="chapter" data-level="2" data-path="イントロダクション.html"><a href="イントロダクション.html"><i class="fa fa-check"></i><b>2</b> イントロダクション</a><ul>
+<li class="chapter" data-level="2.1" data-path="イントロダクション.html"><a href="イントロダクション.html#構造推定とは"><i class="fa fa-check"></i><b>2.1</b> 構造推定とは</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="イントロダクション.html"><a href="イントロダクション.html#構造方程式モデリング"><i class="fa fa-check"></i><b>2.1.1</b> 構造方程式モデリング</a></li>
+<li class="chapter" data-level="2.1.2" data-path="イントロダクション.html"><a href="イントロダクション.html#構造時系列モデル"><i class="fa fa-check"></i><b>2.1.2</b> 構造時系列モデル</a></li>
+<li class="chapter" data-level="2.1.3" data-path="イントロダクション.html"><a href="イントロダクション.html#構造型モデル"><i class="fa fa-check"></i><b>2.1.3</b> 構造型モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="イントロダクション.html"><a href="イントロダクション.html#因果推論と何が違うのか"><i class="fa fa-check"></i><b>2.2</b> 因果推論と何が違うのか</a></li>
+<li class="chapter" data-level="2.3" data-path="イントロダクション.html"><a href="イントロダクション.html#今回取り組む問題"><i class="fa fa-check"></i><b>2.3</b> 今回取り組む問題</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="どう推定するか.html"><a href="どう推定するか.html"><i class="fa fa-check"></i><b>3</b> どう推定するか</a><ul>
+<li class="chapter" data-level="3.1" data-path="どう推定するか.html"><a href="どう推定するか.html#なぜ生産関数を知りたいのか"><i class="fa fa-check"></i><b>3.1</b> なぜ生産関数を知りたいのか</a></li>
+<li class="chapter" data-level="3.2" data-path="どう推定するか.html"><a href="どう推定するか.html#パネルデータ分析と観測されない効果"><i class="fa fa-check"></i><b>3.2</b> パネルデータ分析と観測されない効果</a></li>
+<li class="chapter" data-level="3.3" data-path="どう推定するか.html"><a href="どう推定するか.html#動学パネルデータ分析"><i class="fa fa-check"></i><b>3.3</b> 動学パネルデータ分析</a></li>
+<li class="chapter" data-level="3.4" data-path="どう推定するか.html"><a href="どう推定するか.html#企業内部の意思決定を考える"><i class="fa fa-check"></i><b>3.4</b> 企業内部の意思決定を考える</a></li>
+<li class="chapter" data-level="3.5" data-path="どう推定するか.html"><a href="どう推定するか.html#opモデルの回帰モデルとしての意味"><i class="fa fa-check"></i><b>3.5</b> OPモデルの回帰モデルとしての意味</a></li>
+<li class="chapter" data-level="3.6" data-path="どう推定するか.html"><a href="どう推定するか.html#モデルの事後診断"><i class="fa fa-check"></i><b>3.6</b> モデルの事後診断</a></li>
+<li class="chapter" data-level="3.7" data-path="どう推定するか.html"><a href="どう推定するか.html#op法以降の研究"><i class="fa fa-check"></i><b>3.7</b> OP法以降の研究</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="r-での実装.html"><a href="r-での実装.html"><i class="fa fa-check"></i><b>4</b> R での実装</a><ul>
+<li class="chapter" data-level="4.1" data-path="r-での実装.html"><a href="r-での実装.html#データのとり方"><i class="fa fa-check"></i><b>4.1</b> データのとり方</a></li>
+<li class="chapter" data-level="4.2" data-path="r-での実装.html"><a href="r-での実装.html#beta_lphiの識別"><i class="fa fa-check"></i><b>4.2</b> <span class="math inline">\(\beta_{L},\phi\)</span>の識別</a></li>
+<li class="chapter" data-level="4.3" data-path="r-での実装.html"><a href="r-での実装.html#存続確率の推定"><i class="fa fa-check"></i><b>4.3</b> 存続確率の推定</a></li>
+<li class="chapter" data-level="4.4" data-path="r-での実装.html"><a href="r-での実装.html#beta_abeta_kの推定"><i class="fa fa-check"></i><b>4.4</b> <span class="math inline">\(\beta_{A},\beta_{K}\)</span>の推定</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="結果.html"><a href="結果.html"><i class="fa fa-check"></i><b>5</b> 結果</a></li>
+<li class="chapter" data-level="6" data-path="まとめ.html"><a href="まとめ.html"><i class="fa fa-check"></i><b>6</b> まとめ</a></li>
+<li class="appendix"><span><b>補遺</b></span></li>
+<li class="chapter" data-level="A" data-path="init.html"><a href="init.html"><i class="fa fa-check"></i><b>A</b> 数値計算上に関係する実装上の注意</a></li>
+<li class="chapter" data-level="B" data-path="boot.html"><a href="boot.html"><i class="fa fa-check"></i><b>B</b> ブートストラップ標準誤差</a></li>
+<li class="chapter" data-level="C" data-path="kawaguchi-gmm.html"><a href="kawaguchi-gmm.html"><i class="fa fa-check"></i><b>C</b> kawaguchiの課題についての補足</a><ul>
+<li class="chapter" data-level="C.1" data-path="kawaguchi-gmm.html"><a href="kawaguchi-gmm.html#gmmパッケージの解説"><i class="fa fa-check"></i><b>C.1</b> <code>gmm</code>パッケージの解説</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="どう推定するか" class="section level1">
+<h1><span class="header-section-number">3</span> どう推定するか</h1>
+<p>経済学部の計量経済学の講義では, <strong>回帰分析</strong>で生産関数の推定をやるところも多いと思う. 前節の生産関数は, <span class="math inline">\(Y\)</span>を<strong>被説明変数</strong>, <span class="math inline">\(K,L\)</span> を<strong>説明変数</strong>としても線形式ではない. しかし, <span class="math inline">\(Y,K,L\)</span>がいずれもゼロ以下になりえないことに着目すると, 対数を取って以下のようになる(いわゆる<strong>対数線形回帰モデル</strong>).
+<span class="math display">\[\begin{gathered}\ln Y=\ln\alpha+\beta_{K}\ln K+\beta_{L}\ln L\end{gathered}\]</span>
+となる. つまり, <strong>おなじみの最小二乗法</strong>(OLS)<strong>で計算できる</strong>. 観測できなかった<span class="math inline">\(\alpha\)</span>も, 切片パラメータ として推定できることになる. 以降はそれぞれの対数を<span class="math inline">\(y,\beta_{A},k,l\)</span>に置き換えて,
+<span class="math display" id="eq:prod-log-linear">\[\begin{aligned}
+y &amp;= \beta_{A}+\beta_{K}k+\beta_{L}l+\varepsilon\end{aligned}\tag{3.1}\]</span>
+という線形回帰モデルを考える. しかし以前書いたように, 経済学の文脈では非線形だろうが線形式だろうがデータに関数を当てはめただけでは用をなさない. 経済理論に即して, 発生しうる問題を排除した方法で推定しなければならない. つまり, 現在ではOLSでは生産関数のパラメータを<strong>推定するには不十分</strong>と考えられている.</p>
+<p>発表時間の問題から, スライドでは大幅に省略しているが, ここでは冗長気味にパネルデータ分析の発展の経緯も合わせて説明していく<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>.</p>
+<p>現在の経済学の観点からすると, <a href="どう推定するか.html#eq:prod-log-linear">(3.1)</a>をそのままOLSで推定するのをためらう大きな理由は以下の3つである.</p>
+<ol style="list-style-type: decimal">
+<li><p>企業特有の効果が存在する</p></li>
+<li><p>需要要因を考慮していない</p></li>
+<li><p>セレクションバイアス</p></li>
+</ol>
+<div id="なぜ生産関数を知りたいのか" class="section level2">
+<h2><span class="header-section-number">3.1</span> なぜ生産関数を知りたいのか</h2>
+<p>しかし, テクニカルなことを説明する前に, そもそもなぜこのようなことをするのかを表明したほうがよかろう. 今回, 最後に紹介するのは <span class="citation">Olley and Pakes (<a href="#ref-OlleyPakes1996">1996</a>)</span> の研究で, 彼らは法規制が産業の<strong>生産性</strong>にどう影響するかを知ることを研究目的としていた. では, 生産性なるものをどう計測すればいいのだろうか.</p>
+<p>経済学には<strong>全要素生産性</strong> (<em>TFP; total factor productivity</em>)という概念がある. これは, <strong>投入したリソースの量では説明できない生産量の多さ</strong>を生産性と定義した概念で, 実際には推定した生産関数による生産量の予測値 (理論値) と実測値の誤差で計測する . 例えば今回はコブ=ダグラス型関数で, モデルの仮定から, 物的・人的リソースによる生産量は<span class="math inline">\(K^{\beta_{K}}L^{\beta_{L}}\)</span>の部分になる. よってTFPを計算する式は,
+<span class="math display">\[\begin{aligned}\mathit{TFP}:= &amp; \frac{Y}{K^{\beta_{K}}L^{\beta_{L}}}\end{aligned}\]</span>
+となる. もしTFPを毎年計測して値に変化があるのなら, それは<strong>技術進歩</strong>に由来する生産性の向上であると見なせる(正確にはこれは<strong>ソロー残差</strong>とか<strong>成長会計モデル</strong>とか呼ばれる)<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>.</p>
+<p>さらに, <a href="どう推定するか.html#eq:prod-log-linear">(3.1)</a>からも分かるように, 対数の性質には <span class="math inline">\(\ln(x/y)=\ln x-\ln y\)</span>というものがある(高校数学でも扱うはずだ). よって, 仮に<a href="どう推定するか.html#eq:prod-log-linear">(3.1)</a>の係数パラメータ<span class="math inline">\(\beta_{K},\beta_{L}\)</span>を求められれば,
+<span class="math display">\[\begin{aligned}
+\ln(\mathit{TFP}):= &amp; y-\hat{\beta}_{K}k-\hat{\beta}_{L}l\\
+\therefore\mathit{TFP}= &amp; \exp(y-\hat{\beta}_{K}k-\hat{\beta}_{L}l)\end{aligned}\]</span>
+となる. よって回帰分析で推定した式を使うと, TFPは<span class="math inline">\(\alpha\)</span>だけでなく誤差項も含まれることになる. TFPは回帰モデルの<strong>残差に依存する</strong>.</p>
+<p>ではここで, 当てはまりの良さのために生産関数の形状を変えたらどうなるだろうか? 当てはまりを良くするのなら, いろいろなモデルを試していくらでも生産量の予測誤差の少ないモデルを作り出すことができる. しかしそこから計算した残差は<strong>一体何を意味するのだろうか</strong>? 機械学習や統計モデリングというと, MSEとか対数損失がどれくらい小さいかというのがモデルの良さの指標だと語られることがしばしばあるが, しかしこのようにそれが活用方法としての全てではない.</p>
+<p>そしてTFPや生産性といった概念は, このように生産構造をどう仮定するかに強く依存することに注意する. 分析にはかならず「<strong>ある仮定のもとで…</strong>」という前置きが存在する. 「生産性」という抽象的な概念が何を意味するのか, 何を言っているのかはよく考えるべきであろう<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a>.</p>
+</div>
+<div id="パネルデータ分析と観測されない効果" class="section level2">
+<h2><span class="header-section-number">3.2</span> パネルデータ分析と観測されない効果</h2>
+<p>「企業特有の効果」とは, 特定の企業だけが「特殊な技術を持っている」「優秀な人材が集まっている」など, 単純な量だけでは捉えきれない情報を意味する.
+つまり, 企業ごとに異なる<span class="math inline">\(\omega_{i}\)</span>が生産量に影響していると考える.
+<span class="math display">\[\begin{aligned}
+y_{i}= &amp; \beta_{A}+\beta_{K}k_{i}+\beta_{L}l_{i}+\omega_{i}+\varepsilon_{i}\end{aligned}\]</span>
+<span class="math inline">\(\omega_{i}\)</span>は観測できないので, このまま <span class="math inline">\((y_{i},k_{i},l_{i})\)</span>のデータで回帰すると, <span class="math inline">\(\omega_{i}\)</span>は定数項<span class="math inline">\(\beta_{0}\)</span>または誤差項<span class="math inline">\(\varepsilon\)</span>に吸収される. <span class="math inline">\(\omega_{i}\)</span>が<span class="math inline">\(k_{i},l_{i}\)</span>と全く相関しない変数ならば, <span class="math inline">\(\beta_{A}\)</span>と<span class="math inline">\(\omega_{i}\)</span>を識別できないものの, 少なくとも<span class="math inline">\(\beta_{K},\beta_{L}\)</span>の推定はできる.</p>
+<p>このような問題をどう解決すれば良いだろうか? まずは問題1だけを考えよう. <span class="math inline">\(\omega_{i}\)</span>は観測できないが, では推定できないだろうか? つまり, 同一の企業の情報を何度も観測しすれば, そこから推定できないか, というアイディアである. これが<strong>パネルデータ</strong>分析のスタート地点になる. パネルデータとは, 同一個体を追跡して複数時点で観測したデータである(表<a href="どう推定するか.html#tab:panel-example">3.1</a>).</p>
+<table>
+<caption><span id="tab:panel-example">表3.1: </span>パネルデータの例</caption>
+<thead>
+<tr class="header">
+<th align="left">企業ID</th>
+<th align="left">時期</th>
+<th align="center">生産量</th>
+<th align="center">資本</th>
+<th align="center">労働力</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">001</td>
+<td align="left">2019Q1</td>
+<td align="center">100</td>
+<td align="center">10</td>
+<td align="center">10</td>
+</tr>
+<tr class="even">
+<td align="left">001</td>
+<td align="left">2019Q2</td>
+<td align="center">110</td>
+<td align="center">11</td>
+<td align="center">10</td>
+</tr>
+<tr class="odd">
+<td align="left">001</td>
+<td align="left">2019Q3</td>
+<td align="center">90</td>
+<td align="center">12</td>
+<td align="center">12</td>
+</tr>
+<tr class="even">
+<td align="left">001</td>
+<td align="left">2019Q4</td>
+<td align="center">120</td>
+<td align="center">14</td>
+<td align="center">13</td>
+</tr>
+<tr class="odd">
+<td align="left">002</td>
+<td align="left">2019Q1</td>
+<td align="center">80</td>
+<td align="center">5</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="left">002</td>
+<td align="left">2019Q2</td>
+<td align="center">90</td>
+<td align="center">6</td>
+<td align="center">5</td>
+</tr>
+</tbody>
+</table>
+<p>よって, 企業<span class="math inline">\(i=1,\cdots,N\)</span>ごとに, <span class="math inline">\(t=1,\cdots,T\)</span>の観測がある. そこで以降は回帰モデルを以下のように書く.</p>
+<p><span class="math display" id="eq:panel-basic">\[\begin{aligned}
+y_{i,t}= &amp; \beta_{A}+\beta_{K}k_{i,t}+\beta_{L}l_{i,t}+\omega_{i}+\varepsilon_{i,t}\end{aligned}\tag{3.2}\]</span></p>
+<p>ここではひとまず, <span class="math inline">\(\omega_{i}\)</span>が企業<span class="math inline">\(i\)</span>ごとに異なるが, 時間<span class="math inline">\(t\)</span>に対しては変化しないと考えておこう. また, 問題1だけを考えるにあたって, <span class="math inline">\(\omega_{i}\)</span>は<span class="math inline">\(k_{i,t},l_{i,t}\)</span>と<strong>相関しない</strong>としておこう. このような<span class="math inline">\(\omega_{i}\)</span>を<strong>観測されない個別効果</strong>(unobserved indivisual effect) という.</p>
+<p>さらに追加の仮定として, <span class="math inline">\(\omega_{i}\)</span>が定数である場合, <strong>ダミー変数</strong>を作成することでOLSであるかのように<span class="math inline">\(\omega_{i}\)</span>を推定できる<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>. これを<strong>LSDV推定量</strong>という. また別の解き方としては, <a href="どう推定するか.html#eq:panel-basic">(3.2)</a>を企業ごとに平均を取った場合を考える.
+<span class="math display" id="eq:panel-FE">\[\begin{aligned}
+\bar{y}_{i}= &amp; \beta_{A}+\beta_{K}\bar{k}_{i}+\beta_{L}\bar{l}_{i}+\bar{\omega}_{i}+\varepsilon_{i,t}\end{aligned}\tag{3.3}\]</span></p>
+<p>このとき, <span class="math inline">\(\omega_{i}\)</span>は企業ごとに一定なので, <span class="math inline">\(\bar{\omega}_{i}=\omega_{i}\)</span>である. よって, <a href="どう推定するか.html#eq:panel-basic">(3.2)</a>から<a href="どう推定するか.html#eq:panel-FE">(3.3)</a>を引いてからOLSで計算することでも同じ推定結果が得られる.
+こちらの方法は<strong>固定効果</strong>(<em>FE; fixed effect</em>)推定量または<strong>グループ内</strong>(<em>within</em>)推定量と呼ばれる<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>.</p>
+<p>一方で, <span class="math inline">\(\omega_{i}\)</span>が定数項ではなく確率変数の可能性もある. つまり, 企業ごとに異なる<span class="math inline">\(\omega_{i}\)</span>は<strong>実は期待値をとればゼロになる確率変数にすぎず</strong>, 定数項に見えたものは確率的なゆらぎに過ぎないかもしれない. この仮定の元に考案されたのが<strong>変量効果</strong>(RE; random effect)モデルである. REモデルは数学的に<strong>分散不均一</strong>な回帰モデルと同一のため, 実質的に<strong>一般化最小二乗法</strong>(<em>GLS</em>)と同じである<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>..</p>
+</div>
+<div id="動学パネルデータ分析" class="section level2">
+<h2><span class="header-section-number">3.3</span> 動学パネルデータ分析</h2>
+<p>このように, 観察できない要因があってもパネルデータがあれば理論上は推定が可能になる. しかし, <span class="citation">Mairesse (<a href="#ref-Mairesse1990">1990</a>)</span><a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a>はこれまで紹介した方法とほぼ同じやり方で企業の生産関数を推定したところ, 観測されない効果を識別しようと複雑に差分を取れば取るほど, 係数の推定値が小さくなることを発見した. 彼はこの原因の仮説をいくつか挙げている.</p>
+<ol style="list-style-type: decimal">
+<li><p>内生性の問題. 個別効果<span class="math inline">\(\omega_{i}\)</span>は物理的なものではなく, 環境, 経営者の手腕といったものに由来するのなら, 他の説明変数<span class="math inline">\(k,l\)</span>の決定に影響している.</p></li>
+<li><p>企業の意思決定のラグ. 経営者が誤差項として現れる短期的な変化, つまり直前の<span class="math inline">\(\varepsilon_{i,t-1}\)</span>に対応して<span class="math inline">\(k_{i,t},l_{i,t}\)</span>を決定しているなら,
+誤差項と説明変数が相関しており, 単純な差分では推定できない.</p></li>
+<li><p>同時決定の問題.</p></li>
+<li><p>測定誤差. 各変数に測定誤差があれば, 差を取ることで打ち消される.</p></li>
+</ol>
+<p>これらの問題への対応として考えられるのが, <strong>操作変数</strong>である. <a href="どう推定するか.html#eq:panel-basic">(3.2)</a>に, 被説明変数<span class="math inline">\(y_{i,t}\)</span>の自己回帰項を追加する.</p>
+<p><span class="math display" id="eq:panel-dynamic">\[\begin{aligned}
+y_{i,t}= &amp; \beta_{A}+\beta_{K}k_{i,t}+\beta_{L}l_{i,t}+\rho y_{i,t-1}+\varepsilon_{i,t}\end{aligned}\tag{3.4}\]</span></p>
+<p>こういう自己回帰項を含むモデルを扱う分野はパネルデータ分析のなかでも特に<strong>動学パネルデータ分析</strong>と呼ばれる. このあたりの問題も <span class="citation">奥井 (<a href="#ref-Okui2016">2016</a>)</span> や <span class="citation">Wooldridge (<a href="#ref-Wooldridge2010panel">2010</a>)</span>, Ch. 11 で丁寧に説明されている<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>ので冗長だが, 一応簡単に述べておく.</p>
+<p>前節のアイディアを流用すれば, Within推定量の応用で時間平均<span class="math inline">\(\bar{y}_{i}=(T-1)^{-1}\sum_{t=2}^{T}y_{i,t}\)</span>を取ることが考えられる. しかし, パネルデータでは<span class="math inline">\(N\)</span>が大きいが<span class="math inline">\(T\)</span>は小さいことが多いため, 一致推定量とみなせない. 一方で, <strong>1階差分</strong>(<em>FD</em>) 推定量というものがある. これはある意味<strong>DID推定量</strong>と同じである. 差分演算子を <span class="math inline">\(\Delta x_{t}:=x_{t}-x_{t-1}\)</span>というふうに定義する. <a href="どう推定するか.html#eq:panel-dynamic">(3.4)</a>の両辺から<span class="math inline">\(y_{i,t-1}\)</span>を引くと, 以下のようになる.
+<span class="math display">\[\begin{aligned}
+\Delta y_{i,t}= &amp; \beta_{K}\Delta k_{i,t}+\beta_{L}\Delta l_{i,t}+\rho\Delta y_{i,t-1}+\Delta\varepsilon_{i,t}\end{aligned}\]</span>
+しかし, <span class="math inline">\(\Delta y_{i,t-1}=y_{i,t}-y_{i,t-1}\)</span>から, <span class="math inline">\(\Delta\varepsilon_{i,t}=\varepsilon_{i,t}-\varepsilon_{t-1}\)</span>と相関が存在する. そこで, <span class="math inline">\(\varepsilon_{i,t-1}\)</span>より過去の<span class="math inline">\(y_{i,t-2},\cdots\)</span>を<strong>操作変数</strong>として使う方法が提案されている. それが <span class="citation">Anderson and Hsiao (<a href="#ref-AndersonHsiao1981">1981</a>)</span>;<span class="citation">Anderson and Hsiao (<a href="#ref-AndersonHsiao1982">1982</a>)</span> モデルや, <span class="citation">Arellano and Bond (<a href="#ref-ArellanoBond1991">1991</a>)</span>, <span class="citation">Blundell and Bond (<a href="#ref-Blundell1998">1998</a>)</span> のGMM推定法である(いわゆる<strong>階差GMM</strong>と<strong>システムGMM</strong>). しかし, これらは実際に操作変数として意味のある変数なのかということを深く議論せずに<span class="math inline">\(\{y_{i,t-2},\cdots\}\)</span>を操作変数に利用している. その場合, 上記で挙げたような意思決定が存在するかどうかを検証できないし, これらの推定量には過剰識別や<strong>弱相関操作変数</strong>の問題が発生することが指摘されており, 妥当性に疑問が残る.</p>
+</div>
+<div id="企業内部の意思決定を考える" class="section level2">
+<h2><span class="header-section-number">3.4</span> 企業内部の意思決定を考える</h2>
+<p>しかし, 経済学の理論では, 観察される経済データは市場が需要と供給のバランスを取った結果である. これが2つ目の「需要要因を考慮していない」という話になる. 企業が需要を全く考えずに事業計画を立てるとは考えにくいため, この<span class="math inline">\(\omega_{i}\)</span>が間接的に<span class="math inline">\(k_{i},l_{i}\)</span>に影響している可能性は十分ある. また, 企業は新規立ち上げだったり倒産したりする. 現実のパネルデータはしばしば欠落がある. そのようなデータでそのまま推定しようとしたらどうだろうか.</p>
+<p>このようなパネルデータでの内生性に対処する推定方法に関する研究はいくつもあり, 特によく出てくるものとしてFEIVモデル, がある.</p>
+<p>さらに, <span class="citation">Olley and Pakes (<a href="#ref-OlleyPakes1996">1996</a>)</span>, <span class="citation">Levinsohn and Petrin (<a href="#ref-LevinsohnPetrin2003">2003</a>)</span> はこれらの動学パネルデータ分析の方法から一歩進んで, 企業の意思決定の構造をモデル化した生産関数を考え<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a>, 操作変数を使わずに内生性の問題に対処した方法を提案している (一般にはOPの方法は<strong>コントロール関数</strong>アプローチと呼ばれる)<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>.</p>
+<p>そこで今回はOlleyらのフレームワークを詳しく説明する. なお, 以降は<a href="どう推定するか.html#eq:panel-basic">(3.2)</a>式をもとに説明するが, 各企業で同じことが言えるため<span class="math inline">\(i\)</span>を省略して書く. OPでは, 観察されない効果<span class="math inline">\(\omega_{t}\)</span>は企業の経営者は知ることができるが, データとして現れないため分析者には観測できない, 企業固有の生産能力を表す成分である. <span class="math inline">\(\omega_{t}\)</span>は他の変数の影響を受けない(外生的)が, 自身の過去の値からは影響を受けると仮定する. つまり1次の<strong>マルコフ過程</strong>であるとする.
+<span class="math display">\[\begin{aligned}
+\omega_{t}\sim &amp; P(\omega\mid\omega_{t-1})\end{aligned}\]</span></p>
+<p><span class="math inline">\(t\)</span>期の始めに経営者は<span class="math inline">\(\omega_{t}\)</span>を観測して, これをもとに今期の経営計画を決定, つまり, 純キャッシュフローの割引現在価値を最大化できるように<span class="math inline">\(k_{t},l_{t}\)</span>を決めていると仮定する. そこで, 動学的なモデルを想定する. 企業の<span class="math inline">\(t\)</span>時点現在での収益を<span class="math inline">\(\pi_{t}(\omega_{t},k_{t},l_{t})\)</span>として, 投資<span class="math inline">\(\mathit{inv}_{t}\)</span>に対する費用を <span class="math inline">\(c(\mathit{inv}_{t})\)</span>とする. 経営者が最適化する現在の<strong>価値関数</strong> (<em>value function</em>)を <span class="math inline">\(V_{t}(\omega_{t},k_{t},l_{t})\)</span>とすると<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a>, 動学モデルでは単に現在の価値関数を最大化することが最適化に繋がるとは限らない. 経営者は, これらを把握した上で, 割引現在価値を最大化するように行動する. つまり, 以下のような <span class="math inline">\(V^{\ast}\)</span>の達成を目指す.
+<span class="math display">\[\begin{aligned}
+V^{\ast}= &amp; \max_{\{k_{t},l_{t}\}}\sum_{t=0}^{\infty}\delta V_{t}(\cdots)\end{aligned}\]</span></p>
+<p>これは無限和なのでそのまま計算するのは難しいが, 一定の条件下では上記の最適化問題の解が以下<a href="どう推定するか.html#eq:bellman">(3.5)</a>のような<strong>ベルマン方程式</strong> (<em>Bellman equation</em>) の解と同じであることが分かっている<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>.</p>
+<p><span class="math display" id="eq:bellman">\[\begin{aligned}
+V_{t}(\omega_{t},k_{t},l_{t})= &amp; \max_{k_{t},l_{t}}\left\{ \Phi,\sup_{i_{t}\geq0}\pi_{t}(\omega_{t},k_{t},l_{t})-c(\mathit{inv}_{t})+\delta\mathrm{E}\left[V_{t+1}(\cdots)\right]\right\}
+\end{aligned}\tag{3.5}\]</span></p>
+<p>ベルマン方程式が意味するところは, <span class="math inline">\(t,t+1\)</span>という<strong>2時点間の関係さえ分かれば上記の無限和の問題も解ける</strong>ということである.</p>
+<p>ただし, このモデルでは2つの仮定を追加していることに注意する. 1つは, <a href="どう推定するか.html#eq:bellman">(3.5)</a>には, <span class="math inline">\(\Phi\)</span>という選択肢があることだ. これは退出, つまり<strong>工場の閉鎖</strong>や<strong>事業を売却</strong>することで得られるキャッシュフローである. よって, このモデルでは採算が合わないと判断した経営者が事業撤退を選択する可能性も考慮している. もう1つは, 動学的な決定の必要があるのは<span class="math inline">\(k_{t}\)</span>のみで, <span class="math inline">\(l_{t}\)</span>は<strong>毎期独立して決定される</strong>ように仮定している点である..</p>
+<p>では, <span class="math inline">\(k_{t}\)</span>の動学的な意思決定がどのようになされるかを考えていく. 資本<span class="math inline">\(k_{t}\)</span>は, 前期のストック<span class="math inline">\(k_{t-1}\)</span>と, 減価償却率 <span class="math inline">\(\delta\)</span>, そして新規の投資額 <span class="math inline">\(\mathit{inv}_{t-1}\)</span>の和で表現できる.</p>
+<p><span class="math display">\[\begin{aligned}
+k_{t}= &amp; \mathit{inv}_{t-1}+(1-\delta)k_{t-1}\end{aligned}\]</span></p>
+<p>企業の退出ルールと投資関数を以下のように定義できる. <span class="math inline">\(t\)</span>期に企業が存続するなら<span class="math inline">\(x_{t}=1\)</span>, そうでないなら<span class="math inline">\(0\)</span>として, <span class="math inline">\(x_{t}\)</span>は以下のように決定される.
+<span class="math display">\[\begin{aligned}
+x_{t}= &amp; \begin{cases}
+1 &amp; \text{if }\omega_{t}\geq\underline{\omega}_{t}(k_{t})\\
+0 &amp; \text{otherwise}
+\end{cases}\end{aligned}\]</span>
+<span class="math display" id="eq:investment">\[\begin{aligned}
+\mathit{inv}_{t}= &amp; \mathit{inv}_{t}(\omega_{t},k_{t})\end{aligned}\tag{3.6}\]</span>
+ここから, 企業が<span class="math inline">\(t\)</span>期も退出せず操業を続ける確率は
+<span class="math display" id="eq:exit-prob">\[\begin{aligned}
+p_{t}:= &amp; \mathrm{P}(x_{t}=1\mid\underline{\omega}_{t}(k_{t}))\\
+= &amp; \mathrm{P}(x_{t}=1\mid k_{t},\omega_{t},\underline{\omega}_{t})\end{aligned}\tag{3.7}\]</span>
+のように<span class="math inline">\(k_{t},\omega_{t},\underline{\omega}_{t+1}\)</span>の条件に依存することを覚えておこう<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>. 退出による利益<span class="math inline">\(\Phi\)</span>は観測できず, 別の変数で表現する必要があるため, 退出を決定するしきい値を表す関数<span class="math inline">\(\underline{\omega}_{t}(\cdot)\)</span>を導入する.</p>
+<p>利潤関数<span class="math inline">\(\pi_{t}\)</span>が<span class="math inline">\(k_{t}\)</span>に対して減少関数なら, 価値関数にとっては増加関数, そして資本ストックの多い企業は一時的な生産性の変化<span class="math inline">\(\omega_{t}\)</span>とはあまり関係なく, 将来に比較的大きな収益が見込まれるから, しきい値<span class="math inline">\(\underline{\omega}_t(\cdot)\)</span>は比較的低くなるはずなので<span class="math inline">\(\underline{\omega}_{t}(\cdot)\)</span>は減少関数になる(退出確率<span class="math inline">\(p_{t}\)</span>の減少)はずだ. よってこの退出ルールから<span class="math inline">\(\omega_{t+1}\)</span>に<span class="math inline">\(x_{t+1},k_{t+1},l_{t+1},\omega_{t}\)</span>を条件付けた<span class="math inline">\(\omega_{t+1}\)</span>の期待値
+<span class="math display">\[\mathrm{E}\left[\omega_{t+1}\mid k_{t+1},\omega_{t},x_{t+1}=1\right]\]</span>
+は<span class="math inline">\(k_{t+1}\)</span>に対して減少関数であるとわかる (<span class="math inline">\(l_{t+1}\)</span>は独立しているので<span class="math inline">\(\omega_{t+1}\)</span>に影響しない). これが観測できない生産性 <span class="math inline">\(\omega_{t}\)</span>と資本<span class="math inline">\(k_{t}\)</span>が相関していることの理由付けになる.</p>
+<p>ここまでで登場した変数間の関係をグラフィカルモデルで描くならば, 図<a href="どう推定するか.html#fig:op-graphical">3.1</a>のようになる.</p>
+<div class="figure" style="text-align: center"><span id="fig:op-graphical"></span>
+<img src="20200120_econ_files/figure-html/op-graphical-1.png" alt="OPモデルで仮定した変数の関係" width="75%" />
+<p class="caption">
+図3.1: OPモデルで仮定した変数の関係
+</p>
+</div>
+</div>
+<div id="opモデルの回帰モデルとしての意味" class="section level2">
+<h2><span class="header-section-number">3.5</span> OPモデルの回帰モデルとしての意味</h2>
+<p>経営者が (分析者には) 観察されない効果<span class="math inline">\(\omega_{t}\)</span>を参照して<span class="math inline">\(k_{t},l_{t}\)</span>を決めてしまうというのは, 計量経済学の文脈でいうなら欠落変数バイアスであり, ここまでで紹介したパネルデータの方法で推定してもバイアスが発生してしまう. さらに <span class="math inline">\(\omega_{t}\)</span>のマルコフ性を仮定しているため, もし<span class="math inline">\(\omega_{t}\)</span>が過去の値と相関しているならば, やはり内生性によるバイアスが発生する. また, OPモデルは経営者の撤退という選択肢も想定していることは, <strong>サンプルセレクションバイアスを考慮している</strong>とも言える. 前節ではパネルデータには一切欠測がない(<strong>バランスドパネル</strong>)ことを暗黙の前提としていたが, 実際のパネルデータではしばしば欠測が起こる. もし欠測が企業の活動とは完全に無関係にランダムに発生している(MAR; missing at random)ならば推定に大きな影響はないが, すでに解説したように<span class="math inline">\(k_{t}\)</span>は<span class="math inline">\(\omega_{t}\)</span>(の期待値)に相関し, <span class="math inline">\(\omega_{t}\)</span>の大きさ次第で企業経営者は撤退を決める. つまりモデル内の変数に依存するメカニズムで発生している(MNAR; missing not —)ことになるので推定にバイアスを引き起こす<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>.</p>
+<p>推定のため, 投資を<span class="math inline">\(\mathit{inv}_{t}=\mathit{inv}(k_{t},\omega_{t})\)</span>という関数で表現できるとして, <span class="math inline">\(\mathit{inv}_{t}&gt;0\)</span>と仮定すると, 投資関数 <span class="math inline">\(\mathit{inv}_{t}(\cdot)\)</span>が厳密に単調増加関数であれば<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a>, 逆関数 <span class="math inline">\(\omega_{t}=h_{t}(k_{t},\mathit{inv}_{t})\)</span> が存在することになる. 言い換えるなら, <span class="math inline">\(\mathit{inv}_{t}\)</span>は<strong>操作変数</strong>である. これを<a href="どう推定するか.html#eq:panel-basic">(3.2)</a>に代入すると,
+<span class="math display" id="eq:OPmodel">\[\begin{aligned}
+y_{t}= &amp; \beta_{L}l_{t}+\left[\beta_{A}+\beta_{K}k_{t}+h_{t}(k_{t},\mathit{inv}_{t})\right]+\varepsilon_{t}\end{aligned}\tag{3.8}\]</span>
+となり, <strong>観察されない効果を他の説明変数で表現できる</strong>ことがわかった. <span class="math inline">\(\left[\cdots\right]\)</span>の部分は関数形が特定されていない, いわゆるノンパラメトリックモデルである. しかし, 今知りたいのは<span class="math inline">\(\beta_{A},\beta_{K},\beta_{L}\)</span>であって, 投資関数を特定することは必須でない. そこで, OP法では以下のような<strong>2段階の推定法</strong>で一致推定量を得る.</p>
+<p><strong>第1段階</strong>では<span class="math inline">\(k_{t}\)</span>と<span class="math inline">\(\omega_{t}\)</span>という動学的に決定される部分をノンパラメトリック回帰することで, 静学的に決まる<span class="math inline">\(\beta_{L}\)</span>のみを識別する. そこで, 相関のある部分をまとめて, 以下のように <span class="math inline">\(\phi_{t}\)</span>と表す.
+<span class="math display" id="eq:OP-partial">\[\begin{aligned}
+\phi_{t}(k_{i,t},\mathit{inv}_{i,t}):= &amp; \beta_{A}+\beta_{K}k_{i,t}+h_{t}(k_{i,t},\mathit{inv}_{i,t})\end{aligned}\tag{3.9}\]</span>
+<span class="math inline">\(\phi_{t}\)</span>を使うと<a href="どう推定するか.html#eq:OPmodel">(3.8)</a>は以下のように書き換えられる.
+<span class="math display" id="eq:OP-1st">\[\begin{aligned}
+y_{t}= &amp; \beta_{L}l_{t}+\phi_{t}(k_{t},\mathit{inv}_{t})+\varepsilon_{t}\end{aligned}\tag{3.10}\]</span>
+このモデルの<span class="math inline">\(\phi_{t}\)</span>の部分をノンパラメトリック回帰で推定する<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>ことで, 推定値<span class="math inline">\(\hat{\beta}_{L}\)</span>, <span class="math inline">\(\hat{\phi}_{t}\)</span>が識別された. これは別の見方をすれば<strong>部分線形モデル</strong> (partially linear —) である<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a>.</p>
+<p><span class="math inline">\(\hat{\beta}_{L}\)</span>を得られたので, 当初の式は以下のように書ける.
+<span class="math display" id="eq:op-model-reduced">\[\begin{aligned}
+y_{t}-\hat{\beta}_{L}l_{t}= &amp; \phi_{t}(k_{t},\mathit{inv}_{t})+\varepsilon_{t}\end{aligned}\tag{3.11}\]</span></p>
+<p>よって残りは<span class="math inline">\(\omega_{t}\)</span>や<span class="math inline">\(k_{t}\)</span>をひとまとめにした<span class="math inline">\(\phi_{t}\)</span>からどうやって<span class="math inline">\(\beta_{A},\beta_{K}\)</span>を識別するかという問題である. ここからがOlleyらの研究の肝であり, 込み入った説明になる箇所である. <span class="math inline">\(\hat{\phi}_{t}\)</span>には<span class="math inline">\(\beta_{A}+\beta_{K}k_{t}+\omega_{t}\)</span>が含まれているが, <span class="math inline">\(k_{t}\)</span>は既に説明したように動学的に決定される. ここで, 次の<span class="math inline">\(t+1\)</span>時点の <span class="math inline">\(y_{t+1}-\beta_{L}l_{t+1}\)</span>の期待値を考えると, <span class="math inline">\(\omega_{t}\)</span>のマルコフ性から以下のように書ける.
+<span class="math display">\[\begin{aligned}
+\mathrm{E} &amp; \left[y_{t+1}-\beta_{L}l_{t+1}\mid k_{t+1},x_{t+1}=1\right]\\
+ &amp; =\beta_{A}+\beta_{K}k_{t+1}+\mathrm{E}\left[\omega_{t+1}\mid\omega_{t},x_{t+1}=1\right]\\
+ &amp; =\beta_{K}k_{t+1}+g(\omega_{t},\underline{\omega}_{t+1})\end{aligned}\]</span>
+ここで, <span class="math inline">\(g(\omega_{t},\underline{\omega}_{t+1})=\beta_{A}+\mathrm{E}\left[\omega_{t+1}\mid k_{t+1},x_{t+1}=1\right]\)</span>であり, 欠落バイアスを表している. <span class="math inline">\(g\)</span>は観測できない<span class="math inline">\(\omega_{t}\)</span>で構成されるが, <a href="どう推定するか.html#eq:exit-prob">(3.7)</a>から, <span class="math inline">\(t+1\)</span>時点の存続確率<span class="math inline">\(p_{t+1}\)</span>は<span class="math inline">\((k_{t+1},\omega_{t})\)</span>の関数で書けることが分かっている. さらに, 期首の<span class="math inline">\(k_{t+1}\)</span>は前期の<span class="math inline">\(k_{t},\mathit{inv}_{t}\)</span>に依存する(この<span class="math inline">\(k_{t+1}\)</span>は<span class="math inline">\(\omega_{t+1}\)</span>が決まる前の値なので, 経営者が投入量を決めるという話とは無関係). よって, <span class="math inline">\(t+1\)</span>時点の<span class="math inline">\(g(\cdot)\)</span>は<span class="math inline">\(p_{t+1}\)</span>と<span class="math inline">\(\omega_{t}\)</span>で表現できることがわかる(つまりこれは一種の<strong>傾向スコア</strong>である).</p>
+<p>退出したかどうか(<span class="math inline">\(x_{t}\)</span>)はパネルデータの欠測で知ることができるため, <span class="math inline">\(x_{t}\)</span> に対してプロビット回帰<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a>をすることで確率の推定値<span class="math inline">\(\hat{p}_{t}\)</span>を計算できる. さらに, <span class="math inline">\(\omega_{t}\)</span>は, 第1段階で推定した<span class="math inline">\(\phi_{t}(k_{t},\mathit{inv}_{t})=\beta_{A}+\beta_{K}k_{t}+\omega_{t}\)</span>から, 以下のように書ける.
+<span class="math display">\[\begin{aligned}
+\hat{g}(\omega_{t},\underline{\omega}_{t+1})= &amp; g(\hat{p}_{t+1},\hat{\phi}_{t}-\beta_{A}-\beta_{K}k_{t})\end{aligned}\]</span></p>
+<p><span class="math inline">\(\hat{g}\)</span>と<span class="math inline">\(\omega_{t}\)</span>のバイアスを<span class="math inline">\(\hat{\xi}_{t+1}:=\omega_{t+1}-\hat{g}(\omega_{t},\omega_{t+1})\)</span>として, 当初の式<a href="どう推定するか.html#eq:op-model-reduced">(3.11)</a>に代入できる. <strong>第2段階</strong><a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a>では<span class="math inline">\(\hat{\beta}_{L}\)</span>, <span class="math inline">\(\hat{\phi}_{t}\)</span>, <span class="math inline">\(\hat{p}_{t}\)</span>を所与として, 以下のようなラグのある回帰式を推定する問題として扱える<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a>.</p>
+<p><span class="math display" id="eq:OP-final">\[\begin{aligned}
+(y_{t+1}-\hat{\beta}_{L}l_{t+1})= &amp; \beta_{K}k_{t+1}+g(\hat{p}_{t},\hat{\phi}_{t}-\beta_{A}-\beta_{K}k_{t})+\hat{\xi}_{t+1}+\varepsilon_{t+1}\end{aligned}\tag{3.12}\]</span></p>
+<p>(プロビットモデルの推定がバイアスなくできているならば)<span class="math inline">\(\hat{\xi}_{t+1}\)</span>は平均ゼロでかつ<span class="math inline">\(k_{t+1}\)</span>とも独立だが, <span class="math inline">\(l_{t+1}\)</span>とは相関しているかもしれない. しかし<span class="math inline">\(\beta_{L}\)</span>は第1段階で推定した<span class="math inline">\(\hat{\beta}_{L}\)</span>を代入できるため, もはや気にする必要はない. <span class="math inline">\((\hat{\xi}_{t+1}+\varepsilon_{t+1})\)</span>を誤差項とみなすと, <span class="math inline">\(\beta_{K}\)</span>は誤差項と相関しないので識別できる. そして<span class="math inline">\(g(\cdot)\)</span>は構造がわからない非線形関数である. そこで, Olleyらは2通りの推定方法を試している. 1つは1段階目と同様に部分線形モデルとしてカーネル回帰を利用する方法, もう1つは, 多項式近似した上で非線形最小二乗法で解く方法である. つまり,
+<span class="math display">\[\begin{aligned}
+y_{t+1}-\hat{\beta}_{L}l_{t+1}= &amp; \beta_{K}k_{t+1}+\sum_{d=1}^{q}\sum_{m=0}^{d}\gamma_{m,d-m}\hat{h}_{t}^{m}\hat{p}_{t}^{d-m}+(\hat{\xi}_{t+1}+\varepsilon_{t+1})\end{aligned}\]</span>
+である. ここで, <span class="math inline">\(\hat{h}_{t}:=\hat{\phi}_{t}-\beta_{A}-\beta_{K}k_{t}\)</span>で, <span class="math inline">\(q\)</span>は多項式の次数である. なお, OP法では標準誤差を代数的に得られないため, <strong>ブートストラップシミュレーション</strong>で計算する必要がある. この方法で導出したモデルの統計的性質は <span class="citation">Pakes and Olley (<a href="#ref-pakes1995Limit">1995</a>)</span> でより詳しく説明されている.</p>
+</div>
+<div id="モデルの事後診断" class="section level2">
+<h2><span class="header-section-number">3.6</span> モデルの事後診断</h2>
+<p>さて, 反事実分析でのモデルの評価は単に当てはまりが良いかだけでなく, 仮定と現実のデータが矛盾していないかの確認も同等かそれ以上に重要である.</p>
+<p>ここでもOlleyらの研究を例にする. まず, 彼らの仮定が正しければ, 単なる最小二乗法や, IVなどの方法では結果にバイアスが発生するはずである.
+よって, 提案する推定方法との比較が必要である. あるいは, サンプルセレクションバイアスが実際に発生しているか確認するため, バランスドパネルでの結果と比較することも必要である.
+さらに, 市場の構造は法規制の変化によって変わりうる. 法改正のタイミングで年代ごとに区切って当てはまりを確認する必要がある.</p>
+<p>さらに, モデルのロバストネス分析として, モデルの仮定のうち特に重要な, 投資関数の式<a href="どう推定するか.html#eq:investment">(3.6)</a>を検討している.
+投資が資本と観察できない生産性によって決まるという仮定が正しくない場合, <span class="math inline">\(\beta_{L}\)</span>の推定にバイアスが生じる. これを検証するには最後の式<a href="どう推定するか.html#eq:OP-final">(3.12)</a>の説明変数に,
+現在の<span class="math inline">\(l_{t}\)</span>を加えることでできる (このようなタイプの検証は<strong>特定化のテスト</strong>と呼ばれる).</p>
+</div>
+<div id="op法以降の研究" class="section level2">
+<h2><span class="header-section-number">3.7</span> OP法以降の研究</h2>
+<p><span class="citation">Levinsohn and Petrin (<a href="#ref-LevinsohnPetrin2003">2003</a>)</span> はOP法を改良した方法を提案している. 多くの企業の会計情報を見ると, 実際には設備投資は必ずしも発生せず, ゼロが多い. これは投資関数の単調性と矛盾するため, 中間投入財 (材料費) の情報を利用することを提案している. 現在はさらに <span class="citation">Ackerberg, Caves, and Frazer (<a href="#ref-ackerberg2015Identification">2015</a>)</span> が改良版を提案して, これがスタンダードになりつつあるらしいが今回は省略.</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-ackerberg2015Identification">
+<p>Ackerberg, Daniel A., Kevin Caves, and Garth Frazer. 2015. “Identification Properties of Recent Production Function Estimators.” <em>Econometrica</em> 83 (6): 2411–51. <a href="https://doi.org/10.3982/ECTA13408">https://doi.org/10.3982/ECTA13408</a>.</p>
+</div>
+<div id="ref-AndersonHsiao1981">
+<p>Anderson, T. W., and Cheng Hsiao. 1981. “Estimation of Dynamic Models with Error Components.” <em>Journal of the American Statistical Association</em> 76 (375): 598–606. <a href="https://doi.org/10.1080/01621459.1981.10477691">https://doi.org/10.1080/01621459.1981.10477691</a>.</p>
+</div>
+<div id="ref-AndersonHsiao1982">
+<p>Anderson, T. 1982. “Formulation and Estimation of Dynamic Models Using Panel Data.” <em>Journal of Econometrics</em> 18 (1): 47–82. <a href="https://doi.org/10.1016/0304-4076(82)90095-1">https://doi.org/10.1016/0304-4076(82)90095-1</a>.</p>
+</div>
+<div id="ref-ArellanoBond1991">
+<p>Arellano, Manuel, and Stephen Bond. 1991. “Some Tests of Specification for Panel Data: Monte Carlo Evidence and an Application to Employment Equations.” <em>The Review of Economic Studies</em> 58 (2): 277. <a href="https://doi.org/10.2307/2297968">https://doi.org/10.2307/2297968</a>.</p>
+</div>
+<div id="ref-Blundell1998">
+<p>Blundell, R, and Steven Bond. 1998. “Initial Conditions and Moment Restrictions in Dynamic Panel Data Models.” <em>Journal of Econometrics</em> 87 (1): 115–43. <a href="https://doi.org/10.1016/S0304-4076(98)00009-8">https://doi.org/10.1016/S0304-4076(98)00009-8</a>.</p>
+</div>
+<div id="ref-LevinsohnPetrin2003">
+<p>Levinsohn, James, and Amil Petrin. 2003. “Estimating Production Functions Using Inputs to Control for Unobservables.” <em>Review of Economic Studies</em> 70 (2): 317–41. <a href="https://doi.org/10.1111/1467-937X.00246">https://doi.org/10.1111/1467-937X.00246</a>.</p>
+</div>
+<div id="ref-Mairesse1990">
+<p>Mairesse, Jacques. 1990. “Time-Series and Cross-Sectional Estimates on Panel Data: Why Are They Different and Why Should They Be Equal?” In <em>Panel Data and Labor Market Studies</em>, edited by Joop Hartog, Geert Ridder, and Jules Theeuwes, 81–95. North-Holland: Elsevier Science Publishers B.V.</p>
+</div>
+<div id="ref-OlleyPakes1996">
+<p>Olley, G. Steven, and Ariel Pakes. 1996. “The Dynamics of Productivity in the Telecommunications Equipment Industry.” <em>Econometrica</em> 64 (6): 1263–97. <a href="https://doi.org/10.2307/2171831">https://doi.org/10.2307/2171831</a>.</p>
+</div>
+<div id="ref-pakes1995Limit">
+<p>Pakes, Ariel, and Steven Olley. 1995. “A Limit Theorem for a Smooth Class of Semiparametric Estimators.” <em>Journal of Econometrics</em> 65 (1): 295–332. <a href="https://doi.org/10.1016/0304-4076(94)01605-Y">https://doi.org/10.1016/0304-4076(94)01605-Y</a>.</p>
+</div>
+<div id="ref-Wooldridge2010panel">
+<p>Wooldridge, Jeffrey M. 2010. <em>Econometric Analysis of Cross Section and Panel Data</em>. 2nd ed. The MIT Press. <a href="https://mitpress.mit.edu/books/econometric-analysis-cross-section-and-panel-data">https://mitpress.mit.edu/books/econometric-analysis-cross-section-and-panel-data</a>.</p>
+</div>
+<div id="ref-Okui2016">
+<p>奥井, 亮. 2016. “動学的パネルデータモデル.” <a href="http://www.sigmath.es.osaka-u.ac.jp/~Estat/h28_datascience2/okui_handai28_v2.pdf">http://www.sigmath.es.osaka-u.ac.jp/~Estat/h28_datascience2/okui_handai28_v2.pdf</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="11">
+<li id="fn11"><p>こういった初歩的な話は, 私なんかよりよほど深く理解した大学の先生がいくつも教科書を書いており, 正確さや詳しさでそちらのほうが遥かに良い. 参考文献には一般公開されている <span class="citation">奥井 (<a href="#ref-Okui2016">2016</a>)</span> のスライド, <span class="citation">Wooldridge (<a href="#ref-Wooldridge2010panel">2010</a>)</span>, Ch. 10-11 の教科書などがある. 私はほぼWooldridgeの教科書で勉強したため, 日本語の教科書に詳しくない……<a href="どう推定するか.html#fnref11" class="footnote-back">↩</a></p></li>
+<li id="fn12"><p>TFPの計測方法やその批判についてはググれば内閣府とか日銀とか経済産業研究所 (RIETI) の公開している日本語の論文がたくさん引っかかるので適当に勉強すれば良いだろう.<a href="どう推定するか.html#fnref12" class="footnote-back">↩</a></p></li>
+<li id="fn14"><p>ただし, 一致するのは期待値のみで, 標準誤差の計算方法は変わる. 仮説検定・区間推定をするならば <em>clustering-robsut</em>な標準誤差と呼ばれるものを使う.<a href="どう推定するか.html#fnref14" class="footnote-back">↩</a></p></li>
+<li id="fn15"><p>逆に観測されない効果が時間ごとに異なるが, 企業間では一定の場合も同じようにできるだろう. その場合は<strong>グループ間</strong> (<em>between</em>) 推定量と呼ばれる.<a href="どう推定するか.html#fnref15" class="footnote-back">↩</a></p></li>
+<li id="fn16"><p><span class="citation">久保 (<a href="#ref-Kubo2012">2012</a>)</span> は生物学の文脈で異質効果のある場合の解法として<strong>一般化線形混合モデル</strong>(GLMM)を紹介している. これは観測されない効果の問題とよく似ている. 生物の実験データではおそらく変数との相関がないため, 定数項のバイアスと, 当てはまりの良さだけが問題となるのだろう. GLMMは誤差分布が正規分布と異なる場合も考えているが, パネルデータは線形モデルを基本として議論を進めることが多い.<a href="どう推定するか.html#fnref16" class="footnote-back">↩</a></p></li>
+<li id="fn17"><p>古い本なので大学図書館などでないと閲覧が難しそうだ. 私も手元にないので学生の頃に書いたメモを元に書いている. また, 川口先生の講義ノートではこのあたりの問題に関する参考文献として <span class="citation">Griliches and Mairesse (<a href="#ref-griliches1999Production">1999</a>)</span> を挙げている. タイトルからしてもこちらのほうがカバー範囲の広いサーベイのようなので, こちらを参照したほうがいいのかもしれない.<a href="どう推定するか.html#fnref17" class="footnote-back">↩</a></p></li>
+<li id="fn18"><p>GMMも以前<a href="http://ill-identified.hatenablog.com/entry/2015/02/22/203650">ブログ</a>に定義を書いたが, 詳しいことは <span class="citation">Hayashi (<a href="#ref-hayashi2000Econometrics">2000</a>)</span>, また, 他の教科書として動学パネルデータを重点的に解説した <span class="citation">千木良, 早川, and 山本 (<a href="#ref-ChigiraEtAl2011">2011</a>)</span> などがある. Baltagi の教科書も授業でおすすめされていた気がするが私は読んでいないのでどこまで書いてあるか知らない. どうしても本を買いたくない/買えない人 <span class="citation">奥井 (<a href="#ref-Okui2016">2016</a>)</span> の講義スライドを見ると良い.<a href="どう推定するか.html#fnref18" class="footnote-back">↩</a></p></li>
+<li id="fn19"><p>より正確には, Olleyらは工場単位でのデータを利用しているため彼らが推定したのは工場単位での生産関数である.<a href="どう推定するか.html#fnref19" class="footnote-back">↩</a></p></li>
+<li id="fn20"><p>日本語では, たとえば北村, 西脇, &amp; 村尾 (2009, <em>不完全資本市場下での生産関数の推定について</em>)が理論的根拠を詳しく解説している. 彼らの解説で使われているのは本来のものに加えて原材料費や純資産を考慮したモデルだが, 本質的な部分は変わらない. 統計モデルとしての説明なら彼らのものでも十分だが, 今回は経済モデルとの関係を強調したいため, あえてOlleyらの論文をなぞって冗長に書いておく.<a href="どう推定するか.html#fnref20" class="footnote-back">↩</a></p></li>
+<li id="fn21"><p>Olleyらの当初の仮定では, 企業年齢も生産性に影響があると考えていたが, 実際に推定してみるとほとんど影響がないことがわかった. モデルの特徴を説明する上でも企業年齢はあまり関与しないため, ここでは省略している.<a href="どう推定するか.html#fnref21" class="footnote-back">↩</a></p></li>
+<li id="fn22"><p>これを<strong>ベルマンの最適性原理</strong>という. しかしこれ以降の動学最適化問題の数理的に厳密な話をしていてはキリがないので, 適当な参考文献に投げることにする. ただし私は動学最適化を純粋に数理的側面で説明した教科書を読んだことはなく, 経済学の文脈で主に勉強しているので, 挙げる参考文献も必然的にそういうものになる. 日本語文献でかつ無料で一般公開されているものとしては, マクロ経済学での応用の観点で書かれた工藤 (2007, <em>動学的最適化入門</em>), 阿部 (2017, <em>上級マクロ経済学 講義ノート 動的計画法</em>), 蓮見 (2019, <em>動学マクロ経済学入門</em>)の講義ノートがある. 教科書ではA.C. Chang の『動学的最適化の基礎』の邦訳は比較的簡単に解説しているが誤植が多いことで有名である. 西村清彦の『経済学のための最適化理論入門 』という教科書もあるが, どこまでカバーしていたかの記憶が定かではない. もっとも詳しいのはやはりStokey, Lucas, &amp; Prescott (1989, <em>Recursive methods in economic dynamics</em>), Ljungqvist &amp; Sargent (2018, <em>Recursive macroeconomic theory</em>)の教科書あたりか? 単に「ベルマン方程式」でググると強化学習に関連するものとして言及する記事がよく引っかかるが, これらはベルマン方程式というより分枝限定法の考え方の解説だったり, 内容がメモ程度の断片的だったりするので今回の話の補足説明には向かない. 理論モデルでは連続時間を想定する場合もあり, ベルマン方程式の代わりに Hamilton-Jacobi-Bellman方程式を応用することもある. こちらは物理学でもよく使われるようだ.<a href="どう推定するか.html#fnref22" class="footnote-back">↩</a></p></li>
+<li id="fn23"><p>元の論文では時間インデックスをずらして<span class="math inline">\(p_{t}:=\mathrm{P}(x_{t+1}=1\mid\cdots)\)</span>としていることに注意.<a href="どう推定するか.html#fnref23" class="footnote-back">↩</a></p></li>
+<li id="fn24"><p>欠測が推定結果に及ぼす影響については, <span class="citation">星野 (<a href="#ref-Hoshino2009">2009</a>)</span>, <span class="citation">高井, 星野, and 野間 (<a href="#ref-TakaiHoshinoNoma2016">2016</a>)</span>, <span class="citation">高橋 and 渡辺 (<a href="#ref-TakahashiWatanabe2017">2017</a>)</span> のいずれかが参考になるだろう. ただしパネルデータでの問題については星野が少し触れている程度である. 英語でもいいならば <span class="citation">Wooldridge (<a href="#ref-Wooldridge2010panel">2010</a>)</span>, Ch. 19 が解説している.<a href="どう推定するか.html#fnref24" class="footnote-back">↩</a></p></li>
+<li id="fn25"><p><span class="math inline">\(k_{t}\)</span>に対して単調増加である理由はすでに示唆した. 一方で<span class="math inline">\(\omega_{t}\)</span>が大きければ, 経営者はやはり将来の利益が大きくなると予測し, 設備投資を増やす傾向にある, という理由でこの仮定を説明できる. しかし現実のデータがこの仮定を満たすとは限らない. 実際には規模縮小のために資産を売却するという選択肢もあり, このとき設備投資はマイナス扱いになる. しかしこの仮定はかなり強い仮定であり, これ以降も <span class="citation">Levinsohn and Petrin (<a href="#ref-LevinsohnPetrin2003">2003</a>)</span> などがこの仮定がもたらす問題が取り上げられている.<a href="どう推定するか.html#fnref25" class="footnote-back">↩</a></p></li>
+<li id="fn26"><p>Olleyらは4次の多項式補間で計算しているが, これは次数を増やしてMSEおよび係数が変化しなくなるものを採用するというルールで推定したためである. 一方で, 年代で分割して試すと変化が見られたとしている. 多項式に特定する理由もないので, 部分線形モデルはカーネル平滑化による計算も可能だが, こちらは次元が増えると計算に時間がかかるという性質がある.<a href="どう推定するか.html#fnref26" class="footnote-back">↩</a></p></li>
+<li id="fn27"><p>特定のパラメータだけを推定するために, 操作変数の式を与えて内生性によるバイアスを排除する方法を<strong>コントロール関数アプローチ</strong>という. <span class="citation">Cameron and Trivedi (<a href="#ref-CameronTrivedi2005">2005</a>)</span>, <span class="citation">Wooldridge (<a href="#ref-Wooldridge2010panel">2010</a>)</span> にもコントロール関数の解説があるが, 日本語の教科書では見た記憶がない. ググってもコントロール関数のアイディアを解説しているのは明城 (2012, 製品差別化財の需要関数推定における内生問題について)くらいで, それも需要関数推定の問題に限定したものなので少しわかりにくいかもしれない. 解説したものは私が以前自分で書いたものくらいしかない (これもあまりおすすめできない). Kawaguchiが部分線形モデルでの応用に関して参考文献として挙げるToddとIchimuraの論文はHandbook of Econometricsに収録されているので研究機関に所属していない人間がアクセスするのは少し大変である. 代わりに <span class="citation">Blundell and Powell (<a href="#ref-blundell2003Endogeneity">2003</a>)</span> ならば一般公開されている.<a href="どう推定するか.html#fnref27" class="footnote-back">↩</a></p></li>
+<li id="fn28"><p>Olleyらはこれも1段階目の推定と同様の方法で次数を決めた多項式展開でプロビット回帰をしている.<a href="どう推定するか.html#fnref28" class="footnote-back">↩</a></p></li>
+<li id="fn29"><p>Olleyらの論文では<span class="math inline">\(p_{t}\)</span>の推定を第2段階と呼んでいるので, これは原文では第3段階である. しかし後の解説では省略されることが多い.<a href="どう推定するか.html#fnref29" class="footnote-back">↩</a></p></li>
+<li id="fn30"><p>スライドでは余白節約のため<a href="どう推定するか.html#eq:OP-final">(3.12)</a>を <span class="math inline">\(\hat{\omega}_{t}:=\hat{\phi}-\beta_{A}-\beta_{K}k_{t}\)</span>,<span class="math inline">\(e_{t+1}:=\hat{\xi}_{t}+\varepsilon_{t+1}\)</span>と置き換えて表現している.<a href="どう推定するか.html#fnref30" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="イントロダクション.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r-での実装.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["20200120_econ.pdf"],
+"toc": {
+"collapse": "subsection",
+"download": "pdf"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

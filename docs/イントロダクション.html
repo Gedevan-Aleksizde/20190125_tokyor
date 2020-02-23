@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 イントロダクション | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact</title>
+  <meta name="description" content="Tokyo.Rの続き" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 イントロダクション | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Tokyo.Rの続き" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 イントロダクション | 経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact" />
+  
+  <meta name="twitter:description" content="Tokyo.Rの続き" />
+  
+
+<meta name="author" content="ill-identified" />
+
+
+<meta name="date" content="2020-02-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="どう推定するか.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Top</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 概要</a></li>
+<li class="chapter" data-level="2" data-path="イントロダクション.html"><a href="イントロダクション.html"><i class="fa fa-check"></i><b>2</b> イントロダクション</a><ul>
+<li class="chapter" data-level="2.1" data-path="イントロダクション.html"><a href="イントロダクション.html#構造推定とは"><i class="fa fa-check"></i><b>2.1</b> 構造推定とは</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="イントロダクション.html"><a href="イントロダクション.html#構造方程式モデリング"><i class="fa fa-check"></i><b>2.1.1</b> 構造方程式モデリング</a></li>
+<li class="chapter" data-level="2.1.2" data-path="イントロダクション.html"><a href="イントロダクション.html#構造時系列モデル"><i class="fa fa-check"></i><b>2.1.2</b> 構造時系列モデル</a></li>
+<li class="chapter" data-level="2.1.3" data-path="イントロダクション.html"><a href="イントロダクション.html#構造型モデル"><i class="fa fa-check"></i><b>2.1.3</b> 構造型モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="イントロダクション.html"><a href="イントロダクション.html#因果推論と何が違うのか"><i class="fa fa-check"></i><b>2.2</b> 因果推論と何が違うのか</a></li>
+<li class="chapter" data-level="2.3" data-path="イントロダクション.html"><a href="イントロダクション.html#今回取り組む問題"><i class="fa fa-check"></i><b>2.3</b> 今回取り組む問題</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="どう推定するか.html"><a href="どう推定するか.html"><i class="fa fa-check"></i><b>3</b> どう推定するか</a><ul>
+<li class="chapter" data-level="3.1" data-path="どう推定するか.html"><a href="どう推定するか.html#なぜ生産関数を知りたいのか"><i class="fa fa-check"></i><b>3.1</b> なぜ生産関数を知りたいのか</a></li>
+<li class="chapter" data-level="3.2" data-path="どう推定するか.html"><a href="どう推定するか.html#パネルデータ分析と観測されない効果"><i class="fa fa-check"></i><b>3.2</b> パネルデータ分析と観測されない効果</a></li>
+<li class="chapter" data-level="3.3" data-path="どう推定するか.html"><a href="どう推定するか.html#動学パネルデータ分析"><i class="fa fa-check"></i><b>3.3</b> 動学パネルデータ分析</a></li>
+<li class="chapter" data-level="3.4" data-path="どう推定するか.html"><a href="どう推定するか.html#企業内部の意思決定を考える"><i class="fa fa-check"></i><b>3.4</b> 企業内部の意思決定を考える</a></li>
+<li class="chapter" data-level="3.5" data-path="どう推定するか.html"><a href="どう推定するか.html#opモデルの回帰モデルとしての意味"><i class="fa fa-check"></i><b>3.5</b> OPモデルの回帰モデルとしての意味</a></li>
+<li class="chapter" data-level="3.6" data-path="どう推定するか.html"><a href="どう推定するか.html#モデルの事後診断"><i class="fa fa-check"></i><b>3.6</b> モデルの事後診断</a></li>
+<li class="chapter" data-level="3.7" data-path="どう推定するか.html"><a href="どう推定するか.html#op法以降の研究"><i class="fa fa-check"></i><b>3.7</b> OP法以降の研究</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="r-での実装.html"><a href="r-での実装.html"><i class="fa fa-check"></i><b>4</b> R での実装</a><ul>
+<li class="chapter" data-level="4.1" data-path="r-での実装.html"><a href="r-での実装.html#データのとり方"><i class="fa fa-check"></i><b>4.1</b> データのとり方</a></li>
+<li class="chapter" data-level="4.2" data-path="r-での実装.html"><a href="r-での実装.html#beta_lphiの識別"><i class="fa fa-check"></i><b>4.2</b> <span class="math inline">\(\beta_{L},\phi\)</span>の識別</a></li>
+<li class="chapter" data-level="4.3" data-path="r-での実装.html"><a href="r-での実装.html#存続確率の推定"><i class="fa fa-check"></i><b>4.3</b> 存続確率の推定</a></li>
+<li class="chapter" data-level="4.4" data-path="r-での実装.html"><a href="r-での実装.html#beta_abeta_kの推定"><i class="fa fa-check"></i><b>4.4</b> <span class="math inline">\(\beta_{A},\beta_{K}\)</span>の推定</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="結果.html"><a href="結果.html"><i class="fa fa-check"></i><b>5</b> 結果</a></li>
+<li class="chapter" data-level="6" data-path="まとめ.html"><a href="まとめ.html"><i class="fa fa-check"></i><b>6</b> まとめ</a></li>
+<li class="appendix"><span><b>補遺</b></span></li>
+<li class="chapter" data-level="A" data-path="init.html"><a href="init.html"><i class="fa fa-check"></i><b>A</b> 数値計算上に関係する実装上の注意</a></li>
+<li class="chapter" data-level="B" data-path="boot.html"><a href="boot.html"><i class="fa fa-check"></i><b>B</b> ブートストラップ標準誤差</a></li>
+<li class="chapter" data-level="C" data-path="kawaguchi-gmm.html"><a href="kawaguchi-gmm.html"><i class="fa fa-check"></i><b>C</b> kawaguchiの課題についての補足</a><ul>
+<li class="chapter" data-level="C.1" data-path="kawaguchi-gmm.html"><a href="kawaguchi-gmm.html#gmmパッケージの解説"><i class="fa fa-check"></i><b>C.1</b> <code>gmm</code>パッケージの解説</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="イントロダクション" class="section level1">
+<h1><span class="header-section-number">2</span> イントロダクション</h1>
+<div id="構造推定とは" class="section level2">
+<h2><span class="header-section-number">2.1</span> 構造推定とは</h2>
+<p>では構造推定とは何だろうか. 構造推定で検索すると, 名前が似ているが違うものがいくつか出てくる.</p>
+<div id="構造方程式モデリング" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> 構造方程式モデリング</h3>
+<p>例えば構造方程式モデル(SEM)というものがある. これは変数間の関係構造を同時線形方程式で表したもので,
+因果推論のフレームワークの原型ともいえるものだが,
+<strong>構造推定とは違う</strong>.</p>
+</div>
+<div id="構造時系列モデル" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> 構造時系列モデル</h3>
+<p><strong>構造ベクトル自己回帰モデル</strong> (Structural VAR) とか, <strong>ベイズ構造時系列モデル</strong> (BSTS) というものがある.</p>
+<p>通常のVARは複数の変数の時系列変化を扱うモデルで, それぞれの変数が過去の値にのみ依存して決まる回帰モデルなのに対して, 構造VARは現在の別の変数にも依存する, <strong>同時決定的</strong>な時系列モデルである<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. ベイズ構造時系列モデルの「構造時系列」はHarveyのいう構造時系列モデルのことを指す<span class="citation">(Scott and Varian <a href="#ref-ScottVarian2014">2014</a>)</span>. これは89年とかなり古い教科書なので私も読んだことがないが, <span class="citation">Lütkepohl (<a href="#ref-lutkepohl2007New">2007</a>)</span>, p. 618によればローカルトレンドモデルを基本とした時系列モデルらしいので, 多変量時系列モデルというわけでもなく, 状態空間モデルに属する. これらも<strong>構造推定とは関係ない</strong>.</p>
+</div>
+<div id="構造型モデル" class="section level3">
+<h3><span class="header-section-number">2.1.3</span> 構造型モデル</h3>
+<p>いちおう過去のTokyo.Rの発表ネタとかぶらないか確認したところ, こんなものを見つけた.</p>
+<p><a href="https://www.slideshare.net/teramonagi/r-de">Rで学ぶ『構造型モデル de 倒産確率推定』</a></p>
+<p>「構造型モデル」という名前も構造推定と似ている. いちおう元になった <span class="citation">Merton (<a href="#ref-merton1974Pricing">1974</a>)</span> の論文も確認した. しかしこれも<strong>構造推定ではない</strong>.</p>
+<p>構造推定の定義について, 多くの人は <span class="citation">Reiss and Wolak (<a href="#ref-REISS20074277">2007</a>)</span> を挙げるが, この本はとにかく分厚くて高いので私は持っていない. 前回で触れたように,観察されたデータにそのまま回帰式や他の関数を当てはめても因果関係を知ることはできない. そこで, いくつかの要素が必要になる. そこで構造推定は仮定によって構造を特定しようとした.</p>
+<p>北村 (2016, 応用ミクロ計量経済学の手法と論点)は一般的な型はないとしつつ, その解説を要約すると3つの特徴があるとしている.</p>
+<ol style="list-style-type: decimal">
+<li><p>経済理論モデルであること</p></li>
+<li><p>確率モデルであること</p></li>
+<li><p>データに基づいて推定されていること</p></li>
+</ol>
+<p>(1)はいわゆるルーカス批判 <span class="citation">Lucas (<a href="#ref-Lucas1976">1976</a>)</span> を受けて, 彼の批判を克服できるような経済理論に基づいたモデルづくりを意識するようになった.
+(2)はちょっとわかりづらい. 回帰分析だって正規分布を暗に仮定しているから確率モデルになる. しかしここでは,
+観察できないものと, できるものの不確実性を考慮しているという意味である. 例えば測定誤差や, 分析者には観測できないが,
+経済活動の当事者は知っている情報というものがある.
+これらを無視した推定はしばしばバイアスを引き起こすが,
+構造推定ではモデルにこのような仮定を取り込む. (3) は, 完全な架空の話ではなく,
+なるべく現実と整合するために観測されたデータに基づいてパラメータを決定するということである.</p>
+<p>よって, 最初に挙げた「構造方程式モデリング」や「Mertonの構造型モデル」は経済理論に基づいた構造を表現していないため構造推定ではない.
+ただし構造時系列モデルは, 実は80年代にマクロ経済モデルとして利用された歴史がある.
+経済理論に基づかないという批判は当時からあったものの,
+単に予測するだけなら問題ないということで使われていた. しかし, 「どうなるか」と「なぜそうなるのか」のどちらを求めているかと言えば前者であり,
+原因を分析することはできない<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+<p>一般に定まった方法はないが, かといって完全な無手勝流ではない. 大学院のコアコースで教えるモデルはだいたい決まっており,
+多くの研究も先行研究のフレームワークを応用していることが多い.</p>
+</div>
+</div>
+<div id="因果推論と何が違うのか" class="section level2">
+<h2><span class="header-section-number">2.2</span> 因果推論と何が違うのか</h2>
+<p><a href="http://ill-identified.hatenablog.com/entry/2020/01/20/000406">以前にも紹介した</a>ようなRCT, 準実験(操作変数法, 傾向スコア法, DID, RDD) なども, 「反事実的な因果推論」と呼ばれる. しかしこれらは経済学の理論仮説に基づく因果関係ではなく, ランダム化と比較によって「<strong>平均処置効果</strong>」を求めるフレームワークである<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. 一方で構造推定は実際のデータと理論モデルを融合させた結果なので, 本来の意味で現実には起こり得なかったこと (反事実) を推論するフレームワークである.</p>
+<p>具体例を挙げよう. 今回は経済学における<strong>生産関数</strong>の推定の例を紹介する. 原材料を投入し, 財を生産する, その変換ルールを関数に表したものを生産関数という. 例えば, <strong>資本</strong>(<span class="math inline">\(K\)</span>apital<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>)と<strong>労働力</strong>(<span class="math inline">\(L\)</span>abor force), <span class="math inline">\(Y\)</span>は出力, つまり生産量なので, 生産関数を以下のように表せる</p>
+<p><span class="math display">\[\begin{aligned} Y= &amp; F(K,L)\end{aligned}\]</span></p>
+<p>この生産関数の形状が分かれば,</p>
+<ul>
+<li><p>実際のデータとの残差から, 数値に表れない生産性 (TFP) を計測する (残差分析)</p></li>
+<li><p>もし設備投資を増やしたら (<span class="math inline">\(K\)</span>を増加させたら) どれくらい生産量が増えるか</p></li>
+<li><p>もしパラメータが変化したら, 生産力はどう変化するか (<strong>比較静学分析</strong>)</p></li>
+</ul>
+<p>と言ったことがわかる.経済学部出身者ならば, ミクロ経済学の授業で聞いた覚えがあるだろう. しかし, データから推定した係数が「<strong>もし変わったら</strong>」というのは, 本質的に<strong>現実に起こっていない事象</strong>について話していることになる. 同等のことを因果推論でやるとすれば, 両方のケースについて<strong>実際に観測したデータに基づいて差を比較</strong>しなければならない. つまり, 単にデータを近似しただけの関数では, これらのことを言う根拠として弱い.</p>
+<p>経済学ではRCTや準実験アプローチは<strong>誘導形</strong> (reduced form) 推定<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>とも呼ばれ, <strong>構造推定派</strong>と<strong>誘導形推定派</strong>は数年前までお互い相手のアプローチの問題点を指摘し激しく論争していた. その結果, 現在ではそれぞれのアプローチでできることの限界がはっきりしてきたため, 論争というほどのことはない<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>.</p>
+<p>両者の使い分けとしては, 構造推定は経済理論モデルというある意味「架空のもの」に基づいて<strong>未来に起こりうることについての分析</strong>もできるが, 因果推論は実態としては実験計画法と本質的に同じで統計学の理論に基づいて観察できたデータから<strong>事後評価</strong>するアプローチである. よってしばしば, 構造推定は<strong>反事実</strong>(<strong>反実仮想</strong>)<strong>シミュレーション</strong><a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>, 因果推論は<strong>プログラム</strong>(<strong>政策</strong>)<strong>評価</strong>とか<strong>介入</strong>(<em>intervention</em>)といって呼び分けられる<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>. そして構造推定は理論仮説に強く依存したフレームワークであるので, 仮説が妥当なのかはよく注意が必要である. ただし, かといって因果推論が仮定に依存しないというのも完全な誤りである. 前回でも言及したが, 因果推論であっても必ず仮定が存在するので, それを無視して計算した平均値の差が因果効果を意味するとは限らない.</p>
+</div>
+<div id="今回取り組む問題" class="section level2">
+<h2><span class="header-section-number">2.3</span> 今回取り組む問題</h2>
+<p>動学構造推定はテクニカルでなんかすごいことをやってるという印象を簡単に与えられる. しかし, 今回は時間がないのでもう少し簡単にできるほうをやる.
+前回話題にしたのは「動学的」構造推定であり, 時間変化を取り入れたモデルを扱うジャンルである. 一方で, 今回は考慮しない「静学的」構造推定の具体例を紹介する. といっても昔からある研究なので, すでに日本語の講義スライドもネット上に転がっていたりするし, もしかしたら発表者の中にも授業でやったことがあると言う人がいるかもしれない.</p>
+<p>今回は特に, 生産関数の推定の問題を例にする. 生産関数をどういう形にするかはいろいろだが, よく使われるものの1つに コブ=ダグラス型生産関数がある<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>. 特に, 一企業の生産関数を,</p>
+<p><span class="math display">\[\begin{aligned}Y=f(K,L):= &amp; \alpha K^{\beta_{K}}L^{\beta_{L}}\end{aligned}\]</span></p>
+<p>という指数関数で表す<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>. <span class="math inline">\(\alpha,\beta_{K},\beta_{L}\)</span> はパラメータである. <span class="math inline">\(\beta_{K}=\beta_{L}=0.5\)</span> の場合, 図<a href="イントロダクション.html#fig:cobbdouglas">2.1</a> のような形状になる.)</p>
+<div class="figure" style="text-align: center"><span id="fig:cobbdouglas"></span>
+<img src="img/cobbdouglas1.png" alt="コブ=ダグラス生産関数の形状" width="75%" />
+<p class="caption">
+図2.1: コブ=ダグラス生産関数の形状
+</p>
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Lucas1976">
+<p>Lucas, Robert E. 1976. “Econometric Policy Evaluation: A Critique.” <em>Carnegie-Rochester Confer. Series on Public Policy</em> 1 (C): 19–46. <a href="https://doi.org/10.1016/S0167-2231(76)80003-6">https://doi.org/10.1016/S0167-2231(76)80003-6</a>.</p>
+</div>
+<div id="ref-lutkepohl2007New">
+<p>Lütkepohl, Helmut. 2007. <em>New Introduction to Multiple Time Series Analysis</em>. 1. ed., corr. 2. printing. Berlin: Springer.</p>
+</div>
+<div id="ref-merton1974Pricing">
+<p>Merton, Robert C. 1974. “On the Pricing of Corporate Debt: The Risk Structure of Interest Rates.” <em>The Journal of Finance</em> 29 (2): 449. <a href="https://doi.org/10.2307/2978814">https://doi.org/10.2307/2978814</a>.</p>
+</div>
+<div id="ref-REISS20074277">
+<p>Reiss, Peter C., and Frank A. Wolak. 2007. “Structural Econometric Modeling: Rationales and Examples from Industrial Organization.” In <em>Handbook of Econometrics</em>, edited by James J. Heckman and Edward E. Leamer, 6:4277–4415. Handbook of Econometrics. Elsevier. <a href="https://doi.org/10.1016/S1573-4412(07)06064-3">https://doi.org/10.1016/S1573-4412(07)06064-3</a>.</p>
+</div>
+<div id="ref-ScottVarian2014">
+<p>Scott, Steven L., and Hal R. Varian. 2014. “Predicting the Present with Bayesian Structural Time Series.” <em>International Journal of Mathematical Modelling and Numerical Optimisation</em> 5 (1/2): 4. <a href="https://doi.org/10.1504/IJMMNO.2014.059942">https://doi.org/10.1504/IJMMNO.2014.059942</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>簡単な定義と特徴は[<a href="https://qiita.com/saltcooky/items/2d0119ea4a10bab6cff2" class="uri">https://qiita.com/saltcooky/items/2d0119ea4a10bab6cff2</a>]の最後のほうに書いてある. より詳しい話を知りたければ, <span class="citation">沖本 (<a href="#ref-okimoto2010">2010</a>)</span> が言及している. インターネットの日本語圏で出回っている情報の多くはこのあたりからだと思うが, もっと多変量時系列モデルを知りたいなら <span class="citation">Lütkepohl (<a href="#ref-lutkepohl2007New">2007</a>)</span> の教科書がある (この本は約700ページの間, タイトル通りマジで多変量時系列モデルのことしか書いてない). 時系列モデルに関する本は <span class="citation">北川 (<a href="#ref-Kitagawa2005">2005</a>)</span> の教科書を始め和書でも多く出ているが, 経済学や数理ファイナンスの観点から書いたもの以外では, 構造VARについて言及したものは私の知る範囲では見られない. 構造VARという考え方自体がパラメータの識別を前提としているからだろう. マクロ経済学における時系列モデルの利用を知りたいのなら, <span class="citation">渡部 (<a href="#ref-watabe2016">2016</a>)</span>, <span class="citation">中島 and 渡部 (<a href="#ref-NakajimaWatabe2012">2012</a>)</span> が参考になる. 本格的な教科書は専門外なので知らない.<a href="イントロダクション.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>そのため, VARでも因果関係を定義できるということでGranger因果性が注目を集めた. つまり, 以前の投稿で問題にした, 予測か因果かという二択は, 経済学の発展のなかでもしばしば議論されてきた問題だということがわかる.<a href="イントロダクション.html#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>正確には少し違うが, 重要なのはサンプルの平均的な差を見るという特徴が共通している<a href="イントロダクション.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>構造推定に使うような, 経済現象の構造を表したモデルを, 平均の差の比較という因果推論のフレームワークで推定できるように単純な形に変形することからこう呼ばれる. この式変形のため, 根本的な構造パラメータを特定しづらいという問題がある.<a href="イントロダクション.html#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>歴史的経緯は <span class="citation">北村 (<a href="#ref-Kitamura2016">2016</a>)</span> などが少しだけ解説している. 計量経済学の観点では統計モデルとして <span class="citation">Hayashi (<a href="#ref-hayashi2000Econometrics">2000</a>)</span>, Ch. 8 で言及している. また, <span class="citation">Cameron and Trivedi (<a href="#ref-CameronTrivedi2005">2005</a>)</span>, Ch. 2 は教科書の最序盤で構造モデルと誘導モデルの特徴付けを行うという独特の構成になっている.<a href="イントロダクション.html#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>そういえばこの用語で呼び始めたのは一体誰なのだろうか? たぶんRubinではない.<a href="イントロダクション.html#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>後者の因果推論フレームワークも, もともとは counterfactual causal modelと呼ばれていたが, (おそらくはこの性質の違いのため)少なくとも経済学の分野では最近はあまり強調されていない気がする.<a href="イントロダクション.html#fnref8" class="footnote-back">↩</a></p></li>
+<li id="fn9"><p>他にも色々あるが, 例えば物理学のように法則がかなり明確になっている分野を勉強した人間からはおかしなことのように聞こえるかもしれない. しかし, 経済学ではむしろ, 変に特定化すれば特定化の誤りを免れない.<a href="イントロダクション.html#fnref9" class="footnote-back">↩</a></p></li>
+<li id="fn10"><p>生産関数のより詳しい数学的性質はミクロ経済学の教科書に書かれている. 例えば, 特に有名なのは <span class="citation">西村 (<a href="#ref-nishimura1990">1990</a>)</span>, 『ミクロ経済分析』<span class="citation">(Varian <a href="#ref-varian1992Microeconomic">1992</a>)</span>, <span class="citation">Mas-Colell, Whinston, and Green (<a href="#ref-MWG">1995</a>)</span> などである. それ以降にも評価の高いミクロ経済学の和書がいくつかでているが, 私はあまり読んでいないのでなんとも言えない.<a href="イントロダクション.html#fnref10" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="どう推定するか.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["20200120_econ.pdf"],
+"toc": {
+"collapse": "subsection",
+"download": "pdf"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
