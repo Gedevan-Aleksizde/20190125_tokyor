@@ -193,17 +193,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">1</span> 概要</h1>
 <p>第83回Tokyo.Rのエントリ. 前回の戦後処理に時間を取られたので, 手抜き回.</p>
 <p>前回にも言及した <span class="citation">Igami (<a href="#ref-igami2018Artificial">2018</a>)</span> の研究に関連して, <strong>構造推定</strong>についてもう少し詳しい話をしようと思っていたが, 残り時間の問題から<strong>動学構造推定</strong>は難しいと判断した. しかしアンケート至上主義なので経済学のネタは外せないから, 準備の簡単な<strong>静学構造推定</strong>の話をとりあえずやることにした. 静学構造推定は「動学」ではないので時間変化を考えないタイプの理論モデルを推定する一連のテクニックである. 今回の話は比較的簡単かつ昔から知られている話だから大学の経済学部でも授業で取り上げられることもあろう. 知ってる人も多いかもしれない.</p>
-<p>具体的には, 生産関数を構造推定するOP法<span class="citation">(Olley and Pakes <a href="#ref-OlleyPakes1996">1996</a>)</span>およびLP法<span class="citation">(Levinsohn and Petrin <a href="#ref-LevinsohnPetrin2003">2003</a>)</span>をRでやる.</p>
+<p>具体的には, 生産関数を構造推定するOP法<span class="citation">(Olley and Pakes <a href="#ref-OlleyPakes1996">1996</a>)</span>をRでやる. 実はこれらは既に計算プログラムが<code>estprod</code>パッケージによって提供されているが, これはうまくいくかが怪しいのでOP法の意味を解説しつつ実装してみる.</p>
 <p>プログラム全文等付属物はこちらにある
 <a href="https://github.com/Gedevan-Aleksizde/20190125_tokyor" class="uri">https://github.com/Gedevan-Aleksizde/20190125_tokyor</a></p>
+<p>注意: 引用文献の名前などのフォーマットがおかしいが, これは対応したcslフォーマットが見つけられなかったため. そのうちなんとかする.</p>
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-igami2018Artificial">
 <p>Igami, Mitsuru. 2018. “Artificial Intelligence as Structural Estimation: Economic Interpretations of Deep Blue, Bonanza, and AlphaGo.” <a href="http://arxiv.org/abs/1710.10967">http://arxiv.org/abs/1710.10967</a>.</p>
-</div>
-<div id="ref-LevinsohnPetrin2003">
-<p>Levinsohn, James, and Amil Petrin. 2003. “Estimating Production Functions Using Inputs to Control for Unobservables.” <em>Review of Economic Studies</em> 70 (2): 317–41. <a href="https://doi.org/10.1111/1467-937X.00246">https://doi.org/10.1111/1467-937X.00246</a>.</p>
 </div>
 <div id="ref-OlleyPakes1996">
 <p>Olley, G. Steven, and Ariel Pakes. 1996. “The Dynamics of Productivity in the Telecommunications Equipment Industry.” <em>Econometrica</em> 64 (6): 1263–97. <a href="https://doi.org/10.2307/2171831">https://doi.org/10.2307/2171831</a>.</p>

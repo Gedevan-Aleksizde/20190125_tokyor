@@ -186,8 +186,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="kawaguchi-gmm" class="section level1">
 <h1><span class="header-section-number">C</span> kawaguchiの課題についての補足</h1>
-<p>Olleyらの方法に倣えば非線形最小二乗法として係数<span class="math inline">\(\beta_{A},\beta_{K}\)</span>を求める必要があるが, 課題では退出行動を省略し, <span class="math inline">\(\omega_{t}\)</span>の構造もシンプルなためOlleyらのような複雑な式の導出はなく, <strong>非線形一般化モーメント法</strong> (非線形GMM)で推定することを課している. GMMの解説はすくなく, 非線形GMMとなるとなおさらなので<a href="#fn49" class="footnote-ref" id="fnref49"><sup>49</sup></a>, ここで少し脱線して課題では何をやっているのかを書いておく.</p>
-<p>練習用データは<span class="math inline">\(\omega_{t}\)</span>をAR(1)過程の乱数として生成しているので, 課題では係数<span class="math inline">\(\alpha\)</span>は未知であるもののAR(1)であることは分かっているという前提である. つまり, 以下のように仮定している<a href="#fn50" class="footnote-ref" id="fnref50"><sup>50</sup></a>ので,
+<p>Olleyらの方法に倣えば非線形最小二乗法として係数<span class="math inline">\(\beta_{A},\beta_{K}\)</span>を求める必要があるが, 課題では退出行動を省略し, <span class="math inline">\(\omega_{t}\)</span>の構造もシンプルなためOlleyらのような複雑な式の導出はなく, <strong>非線形一般化モーメント法</strong> (非線形GMM)で推定することを課している. GMMの解説はすくなく, 非線形GMMとなるとなおさらなので<a href="#fn50" class="footnote-ref" id="fnref50"><sup>50</sup></a>, ここで少し脱線して課題では何をやっているのかを書いておく.</p>
+<p>練習用データは<span class="math inline">\(\omega_{t}\)</span>をAR(1)過程の乱数として生成しているので, 課題では係数<span class="math inline">\(\alpha\)</span>は未知であるもののAR(1)であることは分かっているという前提である. つまり, 以下のように仮定している<a href="#fn51" class="footnote-ref" id="fnref51"><sup>51</sup></a>ので,
 <span class="math display">\[\begin{aligned}
 h(\omega_{t+1})= &amp; \alpha\omega_{t}+\nu_{t},\\
 \nu_{t}\sim &amp; \mathcal{N}(0,\sigma_{\nu}^{2})\forall t\end{aligned}\]</span></p>
@@ -206,7 +206,7 @@ k_{t}\\
 \mathit{inv}_{t}
 \end{bmatrix}= &amp; \mathbf{0}\end{aligned}\]</span></p>
 <p><span class="math inline">\(\hat{\xi}_{t}+\varepsilon_{t}\)</span>にはパラメータに対して非線形な項が含まれるので非線形モデルということになる. 線形モデルの場合は単にGMMと呼ばれ, 今回のような<strong>非線形モーメント条件</strong>を特定した場合を<strong>非線形GMM</strong>と呼び, ニュートン法などの非線形最適化の方法で計算することになる. なお計算には新たに<span class="math inline">\(y_{t}-\hat{\beta}_{L}l_{t}\)</span>,<span class="math inline">\(\hat{\phi}_{t}\)</span>, <span class="math inline">\(k_{t},\mathit{inv}_{t}\)</span>のラグ項が必要になるが, これらは既にで作成している.</p>
-<p>RでGMM推定法を計算するパッケージには <code>gmm</code>, <code>plm</code>がある<a href="#fn51" class="footnote-ref" id="fnref51"><sup>51</sup></a>. 後者の<code>plm</code>はGMMだけでなく, FE/REモデルなどパネルデータを想定したモデルの計算用関数が用意されている. 今回もパネルデータを利用しているが, 個別効果を想定していないため<code>plm</code>を必ず使わなければならないわけではない. 実際のところ, <code>plm::pgmm()</code>でできるGMMは既に少しだけ言及したArellano-Bond/Blundell-Bondの動学パネルデータモデルの推定だけであるので, 今回のような<strong>非線形GMMには使えない</strong>. 一方で<code>gmm</code>パッケージは非線形GMMにも対応しているので, 今回はこちらを使う.</p>
+<p>RでGMM推定法を計算するパッケージには <code>gmm</code>, <code>plm</code>がある<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a>. 後者の<code>plm</code>はGMMだけでなく, FE/REモデルなどパネルデータを想定したモデルの計算用関数が用意されている. 今回もパネルデータを利用しているが, 個別効果を想定していないため<code>plm</code>を必ず使わなければならないわけではない. 実際のところ, <code>plm::pgmm()</code>でできるGMMは既に少しだけ言及したArellano-Bond/Blundell-Bondの動学パネルデータモデルの推定だけであるので, 今回のような<strong>非線形GMMには使えない</strong>. 一方で<code>gmm</code>パッケージは非線形GMMにも対応しているので, 今回はこちらを使う.</p>
 <p>また, GMMを使う場合も標準誤差はブートストラップ法で計算する必要がある. しかしカーネル回帰は非常に時間がかかるため, 100回も1000回も繰り返すのは現実的ではない. 今回時間がかかるのは主に最適バンド幅を計算する<code>npplregbw()</code>の実行なので, 最初の計算で得たバンド幅を全てのブートストラップ標本で共用することにした. しかし, <code>np</code>パッケージは<strong>引数に対する挙動がかなり意味不明で混乱を招く</strong>. 所与のバンド幅でデータを変えて再計算したい場合の方法が不明瞭である. いろいろ試したが, <code>data</code>に与えるだけではバンド幅計算時の結果がそのまま出力されるようだ. <code>txdat</code>, <code>tydat</code>, <code>tzdat</code>にそれぞれ新しい数値を与える必要があるらしい.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">npplreg</span>(<span class="dt">bws =</span> bw,</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">        <span class="dt">txdat =</span> <span class="kw">as.data.frame</span>(df_sample[, <span class="st">&quot;l&quot;</span>]),</a>
@@ -223,9 +223,9 @@ z_{i,3}
 \end{bmatrix}= &amp; \mathbf{0}\end{aligned}\]</span>
 のようなモーメント条件をもとにGMM推定したい場合は,</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">gmm</span>(y<span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>x<span class="op">|</span><span class="st"> </span>z1 <span class="op">+</span><span class="st"> </span>z2 <span class="op">+</span><span class="st"> </span>z3, <span class="dt">x =</span> data)</a></code></pre></div>
-<p>となる<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a>.
+<p>となる<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a>.
 <code>data</code> はデータフレームまたは<code>matrix</code>で与える.</p>
-<p>非線形モデルの場合はこのようにモデルを<code>formula</code>で表現できないため, 代わりに標本モーメントを返す関数を与える. この関数関数は第1, 第2引数にそれぞれパラメータと入力データを与て<span class="math inline">\(N\times q\)</span>行列を返すものが要求される. <span class="math inline">\(N\)</span>は入力データの件数, <span class="math inline">\(q\)</span>はモーメント式の本数である. つまり上記の期待値の部分で,
+<p>非線形モデルの場合はこのようにモデルを<code>formula</code>で表現できないため, 代わりに標本モーメントを返す関数を与える. この関数関数は第1, 第2引数にそれぞれパラメータと入力データを与えて<span class="math inline">\(N\times q\)</span>行列を返すものが要求される. <span class="math inline">\(N\)</span>は入力データの件数, <span class="math inline">\(q\)</span>はモーメント式の本数である. つまり上記の期待値の部分で,
 <span class="math display">\[\begin{aligned}
 m_{i}(\alpha,\beta;x_{i}):= &amp; (y_{i}-\alpha-\beta x_{i})\begin{bmatrix}z_{i,1}\\
 z_{i,2}\\
@@ -240,7 +240,7 @@ m_{N}z_{N,1} &amp; m_{N}z_{N,2} &amp; m_{Z}z_{N,3}
 \end{bmatrix}\end{aligned}\]</span>
 という形になる.</p>
 <p>非線形GMMとは<span class="math inline">\(m_{i}(\theta,x_{i})\)</span>の部分について, 例えば<span class="math inline">\(m_{i}(\theta,x_{i}):=(y_{i}-\alpha-\gamma\beta x_{i})\begin{bmatrix}z_{i,1} &amp; \cdots &amp; z_{i,3}\end{bmatrix}^{\top}\)</span>のような非線形関数の場合を指す.
-この<span class="math inline">\(m_{i}\)</span>の標本平均の重み付きノルム<span class="math inline">\(F_{n}\)</span>を目的関数として最小化するのがGMMである<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a>.
+この<span class="math inline">\(m_{i}\)</span>の標本平均の重み付きノルム<span class="math inline">\(F_{n}\)</span>を目的関数として最小化するのがGMMである<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a>.
 <span class="math display">\[\begin{aligned}
 F_{n}(\alpha,\beta)= &amp; \left[\frac{1}{N}\sum_{i=1}^{N}m_{i}(\theta,x_{i})\right]^{\top}\hat{\mathbf{W}}^{-1}\left[\frac{1}{N}\sum_{i=1}^{N}m_{i}(\theta,x_{i})\right]\end{aligned}\]</span></p>
 <p>非線形GMMはニュートン法でも計算できるため, 目的関数<span class="math inline">\(F_{n}(\cdots)\)</span>を計算する関数さえ作れば, 係数だけなら<code>gmm</code>パッケージを使わなくとも<code>optim()</code>で簡単に推定できる.
@@ -432,13 +432,14 @@ F_{n}(\alpha,\beta)= &amp; \left[\frac{1}{N}\sum_{i=1}^{N}m_{i}(\theta,x_{i})\ri
 
 
 
+
 <div class="footnotes">
 <hr />
-<ol start="49">
-<li id="fn49"><p>非線形GMMは <span class="citation">Hayashi (<a href="#ref-hayashi2000Econometrics">2000</a>)</span> を始め大学院向け標準レベルの教科書なら必ずと言っていいほど載っているが, 日本語の教科書では線形GMMまでしか書いていないことが多い. 私が以前書いたブログ記事でも肝心の非線形GMMの説明がなかった. どんなモーメント条件であっても求められるわけではなく, ニュートン法は目的関数が凹関数でなければ一意な解を得られない. 実際には一致性や漸近分布を保証するためにさらにいくつかの十分条件を考える必要がある. それらの議論も詳しくは教科書を参照してほしい.<a href="kawaguchi-gmm.html#fnref49" class="footnote-back">↩</a></p></li>
-<li id="fn50"><p>課題文にも書いてあるように, 本来は<span class="math inline">\(\omega_{t}\)</span>の決定メカニズムを知ることは難しいため現実の問題に対してこのような強い仮定を置くことは好ましくない.<a href="kawaguchi-gmm.html#fnref50" class="footnote-back">↩</a></p></li>
-<li id="fn52"><p><code>formula</code>の構文はデフォルトで定数項を加えるため, <code>1</code> は必須ではない. そもそも<code>formula</code>の構文が分からない場合は 『<a href="http://cse.naro.affrc.go.jp/takezawa/r-tips/r/71.html">71. 回帰分析と重回帰分析 - R-Source</a>』や私が以前書いた『<a href="http://ill-identified.hatenablog.com/entry/2017/04/30/004258">予測モデルを作るには formula を活用せよ</a>』などを参照<a href="kawaguchi-gmm.html#fnref52" class="footnote-back">↩</a></p></li>
-<li id="fn53"><p>典型的なGMMでは重み行列<span class="math inline">\(\hat{\mathbf{W}}\)</span>に共分散行列の推定値を与えるが, 課題では簡略化のため単位行列を与えるよう指示がある. 単位行列の場合, 線形モデルでいう2段階最小二乗法 (2SLS) と等価な計算になる. 重み行列の役割は主に標準誤差の縮小なのでブートストラップ法で計算する今回のケースではさほど重要ではない.<a href="kawaguchi-gmm.html#fnref53" class="footnote-back">↩</a></p></li>
+<ol start="50">
+<li id="fn50"><p>非線形GMMは <span class="citation">Hayashi (<a href="#ref-hayashi2000Econometrics">2000</a>)</span> を始め大学院向け標準レベルの教科書なら必ずと言っていいほど載っているが, 日本語の教科書では線形GMMまでしか書いていないことが多い. 私が以前書いたブログ記事でも肝心の非線形GMMの説明がなかった. どんなモーメント条件であっても求められるわけではなく, ニュートン法は目的関数が凹関数でなければ一意な解を得られない. 実際には一致性や漸近分布を保証するためにさらにいくつかの十分条件を考える必要がある. それらの議論も詳しくは教科書を参照してほしい.<a href="kawaguchi-gmm.html#fnref50" class="footnote-back">↩</a></p></li>
+<li id="fn51"><p>課題文にも書いてあるように, 本来は<span class="math inline">\(\omega_{t}\)</span>の決定メカニズムを知ることは難しいため現実の問題に対してこのような強い仮定を置くことは好ましくない.<a href="kawaguchi-gmm.html#fnref51" class="footnote-back">↩</a></p></li>
+<li id="fn53"><p><code>formula</code>の構文はデフォルトで定数項を加えるため, <code>1</code> は必須ではない. そもそも<code>formula</code>の構文が分からない場合は 『<a href="http://cse.naro.affrc.go.jp/takezawa/r-tips/r/71.html">71. 回帰分析と重回帰分析 - R-Source</a>』や私が以前書いた『<a href="http://ill-identified.hatenablog.com/entry/2017/04/30/004258">予測モデルを作るには formula を活用せよ</a>』などを参照<a href="kawaguchi-gmm.html#fnref53" class="footnote-back">↩</a></p></li>
+<li id="fn54"><p>典型的なGMMでは重み行列<span class="math inline">\(\hat{\mathbf{W}}\)</span>に共分散行列の推定値を与えるが, 課題では簡略化のため単位行列を与えるよう指示がある. 単位行列の場合, 線形モデルでいう2段階最小二乗法 (2SLS) と等価な計算になる. 重み行列の役割は主に標準誤差の縮小なのでブートストラップ法で計算する今回のケースではさほど重要ではない.<a href="kawaguchi-gmm.html#fnref54" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>

@@ -195,32 +195,32 @@ Kawaguchiの課題では一般化モーメント法(GMM)で計算しており, �
 図5.1: 推定結果
 </p>
 </div>
-<p>それ以外の方法については, 推定された係数のバイアス(真値との差)のみ一覧表を掲載する<a href="結果.html#tab:result-table">5.1</a></p>
+<p>それ以外の方法については, 推定された係数のバイアス(真値との差)のみ一覧表を掲載する<a href="結果.html#tab:result-table">5.1</a><a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a></p>
 <table>
 <caption><span id="tab:result-table">表5.1: </span>各推定のバイアス</caption>
 <thead>
 <tr class="header">
 <th align="left">Model</th>
 <th align="right">beta[A]</th>
-<th align="right">beta[K]</th>
 <th align="right">beta[L]</th>
+<th align="right">beta[K]</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">OP_poly</td>
+<td align="left">OP (poly)</td>
 <td align="right">-0.250</td>
 <td align="right">-0.046</td>
 <td align="right">0.206</td>
 </tr>
 <tr class="even">
-<td align="left">OP_GAM</td>
+<td align="left">OP (GAM)</td>
 <td align="right">-0.244</td>
 <td align="right">-0.047</td>
 <td align="right">0.200</td>
 </tr>
 <tr class="odd">
-<td align="left">OP_RF</td>
+<td align="left">OP (RF)</td>
 <td align="right">-0.242</td>
 <td align="right">0.032</td>
 <td align="right">0.130</td>
@@ -262,25 +262,25 @@ Kawaguchiの課題では一般化モーメント法(GMM)で計算しており, �
 <td align="right">-0.696</td>
 </tr>
 <tr class="even">
-<td align="left">AB_twoway</td>
+<td align="left">AB (twoway)</td>
 <td align="right">1.440</td>
 <td align="right">0.840</td>
 <td align="right">-0.833</td>
 </tr>
 <tr class="odd">
-<td align="left">AB_indivi</td>
+<td align="left">AB (indivi)</td>
 <td align="right">1.550</td>
 <td align="right">0.818</td>
 <td align="right">-0.987</td>
 </tr>
 <tr class="even">
-<td align="left">BB_twoway</td>
+<td align="left">BB (twoway)</td>
 <td align="right">1.508</td>
 <td align="right">0.823</td>
 <td align="right">-0.931</td>
 </tr>
 <tr class="odd">
-<td align="left">BB_indivi</td>
+<td align="left">BB (indivi)</td>
 <td align="right">6.133</td>
 <td align="right">1.119</td>
 <td align="right">-6.326</td>
@@ -298,6 +298,7 @@ Kawaguchiの課題では一般化モーメント法(GMM)で計算しており, �
 <hr />
 <ol start="43">
 <li id="fn43"><p>estprod`はOP法の実装といいつつ企業の途中退出を考慮していない上, 退出のないデータに当てはめても全く違う結果が帰ってきたので<strong>なかったことにした</strong>. また, 今回書いたOP法の各バリエーションは結果がほとんど変わらなかったため多項式の場合のみを代表して掲載し, AB/BB推定量はあまりにも誤差が大きいため掲載を省略した.<a href="結果.html#fnref43" class="footnote-back">↩</a></p></li>
+<li id="fn44"><p>table-note<a href="結果.html#fnref44" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
