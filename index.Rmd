@@ -2,8 +2,7 @@
 title: '経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact'
 author: "ill-identified"
 date: "`r Sys.Date()`"
-output: pdf_document
-
+output: bookdown::gitbook
 documentclass: bxjsreport
 classoption: ja=standard, xelatex
 link-citations: yes
@@ -29,6 +28,7 @@ knitr::opts_chunk$set(
   digits = 3,
   cache=T,
   fig.align = "center")
+run_heavy <- T #時間のかかる処理もやるかどうか
 ```
 ```{r setup2}
 require(conflicted)
@@ -77,6 +77,20 @@ beta_l. <- 0.2
 https://github.com/Gedevan-Aleksizde/20190125_tokyor
 
 注意: 引用文献の名前などのフォーマットがおかしいが, これは対応したcslフォーマットが見つけられなかったため. そのうちなんとかする.
+
+```{r cc-logo-html, echo=F, eval=knitr::is_html_output()}
+knitr::asis_output('<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています.')
+```
+```{r cc-logo-non-html, echo=F, eval=knitr::is_latex_output()}
+knitr::include_graphics(here(dirname_img, "cc4.png"))
+```
+```{r cc-logo-text, echo=F, eval=!knitr::is_html_output()}
+if(knitr::is_latex_output()){
+  knitr::asis_output("`この作品は\\href{http://creativecommons.org/licenses/by-nc-nd/4.0/}{クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス}の下に提供されています.`{=latex}")
+} else {
+  knitr::asis_output("この作品はクリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンスの下に提供されています.")
+}
+```
 
 # イントロダクション
 
@@ -502,7 +516,7 @@ df_ground_truth <- read_csv("data/df_ground_truth.csv", col_types = cols(i = col
 
 1段階目の推定は部分線形カーネル回帰で推定する. これは`np`パッケージで提供されている. 今回は`npplregbw()`でデータから最適バンド幅を決定し, 決定したバンド幅を`npplreg()`に与えて推定する[^1st-pooling][^np-na-action]. この推定結果を残差プロット等で確認したら, $p_{t}$の推定を行う. 1段階目のモデル\@ref(eq:OP-1st)は, 誤差項と相関のある部分線形モデルであり, 単に多項式やスプライン近似を適用しただけでは正しく$\phi$を推定できないため, `npplregbw(formula = y ~ l k + inv)`としても誤差項の相関のために$\beta_{L}$は正しく推定されず, 全く異なる値になる. そこで部分線形モデルとコントロール関数アプローチの併用によって$\beta_{L},\phi$を識別する. このためには, `formula = y ~ l + k | k + inv` と指定する. これで, $\beta_{L},\phi$を識別できるが, もちろんこの時点では $\beta_{K}$は正しく推定できていない.
 
-```{r np-npplreg, eval=F, echo=T}
+```{r np-npplreg, eval=run_heavy, echo=T}
  # somehow `na.action` doesn't work so we need `drop_na()`
 bw_1st <- npplregbw(formula = y ~ l | k + inv, data = df_sample %>% drop_na(y, k, l, inv))
 fit_1st_np <- npplreg(bw_1st)
@@ -730,7 +744,7 @@ obj_op_2nd <- function(param, data, degree){
 
 $p_{t},h_{t}$の交差項を含む$q$次多項式の第$d$次項は$d+1$個存在するため, 1次から$d-1$次までの項の総数は$\sum_{i=1}^{d}i$, 項の総数は$\sum_{d=1}^{q}(d+1)$個であるから, 上記のように`purrr::map_dfc()`, `purrr::reduce()`を入れ子にして計算した[^computing]. なお, 数値計算上の観点から初期値にも注意する必要がある. これは補遺\@ref(init)で詳しく説明している. また, Olleyらはさらにここでもカーネル回帰も試しているが, パラメータが含まれる非線形式のカーネル回帰は自分で1から書かなければならず面倒になったので今回は省略する.
 
-```{r, estimate-2nd-stage, eval=F}
+```{r, estimate-2nd-stage, eval=run_heavy}
 set.seed(42)
 df_fit_2nd_np <- expand_grid(
   d = 1:8, n = 1:100
@@ -764,7 +778,7 @@ df_fit_2nd_poly <- expand_grid(
 )
 fit_2nd_poly <- filter(df_fit_2nd_poly, d == 2)$model[[1]]
 ```
-```{r estimate-2nd-gam-rf, eval=F}
+```{r estimate-2nd-gam-rf, eval=run_heavy}
 # addendum: estimate by GAM or random forest
 fit_gam <- mgcv::gam(x ~ s(k_lag) + s(inv_lag), family = binomial(link = "probit"), data = df_sample %>% drop_na(x, k_lag, inv_lag))
 fit_rf <- ranger::ranger(formula = x ~ k_lag + inv_lag, data = drop_na(df_sample, x, inv_lag, k_lag))
@@ -811,7 +825,7 @@ fit_2nd_rf <- filter(df_fit_2nd_rf, d == 2)$model[[2]]
 
 そして標準誤差を代わりに (ノンパラメトリック) **ブートストラップ法**で計算する. ブートストラップ法による標準誤差の計算方法は補遺\@ref(boot)で補足説明している.
 
-```{r compute-bootstrap, eval=F}
+```{r compute-bootstrap, eval=run_heavy}
 estimate_op_poly <- function(data, degree_1, degree_p, degree_2nd){
   fit_1st <- lm(y ~ l + poly(k, inv, degree = degree_1), data = data, na.action = na.omit)
   beta_l <- unname(coef(fit_1st)["l"])
@@ -919,7 +933,7 @@ df_result_table_op <- list(OP_poly = boot_poly, OP_GAM = boot_gam, OP_RF = boot_
 
 # 結果
 
-```{r kawaguchi, eval=F}
+```{r kawaguchi, eval=run_heavy}
 # Kawaguchi
 moment_op <- function(theta, df){
   # theta = [beta_a, beta_k, alpha]
@@ -1130,7 +1144,7 @@ $$\hat{y}_{t}^{\ast}:=\hat{y}_{t}+\hat{\varepsilon}_{t}^{\ast}$$
 今回`statistic`が出力すべき統計量は3つの係数パラメータ$\beta_{A},\beta_{K},\beta_{L}$だが,
 確認のため各段階で推定したモデルの当てはまりについても出力するようにしている[^boot-unname].
 
-```{r computing-boot, eval=F, echo=T}
+```{r computing-boot, eval=run_heavy, echo=T}
 op_params_poly <- list(beta_k = exp(fit_2nd_poly$par[2]), beta_l = unname(coef(fit_1st_poly)["l"]))
 
 estimate_op_ordinary <- function(data, degree_1, degree_p, degree_2nd){
