@@ -91,7 +91,7 @@ https://github.com/Gedevan-Aleksizde/20190125_tokyor
 knitr::asis_output('<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています.')
 ```
 ```{r cc-logo-non-html, echo=F, eval=knitr::is_latex_output()}
-knitr::include_graphics(here(dirname_img, "cc4.png"))
+knitr::include_graphics("img/cc4.png")
 ```
 ```{r cc-logo-text, echo=F, eval=!knitr::is_html_output()}
 if(knitr::is_latex_output()){
@@ -529,8 +529,9 @@ df_ground_truth <- read_csv("data/df_ground_truth.csv", col_types = cols(i = col
 1段階目の推定は部分線形カーネル回帰で推定する. これは`np`パッケージで提供されている. 今回は`npplregbw()`でデータから最適バンド幅を決定し, 決定したバンド幅を`npplreg()`に与えて推定する[^1st-pooling][^np-na-action]. この推定結果を残差プロット等で確認したら, $p_{t}$ の推定を行う. 1段階目のモデル\@ref(eq:OP-1st)は, 誤差項と相関のある部分線形モデルであり, 単に多項式やスプライン近似を適用しただけでは正しく $\phi$ を推定できないため, `npplregbw(formula = y ~ l k + inv)` としても誤差項の相関のために $\beta_{L}$ は正しく推定されず, 全く異なる値になる. そこで部分線形モデルとコントロール関数アプローチの併用によって $\beta_{L},\phi$ を識別する. このためには, `formula = y ~ l + k | k + inv` と指定する. これで, $\beta_{L},\phi$ を識別できるが, もちろんこの時点では $\beta_{K}$ は正しく推定できていない.
 
 ```{r np-npplreg, eval=run_heavy, echo=T}
- # somehow `na.action` doesn't work so we need `drop_na()`
-bw_1st <- npplregbw(formula = y ~ l | k + inv, data = df_sample %>% drop_na(y, k, l, inv))
+# somehow `na.action` doesn't work so we need `drop_na()`
+# Technical Note: Currently `npplregbw` output many lines of less-informative text and there is no options to hide that. So I surround this expression by `invisible(capture.output(...))` to discard such text.
+invisible(capture.output(bw_1st <- npplregbw(formula = y ~ l | k + inv, data = df_sample %>% drop_na(y, k, l, inv))))
 fit_1st_np <- npplreg(bw_1st)
 summary(fit_1st_np)
 ```
@@ -747,7 +748,7 @@ obj_op_2nd <- function(param, data, degree){
   h <- with(data, phi_lag - exp(param[2]) * k_lag)
   poly <- map_dfc(
     1:degree,
-   function(d) {reduce(0:d, ~.x + param[2 + sum(1:d + 1) - d - 1 + 1 + .y] * with(data, h^(d - .y) * p_x^(.y)), .init = 0)}
+    function(d) {setNames(data.frame(reduce(0:d, ~.x + param[2 + sum(1:d + 1) - d - 1 + 1 + .y] * with(data, h^(d - .y) * p_x^(.y)), .init = 0)), d)}
   ) %>% rowSums
   mean((with(data, y_bl - param[1] - exp(param[2]) * k) - poly)^2, na.rm = T)
 }
