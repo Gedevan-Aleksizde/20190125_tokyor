@@ -224,7 +224,7 @@ obj_op_2nd <- function(param, data, degree){
   h <- with(data, phi_lag - exp(param[2]) * k_lag)
   poly <- map_dfc(
     1:degree,
-    function(d) {reduce(0:d, ~.x + param[2 + sum(1:d + 1) - d - 1 + 1 + .y] * with(data, h^-(d - .y) * p_x^-(.y)), .init = 0)}
+    function(d) {setNames(data.frame(reduce(0:d, ~.x + param[2 + sum(1:d + 1) - d - 1 + 1 + .y] * with(data, h^(d - .y) * p_x^(.y)), .init = 0)), d)}
   ) %>% rowSums
   # return MSE of the model
   return(mean((with(data, y_bl - param[1] - exp(param[2]) * k) - poly)^2, na.rm = T))
