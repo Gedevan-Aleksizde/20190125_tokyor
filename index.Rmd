@@ -1,17 +1,7 @@
 --- 
 title: '経済学と反事実分析 接触篇 Economics and Counterfactual Analysis: A Contact'
 author: "ill-identified"
-date: "`r Sys.Date()`"
-output:
-  bookdown::gitbook:
-    pandoc_args: [ "--csl", "mybib.csl" ]
-bookdown::pdf_book:
-    keep_tex: yes
-documentclass: bxjsreport
-classoption: 
-  - xelatex
-  - ja=standard
-  - jafont=noto
+date: "Tokyo.R 83rd, 2020/1/25, Updated: `r Sys.Date()`"
 monofont: Iosevka Fixed
 jmonofont: Iosevka Fixed
 link-citations: yes
@@ -85,7 +75,7 @@ beta_l. <- 0.2
 プログラム全文等付属物はこちらにある
 https://github.com/Gedevan-Aleksizde/20190125_tokyor
 
-注意: 引用文献の名前などのフォーマットがおかしいが, これは対応したcslフォーマットが見つけられなかったため. そのうちなんとかする.
+注意: 引用文献の名前などのフォーマットがおかしいが, これは対応したcslフォーマットが見つけられなかったため. PDF版がより正確になっている.
 
 ```{r cc-logo-html, echo=F, eval=knitr::is_html_output()}
 knitr::asis_output('<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />この作品は<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています.')
