@@ -5,7 +5,7 @@ rmdja::gitbook_ja:
       before: |
         <li><a href="./index.html">Top</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+        <p style='text-align:center;display:block;margin: 0 auto;'><img src='https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png'></p><li><a href='https://bookdown.org' target='_blank'>Published with bookdown</a></li>
       download: ["pdf"]
 rmdja::pdf_document2_ja:
   latex_engine: xelatex

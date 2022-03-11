@@ -4,6 +4,7 @@ html_document:
     df_print: kable
 delete_merged_file: true
 output_dir: "docs"
+view: "https://github.com/Gedevan-Aleksizde/20190125_tokyor/blob/master/%s"
 language:
   # https://stackoverflow.com/questions/48247787/how-to-change-caption-label-names-in-a-single-document-with-bookdown
   label:
